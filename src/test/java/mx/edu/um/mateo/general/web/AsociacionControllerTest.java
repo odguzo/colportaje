@@ -62,17 +62,19 @@ public class AsociacionControllerTest extends BaseTest {
     public void tearDown() {
     }
 
+      
     @Test
     public void debieraMostrarListaDeAsociacion() throws Exception {
-        this.mockMvc.perform(get("/web/asociacion")).
-                andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp")).
-                andExpect(model().attributeExists("asociaciones")).
-                andExpect(model().attributeExists("paginacion")).
-                andExpect(model().attributeExists("paginas")).
-                andExpect(model().attributeExists("pagina"));
+        log.debug("Debiera mostrar lista de asociaciones");
+        this.mockMvc.perform(
+                get("/web/asociacion"))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp"))
+                .andExpect(model().attributeExists("asociaciones"))
+                .andExpect(model().attributeExists("paginacion"))
+                .andExpect(model().attributeExists("paginas"))
+                .andExpect(model().attributeExists("pagina"));
     }
-
     @Test
     public void debieraMostrarAsociacion() throws Exception {
         Asociacion asociacion = new Asociacion("test", "test");
