@@ -95,7 +95,7 @@ public class AsociacionController {
             params.put("reporte", true);
             params = asociacionDao.lista(params);
             try {
-                generaReporte(tipo, (List<Asociacion>) params.get("asociacines"), response);
+                generaReporte(tipo, (List<Asociacion>) params.get("asociacion"), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
@@ -108,7 +108,7 @@ public class AsociacionController {
 
             params.remove("reporte");
             try {
-                enviaCorreo(correo, (List<Asociacion>) params.get("asociaciones"), request);
+                enviaCorreo(correo, (List<Asociacion>) params.get("asociacion"), request);
                 modelo.addAttribute("message", "lista.enviada.message");
                 modelo.addAttribute("messageAttrs", new String[]{messageSource.getMessage("asociacion.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
             } catch (JRException | MessagingException e) {
@@ -143,7 +143,7 @@ public class AsociacionController {
         log.debug("Mostrando asociaciones {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
 
-        modelo.addAttribute("asociaciones", asociaciones);
+        modelo.addAttribute("asociacion", asociaciones);
 
         return "web/asociacion/ver";
     }
@@ -170,11 +170,11 @@ public class AsociacionController {
         try {
             asociaciones = asociacionDao.crea(asociaciones);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear al ctaMayor", e);
+            log.error("No se pudo crear al asociacion", e);
             return "web/asociacion/nuevo";
         }
 
-        redirectAttributes.addFlashAttribute("message", "ctaMayor.creada.message");
+        redirectAttributes.addFlashAttribute("message", "asociacion.creada.message");
         redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociaciones.getNombre()});
 
         return "redirect:/web/asociacion/ver/" + asociaciones.getId();
@@ -182,9 +182,9 @@ public class AsociacionController {
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
-        log.debug("Edita Asociones {}", id);
+        log.debug("Edita Asociacion {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
-        modelo.addAttribute("asociaciones", asociaciones);
+        modelo.addAttribute("asociacion", asociaciones);
         return "web/asociacion/edita";
     }
 
@@ -202,7 +202,7 @@ public class AsociacionController {
             return "web/asociacion/nuevo";
         }
 
-        redirectAttributes.addFlashAttribute("message", "ctaMayor.actualizada.message");
+        redirectAttributes.addFlashAttribute("message", "asociacion.actualizada.message");
         redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociaciones.getNombre()});
 
         return "redirect:/web/asociacion/ver/" + asociaciones.getId();
@@ -211,14 +211,14 @@ public class AsociacionController {
     @Transactional
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Asociacion asociaciones, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        log.debug("Elimina Asociaciones");
+        log.debug("Elimina Asociacion");
         try {
             String nombre = asociacionDao.elimina(id);
 
             redirectAttributes.addFlashAttribute("message", "asociacion.eliminada.message");
             redirectAttributes.addFlashAttribute("messageAttrs", new String[]{nombre});
         } catch (Exception e) {
-            log.error("No se pudo eliminar el asociaciones " + id, e);
+            log.error("No se pudo eliminar el asociacion " + id, e);
             bindingResult.addError(new ObjectError("asociacion", new String[]{"asociaciones.no.eliminada.message"}, null, null));
             return "web/asociacion/ver";
         }
@@ -233,17 +233,17 @@ public class AsociacionController {
             case "PDF":
                 archivo = generaPdf(asociaciones);
                 response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment; filename=asociaciones.pdf");
+                response.addHeader("Content-Disposition", "attachment; filename=asociacion.pdf");
                 break;
             case "CSV":
                 archivo = generaCsv(asociaciones);
                 response.setContentType("text/csv");
-                response.addHeader("Content-Disposition", "attachment; filename=asociaciones.csv");
+                response.addHeader("Content-Disposition", "attachment; filename=asociacion.csv");
                 break;
             case "XLS":
                 archivo = generaXls(asociaciones);
                 response.setContentType("application/vnd.ms-excel");
-                response.addHeader("Content-Disposition", "attachment; filename=asociaciones.xls");
+                response.addHeader("Content-Disposition", "attachment; filename=asociacion.xls");
         }
         if (archivo != null) {
             response.setContentLength(archivo.length);
