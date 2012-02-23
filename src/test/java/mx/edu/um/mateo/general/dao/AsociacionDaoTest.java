@@ -57,7 +57,7 @@ public class AsociacionDaoTest {
 //        TipoCliente tipoCliente = new TipoCliente("TEST-01", "TEST-01", empresa);
 //        currentSession().save(tipoCliente);
         for (int i = 0; i < 20; i++) {
-           Asociacion asociacion = new Asociacion("test" + i, "test" + i);
+           Asociacion asociacion = new Asociacion("test"+i, "test"+i,"ts" );
             currentSession().save(asociacion);
             assertNotNull(asociacion);
             log.debug("asociacion>>" + asociacion);
@@ -73,7 +73,7 @@ public class AsociacionDaoTest {
     @Test
     public void debieraObtenerAsociacion() {
         log.debug("Debiera obtener Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test");
+        Asociacion asociacion = new Asociacion("test", "test","ts");
         currentSession().save(asociacion);
         assertNotNull(asociacion.getId());
         Long id = asociacion.getId();
@@ -86,7 +86,7 @@ public class AsociacionDaoTest {
     @Test
     public void deberiaCrearAsociacion() {
         log.debug("Deberia crear Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test");
+        Asociacion asociacion = new Asociacion("test", "test","ts");
         assertNotNull(asociacion);
         log.debug("ctaMayor >> " + asociacion);
         asociacion = instance.crea(asociacion);
@@ -96,7 +96,7 @@ public class AsociacionDaoTest {
     @Test
     public void deberiaActualizarAsociacion() {
         log.debug("Deberia actualizar Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test");
+        Asociacion asociacion = new Asociacion("test", "test","ts");
         assertNotNull(asociacion);
         currentSession().save(asociacion);
         
@@ -110,7 +110,7 @@ public class AsociacionDaoTest {
     public void deberiaEliminarAsociacion() throws UltimoException {
         log.debug("Debiera eliminar Asociacion");
 
-        Asociacion asociacion = new Asociacion("test", "test");
+        Asociacion asociacion = new Asociacion("test", "test","ts");
         currentSession().save(asociacion);
         assertNotNull(asociacion);
         String nombre = instance.elimina(asociacion.getId());

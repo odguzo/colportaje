@@ -95,7 +95,7 @@ public class AsociacionController {
             params.put("reporte", true);
             params = asociacionDao.lista(params);
             try {
-                generaReporte(tipo, (List<Asociacion>) params.get("asociacion"), response);
+                generaReporte(tipo, (List<Asociacion>) params.get("asociaciones"), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
@@ -108,7 +108,7 @@ public class AsociacionController {
 
             params.remove("reporte");
             try {
-                enviaCorreo(correo, (List<Asociacion>) params.get("asociacion"), request);
+                enviaCorreo(correo, (List<Asociacion>) params.get("asociaciones"), request);
                 modelo.addAttribute("message", "lista.enviada.message");
                 modelo.addAttribute("messageAttrs", new String[]{messageSource.getMessage("asociacion.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
             } catch (JRException | MessagingException e) {
@@ -116,7 +116,7 @@ public class AsociacionController {
             }
         }
         params = asociacionDao.lista(params);
-        modelo.addAttribute("asociacion", params.get("asociacion"));
+        modelo.addAttribute("asociaciones", params.get("asociaciones"));
 
         // inicia paginado
         Long cantidad = (Long) params.get("cantidad");
@@ -127,7 +127,7 @@ public class AsociacionController {
         do {
             paginas.add(i);
         } while (i++ < cantidadDePaginas);
-        List<Asociacion> asociaciones = (List<Asociacion>) params.get("asociacion");
+        List<Asociacion> asociaciones = (List<Asociacion>) params.get("asociaciones");
         Long primero = ((pagina - 1) * max) + 1;
         Long ultimo = primero + (asociaciones.size() - 1);
         String[] paginacion = new String[]{primero.toString(), ultimo.toString(), cantidad.toString()};
@@ -143,7 +143,7 @@ public class AsociacionController {
         log.debug("Mostrando asociaciones {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
 
-        modelo.addAttribute("asociacion", asociaciones);
+        modelo.addAttribute("asociaciones", asociaciones);
 
         return "web/asociacion/ver";
     }
@@ -184,7 +184,7 @@ public class AsociacionController {
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Asociacion {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
-        modelo.addAttribute("asociacion", asociaciones);
+        modelo.addAttribute("asociaciones", asociaciones);
         return "web/asociacion/edita";
     }
 
@@ -219,7 +219,7 @@ public class AsociacionController {
             redirectAttributes.addFlashAttribute("messageAttrs", new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el asociacion " + id, e);
-            bindingResult.addError(new ObjectError("asociacion", new String[]{"asociaciones.no.eliminada.message"}, null, null));
+            bindingResult.addError(new ObjectError("asociaciones", new String[]{"asociaciones.no.eliminada.message"}, null, null));
             return "web/asociacion/ver";
         }
 

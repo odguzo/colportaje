@@ -7,6 +7,7 @@ package mx.edu.um.mateo.general.model;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,6 +31,10 @@ public class Asociacion implements Serializable {
     private String nombre;
     @Column(length = 500)
     private String direccion;
+    
+    @NotNull
+    @Column (nullable = false, length = 2, name = "status")
+    private String status;
 //    @Column(length = 25)
 //    private String telefono;
 //    @Column(length = 25)
@@ -49,15 +54,24 @@ public class Asociacion implements Serializable {
 //        this.correo = correo;
 //    }
 
-    public Asociacion( String nombre, String direccion) {
+    public Asociacion( String nombre, String direccion, String status) {
         
         this.nombre = nombre;
         this.direccion = direccion;
+        this.status = status;
         
     }
     
     public Long getId() {
         return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     public String getDireccion() {
@@ -104,8 +118,10 @@ public class Asociacion implements Serializable {
 
     @Override
     public String toString() {
-        return "Asociacion{" + "nombre=" + nombre + ", direccion=" + direccion + '}';
+        return "Asociacion{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", status=" + status + '}';
     }
+
+    
 
     
     

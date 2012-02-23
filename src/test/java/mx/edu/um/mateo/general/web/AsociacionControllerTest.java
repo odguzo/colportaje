@@ -4,6 +4,7 @@
  */
 package mx.edu.um.mateo.general.web;
 
+
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociacionDao;
@@ -34,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
     "classpath:dispatcher-servlet.xml"
 })
 public class AsociacionControllerTest extends BaseTest {
-    
+
     private static final Logger log = LoggerFactory.getLogger(AsociacionControllerTest.class);
     @Autowired
     private WebApplicationContext wac;
@@ -62,44 +63,55 @@ public class AsociacionControllerTest extends BaseTest {
     public void tearDown() {
     }
 
-      
-//    @Test
-//    public void debieraMostrarListaDeAsociacion() throws Exception {
-//        log.debug("Debiera mostrar lista de asociaciones");
-//        this.mockMvc.perform(
-//                get("/web/asociacion"))
-//                .andExpect(status().isOk())
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp"))
-//                .andExpect(model().attributeExists("asociaciones"))
-//                .andExpect(model().attributeExists("paginacion"))
-//                .andExpect(model().attributeExists("paginas"))
-//                .andExpect(model().attributeExists("pagina"));
-//    }
+    @Test
+    public void debieraMostrarListaDeAsociaciones() throws Exception {
+        log.debug("Debiera monstrar lista de Asociaciones");
+        
+        this.mockMvc.perform(get("/web/asociacion")).
+                andExpect(status().isOk()).
+                andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp")).
+                andExpect(model().attributeExists("asociaciones")).
+                andExpect(model().attributeExists("paginacion")).
+                andExpect(model().attributeExists("paginas")).
+                andExpect(model().attributeExists("pagina"));
+    }
+
     @Test
     public void debieraMostrarAsociacion() throws Exception {
-        Asociacion asociacion = new Asociacion("test", "test");
+        log.debug("Debiera mostrar asociacion");
+        Asociacion asociacion = new Asociacion("test", "test", "ts");
         asociacion = asociacionDao.crea(asociacion);
 
         this.mockMvc.perform(get("/web/asociacion/ver/" + asociacion.getId())).
                 andExpect(status().isOk()).
                 andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/ver.jsp")).
-                andExpect(model().attributeExists("asociacion"));
+                andExpect(model().attributeExists("asociaciones"));
     }
-    
-//    @Test
-//    public void debieraCrearAsociacion() throws Exception {
-//        log.debug("Debiera crear asociacion");
-//
-//       this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test1").param("direccion", "test")).
-//                andExpect(status().isOk()).
-//                andExpect(flash().attributeExists("message")).
-//                andExpect(flash().attribute("message", "ctaMayor.actualizada.message"));
-//    }
-    
+
+    @Test
+    public void debieraCrearAsociacion() throws Exception {
+        log.debug("Debiera crear asociacion");
+        
+        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test").param("direccion", "test").param("status", "ts")).
+                andExpect(status().isOk()).
+                andExpect(flash().attributeExists("message")).
+                andExpect(flash().attribute("message", "asociacion.creada.message"));
+    }
+
+    @Test
+    public void debieraActualizarAsociacion() throws Exception {
+        log.debug("Debiera actualizar asociacion");
+
+        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test1").param("direccion", "test").param("status", "ts")).
+                andExpect(status().isOk()).
+                andExpect(flash().attributeExists("message")).
+                andExpect(flash().attribute("message", "asociacion.actualizada.message"));
+    }
+
     @Test
     public void debieraEliminarAsociacion() throws Exception {
         log.debug("Debiera eliminar asociacion");
-        Asociacion asociacion = new Asociacion("test", "test");
+        Asociacion asociacion = new Asociacion("test", "test","ts");
         asociacionDao.crea(asociacion);
 
         this.mockMvc.perform(post("/web/asociacion/elimina").param("id", asociacion.getId().toString())).

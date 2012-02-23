@@ -77,6 +77,7 @@ public class AsociacionDao {
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
             propiedades.add(Restrictions.ilike("direccion", filtro));
+            propiedades.add(Restrictions.ilike("status", filtro));
            
             criteria.add(propiedades);
             countCriteria.add(propiedades);
