@@ -63,18 +63,18 @@ public class AsociacionControllerTest extends BaseTest {
     }
 
       
-    @Test
-    public void debieraMostrarListaDeAsociacion() throws Exception {
-        log.debug("Debiera mostrar lista de asociaciones");
-        this.mockMvc.perform(
-                get("/web/asociacion"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp"))
-                .andExpect(model().attributeExists("asociaciones"))
-                .andExpect(model().attributeExists("paginacion"))
-                .andExpect(model().attributeExists("paginas"))
-                .andExpect(model().attributeExists("pagina"));
-    }
+//    @Test
+//    public void debieraMostrarListaDeAsociacion() throws Exception {
+//        log.debug("Debiera mostrar lista de asociaciones");
+//        this.mockMvc.perform(
+//                get("/web/asociacion"))
+//                .andExpect(status().isOk())
+//                .andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp"))
+//                .andExpect(model().attributeExists("asociaciones"))
+//                .andExpect(model().attributeExists("paginacion"))
+//                .andExpect(model().attributeExists("paginas"))
+//                .andExpect(model().attributeExists("pagina"));
+//    }
     @Test
     public void debieraMostrarAsociacion() throws Exception {
         Asociacion asociacion = new Asociacion("test", "test");
@@ -86,15 +86,15 @@ public class AsociacionControllerTest extends BaseTest {
                 andExpect(model().attributeExists("asociacion"));
     }
     
-    @Test
-    public void debieraCrearAsociacion() throws Exception {
-        log.debug("Debiera crear asociacion");
-
-       this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test1").param("direccion", "test")).
-                andExpect(status().isOk()).
-                andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "ctaMayor.actualizada.message"));
-    }
+//    @Test
+//    public void debieraCrearAsociacion() throws Exception {
+//        log.debug("Debiera crear asociacion");
+//
+//       this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test1").param("direccion", "test")).
+//                andExpect(status().isOk()).
+//                andExpect(flash().attributeExists("message")).
+//                andExpect(flash().attribute("message", "ctaMayor.actualizada.message"));
+//    }
     
     @Test
     public void debieraEliminarAsociacion() throws Exception {
