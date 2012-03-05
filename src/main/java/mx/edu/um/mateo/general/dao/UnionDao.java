@@ -75,7 +75,7 @@ public class UnionDao {
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
-           
+            propiedades.add(Restrictions.ilike("status",filtro));
            
             criteria.add(propiedades);
             countCriteria.add(propiedades);
@@ -108,17 +108,21 @@ public class UnionDao {
 
     public Union crea(Union union) {
         currentSession().save(union);
+        currentSession().flush();
         return union;
     }
 
+     
      public Union actualiza(Union union) {
         currentSession().saveOrUpdate(union);
+        currentSession().flush();
         return union;
     }
     
     public String elimina(Long id) throws UltimoException {
         Union union = obtiene(id);
         currentSession().delete(union);
+        currentSession().flush();
         String nombre = union.getNombre();
         return nombre;
     }

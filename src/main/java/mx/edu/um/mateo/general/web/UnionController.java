@@ -164,14 +164,14 @@ public class UnionController {
         }
         if (bindingResult.hasErrors()) {
             log.debug("Hubo algun error en la forma, regresando");
-            return "web/union/nuevo";
+            return "web/union/nueva";
         }
 
         try {
             union = UnionDao.crea(union);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al union", e);
-            return "web/union/nuevo";
+            return "web/union/nueva";
         }
 
         redirectAttributes.addFlashAttribute("message", "union.creada.message");
@@ -199,7 +199,7 @@ public class UnionController {
             union = UnionDao.actualiza(union);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al union", e);
-            return "web/union/nuevo";
+            return "web/union/nueva";
         }
 
         redirectAttributes.addFlashAttribute("message", "union.actualizada.message");

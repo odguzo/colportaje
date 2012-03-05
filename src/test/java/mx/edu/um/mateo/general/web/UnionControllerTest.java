@@ -86,7 +86,7 @@ public class UnionControllerTest {
     @Test
     public void debieraMostrarUnion() throws Exception {
         log.debug("Debiera mostrar union");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test", "t"); 
         union = unionDao.crea(union);
 
         this.mockMvc.perform(get("/web/union/ver/" + union.getId())).
@@ -99,10 +99,8 @@ public class UnionControllerTest {
     public void debieraCrearUnion() throws Exception {
         log.debug("Debiera crear union");
         
-        this.mockMvc.perform(post("/web/union/crea").param("nombre", "test").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk());
-                //andExpect(flash().attributeExists("message")).
-                //andExpect(flash().attribute("message", "union.creada.message"));
+        this.mockMvc.perform(post("/web/union/crea").param("nombre", "test0").param("status", Constantes.STATUS_ACTIVO)).
+                andExpect(status().isOk()).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "union.creada.message"));
     }
 
     @Test
@@ -110,9 +108,7 @@ public class UnionControllerTest {
         log.debug("Debiera actualizar union");
 
         this.mockMvc.perform(post("/web/union/actualiza").param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk());
-                //andExpect(flash().attributeExists("message")).
-                //andExpect(flash().attribute("message", "union.actualizada.message"));
+                andExpect(status().isOk()).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "union.actualizada.message"));
     }
 
   @Test

@@ -45,12 +45,29 @@ public class Union implements Serializable {
         this.id = id;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+    
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -65,20 +82,25 @@ public class Union implements Serializable {
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.nombre);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Union{" + "nombre=" + nombre + '}';
+        return "Union{" + "nombre=" + nombre + ", status=" + status + '}';
     }
-
+    
+ 
         
 }
