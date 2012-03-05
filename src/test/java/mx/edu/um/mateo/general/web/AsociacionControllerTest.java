@@ -9,6 +9,7 @@ import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociacionDao;
 import mx.edu.um.mateo.general.model.Asociacion;
+import mx.um.edu.mateo.Constantes;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -92,7 +93,7 @@ public class AsociacionControllerTest extends BaseTest {
     public void debieraCrearAsociacion() throws Exception {
         log.debug("Debiera crear asociacion");
         
-        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test").param("direccion", "test").param("status", "ts")).
+        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test1").param("direccion", "test2").param("status", Constantes.STATUS_ACTIVO)).
                 andExpect(status().isOk()).
                 andExpect(flash().attributeExists("message")).
                 andExpect(flash().attribute("message", "asociacion.creada.message"));
@@ -102,7 +103,7 @@ public class AsociacionControllerTest extends BaseTest {
     public void debieraActualizarAsociacion() throws Exception {
         log.debug("Debiera actualizar asociacion");
 
-        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test1").param("direccion", "test").param("status", "ts")).
+        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test3").param("direccion", "test5").param("status", Constantes.STATUS_ACTIVO)).
                 andExpect(status().isOk()).
                 andExpect(flash().attributeExists("message")).
                 andExpect(flash().attribute("message", "asociacion.actualizada.message"));
@@ -111,7 +112,7 @@ public class AsociacionControllerTest extends BaseTest {
     @Test
     public void debieraEliminarAsociacion() throws Exception {
         log.debug("Debiera eliminar asociacion");
-        Asociacion asociacion = new Asociacion("test", "test","ts");
+        Asociacion asociacion = new Asociacion("test8", "test6", Constantes.STATUS_ACTIVO);
         asociacionDao.crea(asociacion);
 
         this.mockMvc.perform(post("/web/asociacion/elimina").param("id", asociacion.getId().toString())).

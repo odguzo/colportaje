@@ -27,9 +27,9 @@ public class Asociacion implements Serializable {
     @Version
     private Integer version;
     @NotBlank
-    @Column(nullable = false, length = 64)
+    @Column(unique=true, nullable = false, length = 64)
     private String nombre;
-    @Column(length = 500)
+    @Column(unique=true, nullable = false, length = 500)
     private String direccion;
     
     @NotNull
