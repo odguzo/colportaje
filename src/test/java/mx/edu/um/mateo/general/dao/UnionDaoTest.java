@@ -85,7 +85,7 @@ public class UnionDaoTest {
         log.debug("Deberia crear Union");
         Union union = new Union("test", Constantes.STATUS_ACTIVO);
         assertNotNull(union);
-        log.debug("ctaMayor >> " + union);
+        log.debug("union >> " + union);
         union = instance.crea(union);
         assertNotNull(union.getId());
     }
