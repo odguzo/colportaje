@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity 
 @Table (name = "asociaciones")
-public class Asociacion implements Serializable {
+public class Asociacion  {
     
     
     @Id
@@ -29,8 +29,7 @@ public class Asociacion implements Serializable {
     @NotBlank
     @Column(unique=true, nullable = false, length = 64)
     private String nombre;
-    @Column(unique=true, nullable = false, length = 500)
-    private String direccion;
+    
     
     @NotNull
     @Column (nullable = false, length = 2, name = "status")
@@ -54,16 +53,19 @@ public class Asociacion implements Serializable {
 //        this.correo = correo;
 //    }
 
-    public Asociacion( String nombre, String direccion, String status) {
+    public Asociacion( String nombre, String status) {
         
         this.nombre = nombre;
-        this.direccion = direccion;
         this.status = status;
         
     }
     
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -74,20 +76,22 @@ public class Asociacion implements Serializable {
         this.status = status;
     }
     
-    public String getDireccion() {
-        return direccion;
-    }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
@@ -102,7 +106,8 @@ public class Asociacion implements Serializable {
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
-        if (!Objects.equals(this.direccion, other.direccion)) {
+        
+        if (!Objects.equals(this.status, other.status)) {
             return false;
         }
         return true;
@@ -110,16 +115,28 @@ public class Asociacion implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 43 * hash + Objects.hashCode(this.nombre);
-        hash = 43 * hash + Objects.hashCode(this.direccion);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.nombre);
+        hash = 29 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Asociacion{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", status=" + status + '}';
+        return "Asociacion{" + "nombre=" + nombre + ", status=" + status + '}';
     }
+
+    
+
+    
+
+   
+
+    
+
+  
+
+   
 
     
 

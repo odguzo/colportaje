@@ -73,7 +73,7 @@ public class AsociacionController {
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
             Model modelo) {
-        log.debug("Mostrando lista de Asociaciones");
+        log.debug("Mostrando lista de Asociacion");
         
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
@@ -143,7 +143,7 @@ public class AsociacionController {
         log.debug("Mostrando asociaciones {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
 
-        modelo.addAttribute("asociaciones", asociaciones);
+        modelo.addAttribute("asociacion", asociaciones);
 
         return "web/asociacion/ver";
     }
@@ -158,7 +158,7 @@ public class AsociacionController {
 
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Asociacion asociaciones, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Asociacion asociacion, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
@@ -168,23 +168,23 @@ public class AsociacionController {
         }
 
         try {
-            asociaciones = asociacionDao.crea(asociaciones);
+            asociacion = asociacionDao.crea(asociacion);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al asociacion", e);
             return "web/asociacion/nuevo";
         }
 
         redirectAttributes.addFlashAttribute("message", "asociacion.creada.message");
-        redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociaciones.getNombre()});
+        redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociacion.getNombre()});
 
-        return "redirect:/web/asociacion/ver/" + asociaciones.getId();
+        return "redirect:/web/asociacion/ver/" + asociacion.getId();
     }
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Asociacion {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
-        modelo.addAttribute("asociaciones", asociaciones);
+        modelo.addAttribute("asociacion", asociaciones);
         return "web/asociacion/edita";
     }
 
@@ -198,11 +198,11 @@ public class AsociacionController {
         try {
             asociaciones = asociacionDao.actualiza(asociaciones);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear al ctaMayor", e);
+            log.error("No se pudo crear al Asociacion", e);
             return "web/asociacion/nuevo";
         }
 
-        redirectAttributes.addFlashAttribute("message", "asociacion.actualizada.message");
+        redirectAttributes.addFlashAttribute("message", "asociacion.actualizado.message");
         redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociaciones.getNombre()});
 
         return "redirect:/web/asociacion/ver/" + asociaciones.getId();
@@ -215,11 +215,11 @@ public class AsociacionController {
         try {
             String nombre = asociacionDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute("message", "asociacion.eliminada.message");
+            redirectAttributes.addFlashAttribute("message", "asociacion.eliminado.message");
             redirectAttributes.addFlashAttribute("messageAttrs", new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el asociacion " + id, e);
-            bindingResult.addError(new ObjectError("asociaciones", new String[]{"asociaciones.no.eliminada.message"}, null, null));
+            bindingResult.addError(new ObjectError("asociaciones", new String[]{"asociacion.no.eliminada.message"}, null, null));
             return "web/asociacion/ver";
         }
 

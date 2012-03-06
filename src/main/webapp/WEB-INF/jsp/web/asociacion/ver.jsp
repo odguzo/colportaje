@@ -3,10 +3,10 @@
     Created on : 27-feb-2012, 15:44:25
     Author     : gibrandemetrioo
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,15 +15,17 @@
     <body>
         <nav class="navbar navbar-fixed-top" role="navigation">
             <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
+                <li class="active"><a href="<s:url value='../'/>" ><s:message code="asociacion.label" /></a></li>
+
             </ul>
         </nav>
+
         <div id="ver-asociacion" class="content scaffold-list" role="main">
             <h1><s:message code="asociacion.ver.label" /></h1>
+
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/asociacion'/>"><i class="icon-list icon-white"></i> <s:message code='asociacion.lista.label' /></a>
-                <a class="btn btn-primary" href="<s:url value='/web/asociacion/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociacion.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='asociacion.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='web/asociacion/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociacion.nuevo.label' /></a>
             </p>
             <c:if test="${not empty message}">
                 <div class="alert alert-block alert-success fade in" role="status">
@@ -39,11 +41,6 @@
                 <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${asociacion.nombre}</div>
-                </div>
-
-                <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="direccion.label" /></div>
-                    <div class="span11">${asociacion.direccion}</div>
                 </div>
                 <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="status.label" /></div>

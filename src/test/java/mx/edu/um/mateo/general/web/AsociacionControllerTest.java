@@ -80,20 +80,20 @@ public class AsociacionControllerTest extends BaseTest {
     @Test
     public void debieraMostrarAsociacion() throws Exception {
         log.debug("Debiera mostrar asociacion");
-        Asociacion asociacion = new Asociacion("test", "test", "ts");
+        Asociacion asociacion = new Asociacion("test",Constantes.STATUS_ACTIVO);
         asociacion = asociacionDao.crea(asociacion);
 
         this.mockMvc.perform(get("/web/asociacion/ver/" + asociacion.getId())).
                 andExpect(status().isOk()).
                 andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/ver.jsp")).
-                andExpect(model().attributeExists("asociaciones"));
+                andExpect(model().attributeExists("asociacion"));
     }
 
     @Test
     public void debieraCrearAsociacion() throws Exception {
         log.debug("Debiera crear asociacion");
         
-        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test1").param("direccion", "test2").param("status", Constantes.STATUS_ACTIVO)).
+        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
                 andExpect(status().isOk()).
                 andExpect(flash().attributeExists("message")).
                 andExpect(flash().attribute("message", "asociacion.creada.message"));
@@ -103,21 +103,21 @@ public class AsociacionControllerTest extends BaseTest {
     public void debieraActualizarAsociacion() throws Exception {
         log.debug("Debiera actualizar asociacion");
 
-        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test3").param("direccion", "test5").param("status", Constantes.STATUS_ACTIVO)).
+        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test3").param("status", Constantes.STATUS_ACTIVO)).
                 andExpect(status().isOk()).
                 andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "asociacion.actualizada.message"));
+                andExpect(flash().attribute("message", "asociacion.actualizado.message"));
     }
 
     @Test
     public void debieraEliminarAsociacion() throws Exception {
         log.debug("Debiera eliminar asociacion");
-        Asociacion asociacion = new Asociacion("test8", "test6", Constantes.STATUS_ACTIVO);
+        Asociacion asociacion = new Asociacion("test8",  Constantes.STATUS_ACTIVO);
         asociacionDao.crea(asociacion);
 
         this.mockMvc.perform(post("/web/asociacion/elimina").param("id", asociacion.getId().toString())).
                 andExpect(status().isOk()).
                 andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "asociacion.eliminada.message"));
+                andExpect(flash().attribute("message", "asociacion.eliminado.message"));
     }
 }

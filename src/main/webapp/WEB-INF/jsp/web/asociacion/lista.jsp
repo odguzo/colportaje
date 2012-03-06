@@ -70,13 +70,13 @@
                             </a>
                         </th>
                         <th>
-                            <a href="javascript:ordena('direccion');">
-                                <s:message code="asociacion.direccion.label" />
+                            <a href="javascript:ordena('status');">
+                                <s:message code="asociacion.status.label" />
                                 <c:choose>
-                                    <c:when test="${param.order == 'direccion' && param.sort == 'asc'}">
+                                    <c:when test="${param.order == 'status' && param.sort == 'asc'}">
                                         <i class="icon-chevron-up"></i>
                                     </c:when>
-                                    <c:when test="${param.order == 'direccion' && param.sort == 'desc'}">
+                                    <c:when test="${param.order == 'status' && param.sort == 'desc'}">
                                         <i class="icon-chevron-down"></i>
                                     </c:when>
                                 </c:choose>
@@ -88,7 +88,7 @@
                     <c:forEach items="${asociaciones}" var="asociacion" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
                             <td><a href="<c:url value='/web/asociacion/ver/${asociacion.id}' />">${asociacion.nombre}</a></td>
-                            <td>${asociacion.direccion}</td>
+                            <td>${asociacion.status}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

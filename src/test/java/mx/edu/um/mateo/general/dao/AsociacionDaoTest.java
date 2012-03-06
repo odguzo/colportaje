@@ -13,6 +13,7 @@ import mx.edu.um.mateo.general.dao.AsociacionDao;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;
+import mx.um.edu.mateo.Constantes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;
@@ -57,7 +58,7 @@ public class AsociacionDaoTest {
 //        TipoCliente tipoCliente = new TipoCliente("TEST-01", "TEST-01", empresa);
 //        currentSession().save(tipoCliente);
         for (int i = 0; i < 20; i++) {
-           Asociacion asociacion = new Asociacion("test"+i, "test"+i,"ts" );
+           Asociacion asociacion = new Asociacion("test"+i, Constantes.STATUS_ACTIVO);
             currentSession().save(asociacion);
             assertNotNull(asociacion);
             log.debug("asociacion>>" + asociacion);
@@ -73,7 +74,7 @@ public class AsociacionDaoTest {
     @Test
     public void debieraObtenerAsociacion() {
         log.debug("Debiera obtener Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test","ts");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociacion);
         assertNotNull(asociacion.getId());
         Long id = asociacion.getId();
@@ -86,9 +87,9 @@ public class AsociacionDaoTest {
     @Test
     public void deberiaCrearAsociacion() {
         log.debug("Deberia crear Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test","ts");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociacion);
-        log.debug("ctaMayor >> " + asociacion);
+        log.debug("asociacion >> " + asociacion);
         asociacion = instance.crea(asociacion);
         assertNotNull(asociacion.getId());
     }
@@ -96,7 +97,7 @@ public class AsociacionDaoTest {
     @Test
     public void deberiaActualizarAsociacion() {
         log.debug("Deberia actualizar Asociacion");
-        Asociacion asociacion = new Asociacion("test", "test","ts");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociacion);
         currentSession().save(asociacion);
         
@@ -110,7 +111,7 @@ public class AsociacionDaoTest {
     public void deberiaEliminarAsociacion() throws UltimoException {
         log.debug("Debiera eliminar Asociacion");
 
-        Asociacion asociacion = new Asociacion("test", "test","ts");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociacion);
         assertNotNull(asociacion);
         String nombre = instance.elimina(asociacion.getId());

@@ -48,16 +48,6 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                     <s:bind path="asociacion.direccion">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="direccion">
-                                <s:message code="direccion.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="direccion" maxlength="128" required="true" />
-                            <form:errors path="direccion" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
                      <s:bind path="asociacion.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="status">

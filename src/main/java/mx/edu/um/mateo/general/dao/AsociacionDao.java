@@ -76,7 +76,6 @@ public class AsociacionDao {
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
-            propiedades.add(Restrictions.ilike("direccion", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
            
             criteria.add(propiedades);
@@ -110,17 +109,20 @@ public class AsociacionDao {
 
     public Asociacion crea(Asociacion asociacion) {
         currentSession().save(asociacion);
+        currentSession().flush();
         return asociacion;
     }
 
      public Asociacion actualiza(Asociacion asociacion) {
         currentSession().saveOrUpdate(asociacion);
+        currentSession().flush();
         return asociacion;
     }
     
     public String elimina(Long id) throws UltimoException {
         Asociacion asociacion = obtiene(id);
         currentSession().delete(asociacion);
+        currentSession().flush();
         String nombre = asociacion.getNombre();
         return nombre;
     }
