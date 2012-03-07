@@ -67,14 +67,13 @@ public class AsociacionControllerTest extends BaseTest {
     @Test
     public void debieraMostrarListaDeAsociaciones() throws Exception {
         log.debug("Debiera monstrar lista de Asociaciones");
-        
         this.mockMvc.perform(get("/web/asociacion")).
                 andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/lista.jsp")).
-                andExpect(model().attributeExists("asociaciones")).
-                andExpect(model().attributeExists("paginacion")).
-                andExpect(model().attributeExists("paginas")).
-                andExpect(model().attributeExists("pagina"));
+                andExpect(forwardedUrl("/WEB-INF/jsp/"+ Constantes.PATH_ASOCIACION_LISTA +".jsp")).
+                andExpect(model().attributeExists(Constantes.CONTAINSKEY_ASOCIACIONES)).
+                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINACION)).
+                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINAS)).
+                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINA));
     }
 
     @Test
@@ -83,30 +82,31 @@ public class AsociacionControllerTest extends BaseTest {
         Asociacion asociacion = new Asociacion("test",Constantes.STATUS_ACTIVO);
         asociacion = asociacionDao.crea(asociacion);
 
-        this.mockMvc.perform(get("/web/asociacion/ver/" + asociacion.getId())).
+        this.mockMvc.perform(get(Constantes.PATH_ASOCIACION_VER+ "/" + asociacion.getId())).
                 andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/web/asociacion/ver.jsp")).
-                andExpect(model().attributeExists("asociacion"));
+                andExpect(forwardedUrl("/WEB-INF/jsp/"+Constantes.PATH_ASOCIACION_VER + ".jsp")).
+                andExpect(model().attributeExists(Constantes.ADDATTRIBUTE_ASOCIACION));
     }
 
     @Test
     public void debieraCrearAsociacion() throws Exception {
         log.debug("Debiera crear asociacion");
         
-        this.mockMvc.perform(post("/web/asociacion/crea").param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
+        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_CREA).param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
                 andExpect(status().isOk()).
-                andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "asociacion.creada.message"));
+                andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE)).
+                andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message"));
     }
 
-    @Test
+     @Test
     public void debieraActualizarAsociacion() throws Exception {
-        log.debug("Debiera actualizar asociacion");
-
-        this.mockMvc.perform(post("/web/asociacion/actualiza").param("nombre", "test3").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk()).
-                andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "asociacion.actualizado.message"));
+        log.debug("Debiera actualizar cuenta de asociacion");
+        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_ACTUALIZA)
+                .param("nombre", "test3")
+                .param("status", Constantes.STATUS_ACTIVO))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.actualizado.message"));
     }
 
     @Test
@@ -115,9 +115,9 @@ public class AsociacionControllerTest extends BaseTest {
         Asociacion asociacion = new Asociacion("test8",  Constantes.STATUS_ACTIVO);
         asociacionDao.crea(asociacion);
 
-        this.mockMvc.perform(post("/web/asociacion/elimina").param("id", asociacion.getId().toString())).
+        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_ELIMINA).param("id", asociacion.getId().toString())).
                 andExpect(status().isOk()).
-                andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "asociacion.eliminado.message"));
+                andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE)).
+                andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminado.message"));
     }
 }

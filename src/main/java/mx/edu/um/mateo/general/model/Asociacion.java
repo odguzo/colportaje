@@ -27,12 +27,12 @@ public class Asociacion  {
     @Version
     private Integer version;
     @NotBlank
-    @Column(unique=true, nullable = false, length = 64)
+    @Column(nullable = false, length = 64)
     private String nombre;
     
     
     @NotNull
-    @Column (nullable = false, length = 2, name = "status")
+    @Column (nullable = false, length = 2, name = "st")
     private String status;
 //    @Column(length = 25)
 //    private String telefono;
@@ -126,21 +126,4 @@ public class Asociacion  {
         return "Asociacion{" + "nombre=" + nombre + ", status=" + status + '}';
     }
 
-    
-
-    
-
-   
-
-    
-
-  
-
-   
-
-    
-
-    
-    
-    
 }

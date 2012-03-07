@@ -51,12 +51,6 @@ public class AsociacionDaoTest {
     @Test
     public void debieraMostrarListaDeAsociacion() {
         log.debug("Debiera mostrar lista de Asociaciones");
-//        Organizacion organizacion = new Organizacion("tst-01", "test-01", "test-01");
-//        currentSession().save(organizacion);
-//        Empresa empresa = new Empresa("tst-01", "test-01", "test-01", "000000000001", organizacion);
-//        currentSession().save(empresa);
-//        TipoCliente tipoCliente = new TipoCliente("TEST-01", "TEST-01", empresa);
-//        currentSession().save(tipoCliente);
         for (int i = 0; i < 20; i++) {
            Asociacion asociacion = new Asociacion("test"+i, Constantes.STATUS_ACTIVO);
             currentSession().save(asociacion);
@@ -65,10 +59,10 @@ public class AsociacionDaoTest {
         }
         Map<String, Object> params = null;
         Map result = instance.lista(params);
-        assertNotNull(result.get("asociaciones"));
-        assertNotNull(result.get("cantidad"));
-        assertEquals(10, ((List<Asociacion>) result.get("asociaciones")).size());
-        assertEquals(20, ((Long) result.get("cantidad")).intValue());
+        assertNotNull(result.get(Constantes.CONTAINSKEY_ASOCIACIONES));
+        assertNotNull(result.get(Constantes.CONTAINSKEY_CANTIDAD));
+        assertEquals(10, ((List<Asociacion>) result.get(Constantes.CONTAINSKEY_ASOCIACIONES)).size());
+        assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
     
     @Test

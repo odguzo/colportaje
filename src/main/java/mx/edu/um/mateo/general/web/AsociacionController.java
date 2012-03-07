@@ -21,6 +21,7 @@ import mx.edu.um.mateo.general.dao.UsuarioDao;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import mx.edu.um.mateo.general.dao.AsociacionDao;
 import mx.edu.um.mateo.general.model.Asociacion;
+import mx.um.edu.mateo.Constantes;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -49,7 +50,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author gibrandemetrioo
  */
 @Controller
-@RequestMapping("/web/asociacion")
+@RequestMapping(Constantes.PATH_ASOCIACION)
 public class AsociacionController {
     
     private static final Logger log = LoggerFactory.getLogger(AsociacionController.class);
@@ -77,25 +78,25 @@ public class AsociacionController {
         
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
-            params.put("filtro", filtro);
-        }
+            params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
+}
         if (pagina != null) {
-            params.put("pagina", pagina);
-            modelo.addAttribute("pagina", pagina);
+            params.put(Constantes.CONTAINSKEY_PAGINA, pagina);
+            modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
         } else {
             pagina = 1L;
-            modelo.addAttribute("pagina", pagina);
+            modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
         }
         if (StringUtils.isNotBlank(order)) {
-            params.put("order", order);
-            params.put("sort", sort);
+            params.put(Constantes.CONTAINSKEY_ORDER, order);
+            params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
 
         if (StringUtils.isNotBlank(tipo)) {
-            params.put("reporte", true);
+            params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = asociacionDao.lista(params);
             try {
-                generaReporte(tipo, (List<Asociacion>) params.get("asociaciones"), response);
+                generaReporte(tipo, (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
@@ -103,39 +104,39 @@ public class AsociacionController {
         }
 
         if (StringUtils.isNotBlank(correo)) {
-            params.put("reporte", true);
+            params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = asociacionDao.lista(params);
 
-            params.remove("reporte");
+            params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
-                enviaCorreo(correo, (List<Asociacion>) params.get("asociaciones"), request);
-                modelo.addAttribute("message", "lista.enviada.message");
-                modelo.addAttribute("messageAttrs", new String[]{messageSource.getMessage("asociacion.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
+                enviaCorreo(correo, (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES), request);
+                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE, "lista.enviada.message");
+                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{messageSource.getMessage("asociacion.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
             } catch (JRException | MessagingException e) {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
         params = asociacionDao.lista(params);
-        modelo.addAttribute("asociaciones", params.get("asociaciones"));
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIACIONES, params.get(Constantes.CONTAINSKEY_ASOCIACIONES));
 
         // inicia paginado
-        Long cantidad = (Long) params.get("cantidad");
-        Integer max = (Integer) params.get("max");
+        Long cantidad = (Long) params.get(Constantes.CONTAINSKEY_CANTIDAD);
+        Integer max = (Integer) params.get(Constantes.CONTAINSKEY_MAX);
         Long cantidadDePaginas = cantidad / max;
         List<Long> paginas = new ArrayList<>();
         long i = 1;
         do {
             paginas.add(i);
         } while (i++ < cantidadDePaginas);
-        List<Asociacion> asociaciones = (List<Asociacion>) params.get("asociaciones");
+        List<Asociacion> asociaciones = (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES);
         Long primero = ((pagina - 1) * max) + 1;
         Long ultimo = primero + (asociaciones.size() - 1);
         String[] paginacion = new String[]{primero.toString(), ultimo.toString(), cantidad.toString()};
-        modelo.addAttribute("paginacion", paginacion);
-        modelo.addAttribute("paginas", paginas);
+        modelo.addAttribute(Constantes.CONTAINSKEY_PAGINACION, paginacion);
+        modelo.addAttribute(Constantes.CONTAINSKEY_PAGINAS, paginas);
         // termina paginado
 
-        return "web/asociacion/lista";
+        return Constantes.PATH_ASOCIACION_LISTA;
     }
 
     @RequestMapping("/ver/{id}")
@@ -143,17 +144,17 @@ public class AsociacionController {
         log.debug("Mostrando asociaciones {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
 
-        modelo.addAttribute("asociacion", asociaciones);
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
 
-        return "web/asociacion/ver";
+        return Constantes.PATH_ASOCIACION_VER;
     }
 
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
         log.debug("Nueva asociaciones");
         Asociacion asociaciones = new Asociacion();
-        modelo.addAttribute("asociacion", asociaciones);
-        return "web/asociacion/nueva";
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
+        return Constantes.PATH_ASOCIACION_NUEVA;
     }
 
     @Transactional
@@ -164,28 +165,28 @@ public class AsociacionController {
         }
         if (bindingResult.hasErrors()) {
             log.debug("Hubo algun error en la forma, regresando");
-            return "web/asociacion/nuevo";
+            return Constantes.PATH_ASOCIACION_NUEVA;
         }
 
         try {
             asociacion = asociacionDao.crea(asociacion);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al asociacion", e);
-            return "web/asociacion/nuevo";
+            return Constantes.PATH_ASOCIACION_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute("message", "asociacion.creada.message");
-        redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociacion.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociacion.getNombre()});
 
-        return "redirect:/web/asociacion/ver/" + asociacion.getId();
+        return "redirect:"+ Constantes.PATH_ASOCIACION_VER + "/" + asociacion.getId();
     }
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Asociacion {}", id);
         Asociacion asociaciones = asociacionDao.obtiene(id);
-        modelo.addAttribute("asociacion", asociaciones);
-        return "web/asociacion/edita";
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
+        return Constantes.PATH_ASOCIACION_EDITA;
     }
 
     @Transactional
@@ -193,19 +194,19 @@ public class AsociacionController {
     public String actualiza(HttpServletRequest request, @Valid Asociacion asociaciones, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
-            return "web/asociacion/edita";
+            return Constantes.PATH_ASOCIACION_EDITA;
         }
         try {
             asociaciones = asociacionDao.actualiza(asociaciones);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Asociacion", e);
-            return "web/asociacion/nuevo";
+            return Constantes.PATH_ASOCIACION_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute("message", "asociacion.actualizado.message");
-        redirectAttributes.addFlashAttribute("messageAttrs", new String[]{asociaciones.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.actualizado.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociaciones.getNombre()});
 
-        return "redirect:/web/asociacion/ver/" + asociaciones.getId();
+        return "redirect:"+Constantes.PATH_ASOCIACION_VER+ "/" + asociaciones.getId();
     }
 
     @Transactional
@@ -215,15 +216,15 @@ public class AsociacionController {
         try {
             String nombre = asociacionDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute("message", "asociacion.eliminado.message");
-            redirectAttributes.addFlashAttribute("messageAttrs", new String[]{nombre});
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminado.message");
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el asociacion " + id, e);
-            bindingResult.addError(new ObjectError("asociaciones", new String[]{"asociacion.no.eliminada.message"}, null, null));
-            return "web/asociacion/ver";
+            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_ASOCIACIONES, new String[]{"asociacion.no.eliminada.message"}, null, null));
+            return Constantes.PATH_ASOCIACION_VER;
         }
 
-        return "redirect:/web/asociacion";
+        return "redirect:" + Constantes.PATH_ASOCIACION;
     }
 
     private void generaReporte(String tipo, List<Asociacion> asociaciones, HttpServletResponse response) throws JRException, IOException {
