@@ -6,7 +6,7 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.HashMap;
 import java.util.Map;
-import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Asociado;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import mx.um.edu.mateo.Constantes;
 import org.hibernate.Criteria;
@@ -18,7 +18,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author gibrandemetrioo
  */
+
 @Repository
 @Transactional
-public class AsociacionDao {
-    
-    private static final Logger log = LoggerFactory.getLogger(AsociacionDao.class);
+public class AsociadoDao {
+   private static final Logger log = LoggerFactory.getLogger(AsociadoDao.class);
     @Autowired
     private SessionFactory sessionFactory;
     
-    public AsociacionDao () {
-        log.info("Se ha creado una nueva AsociacionDao");
+    public AsociadoDao () {
+        log.info("Se ha creado una nueva AsociadoDao");
     }
     
     
@@ -48,7 +47,7 @@ public class AsociacionDao {
     
     
     public Map<String, Object> lista(Map<String, Object> params) {
-        log.debug("Buscando lista de asociacion con params {}", params);
+        log.debug("Buscando lista de asociado con params {}", params);
         if (params == null) {
             params = new HashMap<>();
         }
@@ -69,16 +68,19 @@ public class AsociacionDao {
             params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
         
-        Criteria criteria = currentSession().createCriteria(Asociacion.class);
-        Criteria countCriteria = currentSession().createCriteria(Asociacion.class);
+        Criteria criteria = currentSession().createCriteria(Asociado.class);
+        Criteria countCriteria = currentSession().createCriteria(Asociado.class);
         
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
+            propiedades.add(Restrictions.ilike("clave", filtro));
+            propiedades.add(Restrictions.ilike("direccion", filtro));
+            //propiedades.add(Restrictions.ilike("correo", filtro));
+            propiedades.add(Restrictions.ilike("telefono", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
-           
            
             criteria.add(propiedades);
             countCriteria.add(propiedades);
@@ -97,50 +99,42 @@ public class AsociacionDao {
             criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
             criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));
         }
-        params.put(Constantes.CONTAINSKEY_ASOCIACIONES, criteria.list());
+        params.put("asociados", criteria.list());
         countCriteria.setProjection(Projections.rowCount());
         params.put(Constantes.CONTAINSKEY_CANTIDAD, (Long) countCriteria.list().get(0));
 
         return params;
     }
 
-    public Asociacion obtiene(Long id) {
-        log.debug("Obtiene cuenta de asociacion con id = {}", id);
-        Asociacion asociacion = (Asociacion) currentSession().get(Asociacion.class, id);
-        return asociacion;
+    public Asociado obtiene(Long id) {
+        log.debug("Obtiene cuenta de asociado con id = {}", id);
+        Asociado asociado = (Asociado) currentSession().get(Asociado.class, id);
+        return asociado;
     }
 
-    public Asociacion crea(Asociacion asociacion) {
-        log.debug("Creando cuenta de asociacion : {}", asociacion);
-        currentSession().save(asociacion);
+    public Asociado crea(Asociado asociado) {
+        log.debug("Creando cuenta de asociado : {}", asociado);
+        currentSession().save(asociado);
         currentSession().flush();
-        return asociacion;
+        return asociado;
     }
 
-     public Asociacion actualiza(Asociacion asociacion) {
-        log.debug("Actualizando cuenta de asociacion {}", asociacion);
-        
-        //trae el objeto de la DB 
-        Asociacion nueva = (Asociacion)currentSession().get(Asociacion.class, asociacion.getId());
-        //actualiza el objeto
-        BeanUtils.copyProperties(asociacion, nueva);
-        //lo guarda en la BD
-        
-        currentSession().update(nueva);
+     public Asociado actualiza(Asociado asociado) {
+         log.debug("Actualizando cuenta de asociado {}", asociado);
+        currentSession().update(asociado);
         currentSession().flush();
-        return nueva;
+        return asociado;
     }
-
+    
     public String elimina(Long id) throws UltimoException {
-        log.debug("Eliminando cuenta de asociacion con id {}", id);
-        Asociacion asociacion = obtiene(id);
-        currentSession().delete(asociacion);
+        log.debug("Eliminando cuenta de asociado con id {}", id);
+        Asociado asociado = obtiene(id);
+        currentSession().delete(asociado);
         currentSession().flush();
-        String nombre = asociacion.getNombre();
+        String nombre = asociado.getNombre();
         return nombre;
     }
     
   }
-
 
 

@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity 
 @Table (name = "asociaciones")
-public class Asociacion  {
+public class Asociacion {
     
     
     @Id
@@ -29,10 +29,8 @@ public class Asociacion  {
     @NotBlank
     @Column(nullable = false, length = 64)
     private String nombre;
-    
-    
     @NotNull
-    @Column (nullable = false, length = 2, name = "st")
+    @Column (nullable = false, length = 2, name = "status")
     private String status;
 //    @Column(length = 25)
 //    private String telefono;

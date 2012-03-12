@@ -55,7 +55,6 @@ public class AsociacionDaoTest {
            Asociacion asociacion = new Asociacion("test"+i, Constantes.STATUS_ACTIVO);
             currentSession().save(asociacion);
             assertNotNull(asociacion);
-            log.debug("asociacion>>" + asociacion);
         }
         Map<String, Object> params = null;
         Map result = instance.lista(params);
@@ -67,7 +66,9 @@ public class AsociacionDaoTest {
     
     @Test
     public void debieraObtenerAsociacion() {
-        log.debug("Debiera obtener Asociacion");
+        log.debug("Debiera obtener asociacion");
+
+        String nombre = "test";
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociacion);
         assertNotNull(asociacion.getId());
@@ -75,46 +76,57 @@ public class AsociacionDaoTest {
 
         Asociacion result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals("test", result.getNombre());
+        assertEquals(nombre, result.getNombre());
+
+        assertEquals(result, asociacion);
     }
-    
+
     @Test
     public void deberiaCrearAsociacion() {
-        log.debug("Deberia crear Asociacion");
+        log.debug("Deberia crear asociacion");
+
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociacion);
-        log.debug("asociacion >> " + asociacion);
-        asociacion = instance.crea(asociacion);
-        assertNotNull(asociacion.getId());
+
+        Asociacion asociacion2 = instance.crea(asociacion);
+        assertNotNull(asociacion2);
+        assertNotNull(asociacion2.getId());
+
+        assertEquals(asociacion, asociacion2);
     }
-    
+
     @Test
     public void deberiaActualizarAsociacion() {
-        log.debug("Deberia actualizar Asociacion");
+        log.debug("Deberia actualizar asociacion");
+
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociacion);
         currentSession().save(asociacion);
-        
-        asociacion.setNombre("test1");
 
-        asociacion = instance.actualiza(asociacion);
-        log.debug("asociacion >>" + asociacion);
-        assertEquals("test1", asociacion.getNombre());
+        String nombre = "test1";
+        asociacion.setNombre(nombre);
+
+        Asociacion asociacion2 = instance.actualiza(asociacion);
+        assertNotNull(asociacion2);
+        assertEquals(nombre, asociacion.getNombre());
+
+        assertEquals(asociacion, asociacion2);
     }
-     @Test
+
+    @Test
     public void deberiaEliminarAsociacion() throws UltimoException {
         log.debug("Debiera eliminar Asociacion");
 
+        String nom = "test";
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociacion);
         assertNotNull(asociacion);
+
         String nombre = instance.elimina(asociacion.getId());
-        assertEquals("test", nombre);
+        assertEquals(nom, nombre);
 
         Asociacion prueba = instance.obtiene(asociacion.getId());
         assertNull(prueba);
     }
-    
 }
-
 

@@ -23,6 +23,8 @@ import static org.springframework.test.web.server.request.MockMvcRequestBuilders
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import static org.junit.Assert.*;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -35,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
     "classpath:security.xml",
     "classpath:dispatcher-servlet.xml"
 })
+@Transactional
 public class AsociacionControllerTest extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(AsociacionControllerTest.class);
@@ -43,9 +46,6 @@ public class AsociacionControllerTest extends BaseTest {
     private MockMvc mockMvc;
     @Autowired
     private AsociacionDao asociacionDao;
-
-    public AsociacionControllerTest() {
-    }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -65,59 +65,78 @@ public class AsociacionControllerTest extends BaseTest {
     }
 
     @Test
-    public void debieraMostrarListaDeAsociaciones() throws Exception {
-        log.debug("Debiera monstrar lista de Asociaciones");
-        this.mockMvc.perform(get("/web/asociacion")).
-                andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/"+ Constantes.PATH_ASOCIACION_LISTA +".jsp")).
-                andExpect(model().attributeExists(Constantes.CONTAINSKEY_ASOCIACIONES)).
-                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINACION)).
-                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINAS)).
-                andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINA));
+    public void debieraMostrarListaDeAsociacion() throws Exception {
+        log.debug("Debiera monstrar lista de cuentas de mayor");
+        
+        for (int i = 0; i < 20; i++) {
+            Asociacion asociacion = new Asociacion("test" + i,Constantes.STATUS_ACTIVO);
+            asociacionDao.crea(asociacion);
+            assertNotNull(asociacion);
+        }
+
+        this.mockMvc.perform(get(Constantes.PATH_ASOCIACION))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/jsp/" + Constantes.PATH_ASOCIACION_LISTA+ ".jsp"))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_ASOCIACIONES))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINACION))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINAS))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINA));
     }
 
     @Test
     public void debieraMostrarAsociacion() throws Exception {
-        log.debug("Debiera mostrar asociacion");
-        Asociacion asociacion = new Asociacion("test",Constantes.STATUS_ACTIVO);
+        log.debug("Debiera mostrar cuenta de asociacion");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         asociacion = asociacionDao.crea(asociacion);
+        assertNotNull(asociacion);
 
-        this.mockMvc.perform(get(Constantes.PATH_ASOCIACION_VER+ "/" + asociacion.getId())).
-                andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/"+Constantes.PATH_ASOCIACION_VER + ".jsp")).
-                andExpect(model().attributeExists(Constantes.ADDATTRIBUTE_ASOCIACION));
+        this.mockMvc.perform(get(Constantes.PATH_ASOCIACION_VER +"/"+ asociacion.getId()))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/jsp/" + Constantes.PATH_ASOCIACION_VER + ".jsp"))
+                .andExpect(model()
+                .attributeExists(Constantes.ADDATTRIBUTE_ASOCIACION));
     }
 
     @Test
-    public void debieraCrearAsociacion() throws Exception {
-        log.debug("Debiera crear asociacion");
-        
-        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_CREA).param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk()).
-                andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE)).
-                andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message"));
+    public void debieraCrearASociacion() throws Exception {
+        log.debug("Debiera crear cuenta de asociacion");
+
+        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_CREA)
+                .param("nombre", "test")
+                .param("status", Constantes.STATUS_ACTIVO))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message"));
     }
 
-     @Test
+    @Test
     public void debieraActualizarAsociacion() throws Exception {
         log.debug("Debiera actualizar cuenta de asociacion");
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
+        asociacion = asociacionDao.crea(asociacion);
+        assertNotNull(asociacion);
+
         this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_ACTUALIZA)
-                .param("nombre", "test3")
-                .param("status", Constantes.STATUS_ACTIVO))
+                .param("id",asociacion.getId().toString())
+                .param("version", asociacion.getVersion().toString())
+                .param("nombre", "test1")
+                .param("status", asociacion.getStatus()))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
                 .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.actualizado.message"));
     }
 
     @Test
-    public void debieraEliminarAsociacion() throws Exception {
-        log.debug("Debiera eliminar asociacion");
-        Asociacion asociacion = new Asociacion("test8",  Constantes.STATUS_ACTIVO);
+    public void debieraEliminarCtaMayor() throws Exception {
+        log.debug("Debiera eliminar cuenta de asociacion");
+        Asociacion asociacion = new Asociacion("test",Constantes.STATUS_ACTIVO);
         asociacionDao.crea(asociacion);
+        assertNotNull(asociacion);
 
-        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_ELIMINA).param("id", asociacion.getId().toString())).
-                andExpect(status().isOk()).
-                andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE)).
-                andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminado.message"));
+        this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_ELIMINA)
+                .param("id", asociacion.getId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminado.message"));
     }
 }

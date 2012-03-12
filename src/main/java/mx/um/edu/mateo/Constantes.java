@@ -67,6 +67,7 @@ public class Constantes {
      * Valores para el los containsKey para las clases
      */
     public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
+    public static final String CONTAINSKEY_ASOCIADOS = "asociados";
     /**
      * Valores para el los addAttribute para las clases
      */
