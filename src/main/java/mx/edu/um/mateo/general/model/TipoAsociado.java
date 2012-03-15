@@ -8,9 +8,20 @@ package mx.edu.um.mateo.general.model;
  *
  * @author gibrandemetrioo
  */
-public class TipoAsociado {
-    
-  public enum Autos { FORD, CHEVY, VW, BMW, NISSAN };
-  public enum Sexo  { M, F };
-    
+public enum TipoAsociado {
+
+    DEPOSITOR("DEPOSITOR"),
+    READER("READER"),
+    AUTHOR("AUTHOR"),
+    EDITOR("EDITOR"),
+    ADMINISTRATOR("ADMINISTRATOR");
+    private String code;
+
+    private TipoAsociado(String code) {
+        this.code = code;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
 }

@@ -8,19 +8,18 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import mx.edu.um.mateo.general.model.TipoAsociado.Sexo;
-import mx.edu.um.mateo.general.model.TipoAsociado.Autos;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-
+import mx.edu.um.mateo.general.model.TipoAsociado;
 /**
  *
  * @author gibrandemetrioo
  */
 @Entity 
 @Table (name = "asociados")
-
-public class Asociado {
+public  class Asociado  implements Serializable{
+    
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,22 +39,29 @@ public class Asociado {
     @Column(length = 25)
     private String telefono;
     @NotNull
-    @Column(nullable = false, length = 23)
+    @Column(nullable = false, length = 23, name ="status")
     private String status;
+    
+    
     
     public Asociado() {
     }
-    public Asociado(String nombre, String direccion, String telefono, String status, String clave) {
+
+    public Asociado(String nombre, String clave, String direccion,  String telefono, String status) {
         this.nombre = nombre;
+        this.clave = clave;
         this.direccion = direccion;
         this.telefono = telefono;
         this.status = status;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
         this.clave = clave;
     }
-  
-
-    
-    
 
     public String getCorreo() {
         return correo;
@@ -71,14 +77,6 @@ public class Asociado {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public String getClave() {
-        return clave;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
     }
 
     public Long getId() {
@@ -133,41 +131,22 @@ public class Asociado {
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
-        if (!Objects.equals(this.clave, other.clave)) {
-            return false;
-        }
-        if (!Objects.equals(this.direccion, other.direccion)) {
-            return false;
-        }
-        if (!Objects.equals(this.telefono, other.telefono)) {
-            return false;
-        }
-        if (!Objects.equals(this.status, other.status)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.nombre);
-        hash = 29 * hash + Objects.hashCode(this.clave);
-        hash = 29 * hash + Objects.hashCode(this.direccion);
-        hash = 29 * hash + Objects.hashCode(this.telefono);
-        hash = 29 * hash + Objects.hashCode(this.status);
+        hash = 23 * hash + Objects.hashCode(this.nombre);
         return hash;
     }
 
+    
+
     @Override
     public String toString() {
-        return "Asociado{" +  "nombre=" + nombre + ", clave=" + clave + ", direccion=" + direccion + ", telefono=" + telefono + ", status=" + status + '}';
+        return "Asociado{" + "nombre=" + nombre + ", clave=" + clave + ", direccion=" + direccion + ", correo=" + correo + ", telefono=" + telefono + ", status=" + status + '}';
     }
 
-    
-
-   
-
-    
-    
+      
 }

@@ -25,7 +25,7 @@
 
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='asociacion.lista.label' /></a>
-                <a class="btn btn-primary" href="<s:url value='web/asociacion/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociacion.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociacion.nuevo.label' /></a>
             </p>
             <c:if test="${not empty message}">
                 <div class="alert alert-block alert-success fade in" role="status">

@@ -66,7 +66,7 @@ public class AsociacionControllerTest extends BaseTest {
 
     @Test
     public void debieraMostrarListaDeAsociacion() throws Exception {
-        log.debug("Debiera monstrar lista de cuentas de mayor");
+        log.debug("Debiera monstrar lista de cuentas de asociacion");
         
         for (int i = 0; i < 20; i++) {
             Asociacion asociacion = new Asociacion("test" + i,Constantes.STATUS_ACTIVO);
@@ -85,7 +85,7 @@ public class AsociacionControllerTest extends BaseTest {
 
     @Test
     public void debieraMostrarAsociacion() throws Exception {
-        log.debug("Debiera mostrar cuenta de asociacion");
+        log.debug("Debiera mostrar  asociacion");
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         asociacion = asociacionDao.crea(asociacion);
         assertNotNull(asociacion);
@@ -99,7 +99,7 @@ public class AsociacionControllerTest extends BaseTest {
 
     @Test
     public void debieraCrearASociacion() throws Exception {
-        log.debug("Debiera crear cuenta de asociacion");
+        log.debug("Debiera crear asociacion");
 
         this.mockMvc.perform(post(Constantes.PATH_ASOCIACION_CREA)
                 .param("nombre", "test")
@@ -111,7 +111,7 @@ public class AsociacionControllerTest extends BaseTest {
 
     @Test
     public void debieraActualizarAsociacion() throws Exception {
-        log.debug("Debiera actualizar cuenta de asociacion");
+        log.debug("Debiera actualizar  asociacion");
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO);
         asociacion = asociacionDao.crea(asociacion);
         assertNotNull(asociacion);
@@ -127,8 +127,8 @@ public class AsociacionControllerTest extends BaseTest {
     }
 
     @Test
-    public void debieraEliminarCtaMayor() throws Exception {
-        log.debug("Debiera eliminar cuenta de asociacion");
+    public void debieraEliminarAsociacion() throws Exception {
+        log.debug("Debiera eliminar  asociacion");
         Asociacion asociacion = new Asociacion("test",Constantes.STATUS_ACTIVO);
         asociacionDao.crea(asociacion);
         assertNotNull(asociacion);

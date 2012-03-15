@@ -14,6 +14,7 @@ public class Constantes {
     public static final String LOCALE_LANGUAGE = "es";
     public static final String LOCALE_COUNTRY = "MX";
     public static final String LOCALE_VARIANT = "Traditional_WIN";
+    public static final String CORREO  = "test@tes.tst";
     /**
      * Formato (yyyy-MM-dd) de la fecha en el cual el mes se representa
      * numericamente.
@@ -72,6 +73,7 @@ public class Constantes {
      * Valores para el los addAttribute para las clases
      */
     public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
+    public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
     /**
      * Valores para el los path's para las clases
      */
@@ -82,5 +84,14 @@ public class Constantes {
     public static final String PATH_ASOCIACION_EDITA = "/web/asociacion/edita";
     public static final String PATH_ASOCIACION_CREA = "/web/asociacion/crea";
     public static final String PATH_ASOCIACION_ACTUALIZA = "/web/asociacion/actualiza";
-    public static final String PATH_ASOCIACION_ELIMINA = "/web/asociacion/elimina";        
+    public static final String PATH_ASOCIACION_ELIMINA = "/web/asociacion/elimina";  
+    
+    public static final String PATH_ASOCIADO = "/web/asociado";
+    public static final String PATH_ASOCIADO_LISTA = "/web/asociado/lista";
+    public static final String PATH_ASOCIADO_VER = "/web/asociado/ver";
+    public static final String PATH_ASOCIADO_NUEVA = "/web/asociado/nueva";
+    public static final String PATH_ASOCIADO_EDITA = "/web/asociado/edita";
+    public static final String PATH_ASOCIADO_CREA = "/web/asociado/crea";
+    public static final String PATH_ASOCIADO_ACTUALIZA = "/web/asociado/actualiza";
+    public static final String PATH_ASOCIADO_ELIMINA = "/web/asociado/elimina";        
 }

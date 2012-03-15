@@ -30,7 +30,7 @@ public class Asociacion {
     @Column(nullable = false, length = 64)
     private String nombre;
     @NotNull
-    @Column (nullable = false, length = 2, name = "status")
+    @Column (nullable = false, length = 2, name = "status"  )
     private String status;
 //    @Column(length = 25)
 //    private String telefono;

@@ -14,6 +14,7 @@
                 <li><a href="<c:url value='/inventario' />"><s:message code="inventario.label" /></a></li>
                 <li><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
                 <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
+                <li><a href="<c:url value='/web/asociado' />"><s:message code="asociado.label" /></a></li>
             </ul>
         </nav>
         <h1><s:message code="inicio.label" /></h1>

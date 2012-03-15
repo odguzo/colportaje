@@ -18,6 +18,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +79,6 @@ public class AsociadoDao {
             propiedades.add(Restrictions.ilike("nombre", filtro));
             propiedades.add(Restrictions.ilike("clave", filtro));
             propiedades.add(Restrictions.ilike("direccion", filtro));
-            //propiedades.add(Restrictions.ilike("correo", filtro));
             propiedades.add(Restrictions.ilike("telefono", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
            
@@ -99,7 +99,7 @@ public class AsociadoDao {
             criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
             criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));
         }
-        params.put("asociados", criteria.list());
+        params.put(Constantes.CONTAINSKEY_ASOCIADOS, criteria.list());
         countCriteria.setProjection(Projections.rowCount());
         params.put(Constantes.CONTAINSKEY_CANTIDAD, (Long) countCriteria.list().get(0));
 
@@ -120,12 +120,19 @@ public class AsociadoDao {
     }
 
      public Asociado actualiza(Asociado asociado) {
-         log.debug("Actualizando cuenta de asociado {}", asociado);
-        currentSession().update(asociado);
+        log.debug("Actualizando cuenta de asociado {}", asociado);
+        
+        //trae el objeto de la DB 
+        Asociado nueva = (Asociado)currentSession().get(Asociado.class, asociado.getId());
+        //actualiza el objeto
+        BeanUtils.copyProperties(asociado, nueva);
+        //lo guarda en la BD
+        
+        currentSession().update(nueva);
         currentSession().flush();
-        return asociado;
+        return nueva;
     }
-    
+
     public String elimina(Long id) throws UltimoException {
         log.debug("Eliminando cuenta de asociado con id {}", id);
         Asociado asociado = obtiene(id);

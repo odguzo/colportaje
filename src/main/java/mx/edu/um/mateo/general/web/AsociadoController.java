@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,10 +16,11 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import mx.edu.um.mateo.general.dao.AsociadoDao;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
+import mx.edu.um.mateo.general.model.Asociado;
+import mx.edu.um.mateo.general.model.TipoAsociado;
 import mx.edu.um.mateo.general.utils.Ambiente;
-import mx.edu.um.mateo.general.dao.AsociacionDao;
-import mx.edu.um.mateo.general.model.Asociacion;
 import mx.um.edu.mateo.Constantes;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -48,14 +48,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 /**
  *
  * @author gibrandemetrioo
+ * 
  */
 @Controller
-@RequestMapping(Constantes.PATH_ASOCIACION)
-public class AsociacionController {
-    
-    private static final Logger log = LoggerFactory.getLogger(AsociacionController.class);
+@RequestMapping(Constantes.PATH_ASOCIADO)
+
+public class AsociadoController {
+    private static final Logger log = LoggerFactory.getLogger(AsociadoController.class);
     @Autowired
-    private AsociacionDao asociacionDao;
+    private AsociadoDao asociadoDao;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -74,7 +75,7 @@ public class AsociacionController {
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
             Model modelo) {
-        log.debug("Mostrando lista de Asociacion");
+        log.debug("Mostrando lista de Asociado");
         
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
@@ -94,9 +95,9 @@ public class AsociacionController {
 
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = asociacionDao.lista(params);
+            params = asociadoDao.lista(params);
             try {
-                generaReporte(tipo, (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES), response);
+                generaReporte(tipo, (List<Asociado>) params.get(Constantes.CONTAINSKEY_ASOCIADOS), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
@@ -105,19 +106,19 @@ public class AsociacionController {
 
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = asociacionDao.lista(params);
+            params = asociadoDao.lista(params);
 
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
-                enviaCorreo(correo, (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES), request);
+                enviaCorreo(correo, (List<Asociado>) params.get(Constantes.CONTAINSKEY_ASOCIADOS), request);
                 modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE, "lista.enviada.message");
-                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{messageSource.getMessage("asociacion.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
+                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{messageSource.getMessage("asociado.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
             } catch (JRException | MessagingException e) {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
-        params = asociacionDao.lista(params);
-        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIACIONES, params.get(Constantes.CONTAINSKEY_ASOCIACIONES));
+        params = asociadoDao.lista(params);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIADOS, params.get(Constantes.CONTAINSKEY_ASOCIADOS));
 
         // inicia paginado
         Long cantidad = (Long) params.get(Constantes.CONTAINSKEY_CANTIDAD);
@@ -128,123 +129,123 @@ public class AsociacionController {
         do {
             paginas.add(i);
         } while (i++ < cantidadDePaginas);
-        List<Asociacion> asociaciones = (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES);
+        List<Asociado> asociados = (List<Asociado>) params.get(Constantes.CONTAINSKEY_ASOCIADOS);
         Long primero = ((pagina - 1) * max) + 1;
-        Long ultimo = primero + (asociaciones.size() - 1);
+        Long ultimo = primero + (asociados.size() - 1);
         String[] paginacion = new String[]{primero.toString(), ultimo.toString(), cantidad.toString()};
         modelo.addAttribute(Constantes.CONTAINSKEY_PAGINACION, paginacion);
         modelo.addAttribute(Constantes.CONTAINSKEY_PAGINAS, paginas);
         // termina paginado
 
-        return Constantes.PATH_ASOCIACION_LISTA;
+        return Constantes.PATH_ASOCIADO_LISTA;
     }
 
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
-        log.debug("Mostrando asociaciones {}", id);
-        Asociacion asociaciones = asociacionDao.obtiene(id);
+        log.debug("Mostrando asociado {}", id);
+        Asociado asociados = asociadoDao.obtiene(id);
 
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIADO, asociados);
 
-        return Constantes.PATH_ASOCIACION_VER;
+        return Constantes.PATH_ASOCIADO_VER;
     }
 
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
-        log.debug("Nueva asociaciones");
-        Asociacion asociaciones = new Asociacion();
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
-        return Constantes.PATH_ASOCIACION_NUEVA;
+        log.debug("Nueva asociado");
+        Asociado asociados = new Asociado();
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIADO, asociados);
+        return Constantes.PATH_ASOCIADO_NUEVA;
     }
 
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Asociacion asociacion, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Asociado asociado, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
         if (bindingResult.hasErrors()) {
             log.debug("Hubo algun error en la forma, regresando");
-            return Constantes.PATH_ASOCIACION_NUEVA;
+            return Constantes.PATH_ASOCIADO_NUEVA;
         }
 
         try {
-            asociacion = asociacionDao.crea(asociacion);
+            asociado = asociadoDao.crea(asociado);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al asociacion", e);
-            return Constantes.PATH_ASOCIACION_NUEVA;
+            return Constantes.PATH_ASOCIADO_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociacion.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociado.getNombre()});
 
-        return "redirect:"+ Constantes.PATH_ASOCIACION_VER + "/" + asociacion.getId();
+        return "redirect:"+ Constantes.PATH_ASOCIADO_VER + "/" + asociado.getId();
     }
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
-        log.debug("Edita Asociacion {}", id);
-        Asociacion asociaciones = asociacionDao.obtiene(id);
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociaciones);
-        return Constantes.PATH_ASOCIACION_EDITA;
+        log.debug("Edita Asociado {}", id);
+        Asociado asociados = asociadoDao.obtiene(id);
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIADO, asociados);
+        return Constantes.PATH_ASOCIADO_EDITA;
     }
 
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid Asociacion asociaciones, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String actualiza(HttpServletRequest request, @Valid Asociado asociados, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
-            return Constantes.PATH_ASOCIACION_EDITA;
+            return Constantes.PATH_ASOCIADO_EDITA;
         }
         try {
-            asociaciones = asociacionDao.actualiza(asociaciones);
+            asociados = asociadoDao.actualiza(asociados);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Asociacion", e);
-            return Constantes.PATH_ASOCIACION_NUEVA;
+            return Constantes.PATH_ASOCIADO_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociaciones.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.actualizado.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociados.getNombre()});
 
-        return "redirect:"+Constantes.PATH_ASOCIACION_VER+ "/" + asociaciones.getId();
+        return "redirect:"+Constantes.PATH_ASOCIADO_VER+ "/" + asociados.getId();
     }
 
     @Transactional
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
-    public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Asociacion asociaciones, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Asociado asociados, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina Asociacion");
         try {
-            String nombre = asociacionDao.elimina(id);
+            String nombre = asociadoDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminado.message");
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.eliminado.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
-            log.error("No se pudo eliminar el asociacion " + id, e);
-            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_ASOCIACIONES, new String[]{"asociacion.no.eliminada.message"}, null, null));
-            return Constantes.PATH_ASOCIACION_VER;
+            log.error("No se pudo eliminar el asociado " + id, e);
+            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_ASOCIADOS, new String[]{"asociado.no.eliminada.message"}, null, null));
+            return Constantes.PATH_ASOCIADO_VER;
         }
 
-        return "redirect:" + Constantes.PATH_ASOCIACION;
+        return "redirect:" + Constantes.PATH_ASOCIADO;
     }
 
-    private void generaReporte(String tipo, List<Asociacion> asociaciones, HttpServletResponse response) throws JRException, IOException {
+    private void generaReporte(String tipo, List<Asociado> asociados, HttpServletResponse response) throws JRException, IOException {
         log.debug("Generando reporte {}", tipo);
         byte[] archivo = null;
         switch (tipo) {
             case "PDF":
-                archivo = generaPdf(asociaciones);
+                archivo = generaPdf(asociados);
                 response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment; filename=asociacion.pdf");
+                response.addHeader("Content-Disposition", "attachment; filename=asociado.pdf");
                 break;
             case "CSV":
-                archivo = generaCsv(asociaciones);
+                archivo = generaCsv(asociados);
                 response.setContentType("text/csv");
-                response.addHeader("Content-Disposition", "attachment; filename=asociacion.csv");
+                response.addHeader("Content-Disposition", "attachment; filename=asociado.csv");
                 break;
             case "XLS":
-                archivo = generaXls(asociaciones);
+                archivo = generaXls(asociados);
                 response.setContentType("application/vnd.ms-excel");
-                response.addHeader("Content-Disposition", "attachment; filename=asociacion.xls");
+                response.addHeader("Content-Disposition", "attachment; filename=asociado.xls");
         }
         if (archivo != null) {
             response.setContentLength(archivo.length);
@@ -256,51 +257,51 @@ public class AsociacionController {
 
     }
 
-    private void enviaCorreo(String tipo, List<Asociacion> asociaciones, HttpServletRequest request) throws JRException, MessagingException {
+    private void enviaCorreo(String tipo, List<Asociado> asociados, HttpServletRequest request) throws JRException, MessagingException {
         log.debug("Enviando correo {}", tipo);
         byte[] archivo = null;
         String tipoContenido = null;
         switch (tipo) {
             case "PDF":
-                archivo = generaPdf(asociaciones);
+                archivo = generaPdf(asociados);
                 tipoContenido = "application/pdf";
                 break;
             case "CSV":
-                archivo = generaCsv(asociaciones);
+                archivo = generaCsv(asociados);
                 tipoContenido = "text/csv";
                 break;
             case "XLS":
-                archivo = generaXls(asociaciones);
+                archivo = generaXls(asociados);
                 tipoContenido = "application/vnd.ms-excel";
         }
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(ambiente.obtieneUsuario().getUsername());
-        String titulo = messageSource.getMessage("asociacion.lista.label", null, request.getLocale());
+        String titulo = messageSource.getMessage("asociado.lista.label", null, request.getLocale());
         helper.setSubject(messageSource.getMessage("envia.correo.titulo.message", new String[]{titulo}, request.getLocale()));
         helper.setText(messageSource.getMessage("envia.correo.contenido.message", new String[]{titulo}, request.getLocale()), true);
         helper.addAttachment(titulo + "." + tipo, new ByteArrayDataSource(archivo, tipoContenido));
         mailSender.send(message);
     }
 
-    private byte[] generaPdf(List asociaciones) throws JRException {
+    private byte[] generaPdf(List asociados) throws JRException {
         Map<String, Object> params = new HashMap<>();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociaciones.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociados.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociaciones));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociados));
         byte[] archivo = JasperExportManager.exportReportToPdf(jasperPrint);
 
         return archivo;
     }
 
-    private byte[] generaCsv(List asociaciones) throws JRException {
+    private byte[] generaCsv(List asociados) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRCsvExporter exporter = new JRCsvExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociaciones.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociados.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociaciones));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociados));
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.exportReport();
@@ -309,13 +310,13 @@ public class AsociacionController {
         return archivo;
     }
 
-    private byte[] generaXls(List asociaciones) throws JRException {
+    private byte[] generaXls(List asociados) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRXlsExporter exporter = new JRXlsExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociaciones.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/asociados.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociaciones));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(asociados));
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
@@ -332,3 +333,4 @@ public class AsociacionController {
     
     
 }
+

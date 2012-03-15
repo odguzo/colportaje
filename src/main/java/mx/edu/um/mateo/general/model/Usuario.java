@@ -38,7 +38,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Serializable, UserDetails {
+public  class Usuario implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -305,6 +305,6 @@ public class Usuario implements Serializable, UserDetails {
 
     @Override
     public String toString() {
-        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + '}';
+        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido =" + apellido + '}';
     }
 }

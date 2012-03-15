@@ -6,9 +6,11 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.List;
 import java.util.Map;
+import javax.persistence.ElementCollection;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import mx.edu.um.mateo.general.model.Asociado;
 import mx.edu.um.mateo.general.dao.AsociadoDao;
-import mx.edu.um.mateo.general.model.TipoAsociado;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import mx.um.edu.mateo.Constantes;
 import org.hibernate.Session;
@@ -37,7 +39,6 @@ public class AsociadoDaoTest {
     private AsociadoDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-    
    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -47,12 +48,11 @@ public class AsociadoDaoTest {
      */
     @Test
     public void debieraMostrarListaDeAsociado() {
-        log.debug("Debiera mostrar lista de Asociados");
+        log.debug("Debiera mostrar lista de Asociado");
         for (int i = 0; i < 20; i++) {
-           Asociado asociado = new Asociado("test-00"+i,"test-00"+i,"test-00"+i,"test-00"+i, Constantes.STATUS_ACTIVO);
+           Asociado asociado = new Asociado("test"+i,"test"+i,"test"+i,"test"+i, Constantes.STATUS_ACTIVO);
             currentSession().save(asociado);
             assertNotNull(asociado);
-            log.debug("asociado>>" + asociado);
         }
         Map<String, Object> params = null;
         Map result = instance.lista(params);
@@ -61,8 +61,69 @@ public class AsociadoDaoTest {
         assertEquals(10, ((List<Asociado>) result.get(Constantes.CONTAINSKEY_ASOCIADOS)).size());
         assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
-    
-    
-}
+    @Test
+    public void debieraObtenerAsociado() {
+        log.debug("Debiera obtener asociado");
 
+        String nombre = "test";
+        Asociado asociado = new Asociado("test","test","test","test",Constantes.STATUS_ACTIVO);
+        currentSession().save(asociado);
+        assertNotNull(asociado.getId());
+        Long id = asociado.getId();
+
+        Asociado result = instance.obtiene(id);
+        assertNotNull(result);
+        assertEquals(nombre, result.getNombre());
+
+        assertEquals(result, asociado);
+    }
+
+    @Test
+    public void deberiaCrearAsociado() {
+        log.debug("Deberia crear asociado");
+
+        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        assertNotNull(asociado);
+
+        Asociado asociado2 = instance.crea(asociado);
+        assertNotNull(asociado2);
+        assertNotNull(asociado2.getId());
+
+        assertEquals(asociado, asociado2);
+    }
+
+    @Test
+    public void deberiaActualizarAsociado() {
+        log.debug("Deberia actualizar asociado");
+
+        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        assertNotNull(asociado);
+        currentSession().save(asociado);
+
+        String nombre = "test1";
+        asociado.setNombre(nombre);
+
+        Asociado asociado2 = instance.actualiza(asociado);
+        assertNotNull(asociado2);
+        assertEquals(nombre, asociado.getNombre());
+
+        assertEquals(asociado, asociado2);
+    }
+
+    @Test
+    public void deberiaEliminarAsociado() throws UltimoException {
+        log.debug("Debiera eliminar Asociado");
+
+        String nom = "test";
+        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        currentSession().save(asociado);
+        assertNotNull(asociado);
+
+        String nombre = instance.elimina(asociado.getId());
+        assertEquals(nom, nombre);
+
+        Asociado prueba = instance.obtiene(asociado.getId());
+        assertNull(prueba);
+    }
+}
 

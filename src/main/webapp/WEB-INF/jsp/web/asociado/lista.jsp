@@ -1,36 +1,35 @@
 <%-- 
     Document   : lista
-    Created on : 27-feb-2012, 15:44:09
+    Created on : 14-mar-2012, 11:27:33
     Author     : gibrandemetrioo
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<!DOCTYPE html>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags" %><!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="asociacion.lista.label" /></title>
+        <title><s:message code="asociado.lista.label" /></title>
     </head>
     <body>
         <nav class="navbar navbar-fixed-top" role="navigation">
             <ul class="nav">
                 <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
+                <li><a href="<c:url value='/web/asociado' />"><s:message code="asociado.label" /></a></li>
             </ul>
         </nav>
 
-        <h1><s:message code="asociacion.lista.label" /></h1>
+        <h1><s:message code="asociado.lista.label" /></h1>
         <hr/>
 
-        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/web/asociacion' />">
+        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/web/asociado' />">
             <input type="hidden" name="pagina" id="pagina" value="${pagina}" />
             <input type="hidden" name="tipo" id="tipo" value="" />
             <input type="hidden" name="correo" id="correo" value="" />
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/asociacion/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociacion.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/web/asociado/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociado.nuevo.label' /></a>
                 <input name="filtro" type="text" class="input-medium search-query" value="${param.filtro}">
                 <button type="submit" class="btn"><s:message code="buscar.label" /></button>
             </p>
@@ -40,8 +39,8 @@
                     <s:message code="${message}" arguments="${messageAttrs}" />
                 </div>
             </c:if>
-            <c:if test="${asociacion != null}">
-                <s:bind path="asociacion.*">
+            <c:if test="${asociado != null}">
+                <s:bind path="asociado.*">
                     <c:if test="${not empty status.errorMessages}">
                     <div class="alert alert-block alert-error fade in" role="status">
                         <a class="close" data-dismiss="alert">×</a>
@@ -58,7 +57,7 @@
                     <tr>
                         <th>
                             <a href="javascript:ordena('nombre');">
-                                <s:message code="asociacion.nombre.label" />
+                                <s:message code="asociado.nombre.label" />
                                 <c:choose>
                                     <c:when test="${param.order == 'nombre' && param.sort == 'asc'}">
                                         <i class="icon-chevron-up"></i>
@@ -70,8 +69,47 @@
                             </a>
                         </th>
                         <th>
+                            <a href="javascript:ordena('clave');">
+                                <s:message code="asociado.clave.label" />
+                                <c:choose>
+                                    <c:when test="${param.order == 'clave' && param.sort == 'asc'}">
+                                        <i class="icon-chevron-up"></i>
+                                    </c:when>
+                                    <c:when test="${param.order == 'clave' && param.sort == 'desc'}">
+                                        <i class="icon-chevron-down"></i>
+                                    </c:when>
+                                </c:choose>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="javascript:ordena('direccion');">
+                                <s:message code="asociado.direccion.label" />
+                                <c:choose>
+                                    <c:when test="${param.order == 'direccion' && param.sort == 'asc'}">
+                                        <i class="icon-chevron-up"></i>
+                                    </c:when>
+                                    <c:when test="${param.order == 'direccion' && param.sort == 'desc'}">
+                                        <i class="icon-chevron-down"></i>
+                                    </c:when>
+                                </c:choose>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="javascript:ordena('telefono');">
+                                <s:message code="asociado.telefono.label" />
+                                <c:choose>
+                                    <c:when test="${param.order == 'telefono' && param.sort == 'asc'}">
+                                        <i class="icon-chevron-up"></i>
+                                    </c:when>
+                                    <c:when test="${param.order == 'telefono' && param.sort == 'desc'}">
+                                        <i class="icon-chevron-down"></i>
+                                    </c:when>
+                                </c:choose>
+                            </a>
+                        </th>
+                        <th>
                             <a href="javascript:ordena('status');">
-                                <s:message code="asociacion.status.label" />
+                                <s:message code="asociado.status.label" />
                                 <c:choose>
                                     <c:when test="${param.order == 'status' && param.sort == 'asc'}">
                                         <i class="icon-chevron-up"></i>
@@ -82,13 +120,31 @@
                                 </c:choose>
                             </a>
                         </th>
+                        <th>
+                            <a href="javascript:ordena('correo');">
+                                <s:message code="asociado.correo.label" />
+                                <c:choose>
+                                    <c:when test="${param.order == 'correo' && param.sort == 'asc'}">
+                                        <i class="icon-chevron-up"></i>
+                                    </c:when>
+                                    <c:when test="${param.order == 'correo' && param.sort == 'desc'}">
+                                        <i class="icon-chevron-down"></i>
+                                    </c:when>
+                                </c:choose>
+                            </a>
+                        </th>
+                         
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${asociaciones}" var="asociacion" varStatus="status">
+                    <c:forEach items="${asociados}" var="asociado" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
-                            <td><a href="<c:url value='/web/asociacion/ver/${asociacion.id}' />">${asociacion.nombre}</a></td>
-                            <td>${asociacion.status}</td>
+                            <td><a href="<c:url value='/web/asociado/ver/${asociado.id}' />">${asociado.nombre}</a></td>
+                            <td>${asociado.clave}</td>
+                            <td>${asociado.direccion}</td>
+                            <td>${asociado.telefono}</td>
+                            <td>${asociado.status}</td>
+                           <!-- <td>${asociado.correo}</td>-->
                         </tr>
                     </c:forEach>
                 </tbody>
