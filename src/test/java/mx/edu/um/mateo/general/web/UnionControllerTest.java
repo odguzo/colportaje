@@ -4,19 +4,13 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import java.util.ArrayList;
+import mx.um.edu.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.UnionDao;
-import mx.edu.um.mateo.general.dao.RolDao;
-import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.Empresa;
 import mx.edu.um.mateo.general.model.Union;
-import mx.edu.um.mateo.general.model.Rol;
-import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
-import mx.edu.um.mateo.inventario.model.Almacen;
-import mx.um.edu.mateo.Constantes;
-import static org.junit.Assert.assertNotNull;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -31,6 +25,7 @@ import static org.springframework.test.web.server.result.MockMvcResultMatchers.*
 import org.springframework.test.web.server.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -42,16 +37,15 @@ import org.springframework.web.context.WebApplicationContext;
     "classpath:security.xml",
     "classpath:dispatcher-servlet.xml"
 })
-public class UnionControllerTest {
-     private static final Logger log = LoggerFactory.getLogger(UnionControllerTest.class);
+@Transactional
+public class UnionControllerTest extends BaseTest {
+
+    private static final Logger log = LoggerFactory.getLogger(UnionControllerTest.class);
     @Autowired
     private WebApplicationContext wac;
     private MockMvc mockMvc;
     @Autowired
     private UnionDao unionDao;
-
-    public UnionControllerTest() {
-    }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -72,55 +66,77 @@ public class UnionControllerTest {
 
     @Test
     public void debieraMostrarListaDeUnion() throws Exception {
-        log.debug("Debiera monstrar lista de union");
+        log.debug("Debiera monstrar lista de uniones");
         
-        this.mockMvc.perform(get("/web/union")).
-                andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/web/union/lista.jsp")).
-                andExpect(model().attributeExists("uniones")).
-                andExpect(model().attributeExists("paginacion")).
-                andExpect(model().attributeExists("paginas")).
-                andExpect(model().attributeExists("pagina"));
+        for (int i = 0; i < 20; i++) {
+            Union union = new Union(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO);
+            unionDao.crea(union);
+            assertNotNull(union);
+        }
+
+        this.mockMvc.perform(get(Constantes.PATH_UNION))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/jsp/" + Constantes.PATH_UNION_LISTA + ".jsp"))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_UNIONES))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINACION))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINAS))
+                .andExpect(model().attributeExists(Constantes.CONTAINSKEY_PAGINA));
     }
 
-    @Test
+   @Test
     public void debieraMostrarUnion() throws Exception {
         log.debug("Debiera mostrar union");
-        Union union = new Union("test", "t"); 
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         union = unionDao.crea(union);
+        assertNotNull(union);
 
-        this.mockMvc.perform(get("/web/union/ver/" + union.getId())).
-                andExpect(status().isOk()).
-                andExpect(forwardedUrl("/WEB-INF/jsp/web/union/ver.jsp")).
-                andExpect(model().attributeExists("union"));
+        this.mockMvc.perform(get(Constantes.PATH_UNION_VER +"/"+ union.getId()))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/WEB-INF/jsp/" + Constantes.PATH_UNION_VER + ".jsp"))
+                .andExpect(model()
+                .attributeExists(Constantes.ADDATTRIBUTE_UNION));
     }
 
     @Test
     public void debieraCrearUnion() throws Exception {
         log.debug("Debiera crear union");
-        
-        this.mockMvc.perform(post("/web/union/crea").param("nombre", "test0").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk()).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "union.creada.message"));
+
+        this.mockMvc.perform(post(Constantes.PATH_UNION_CREA)
+                .param("nombre", "test")
+                .param("status", Constantes.STATUS_ACTIVO))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "union.creada.message"));
     }
 
     @Test
     public void debieraActualizarUnion() throws Exception {
         log.debug("Debiera actualizar union");
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
+        union = unionDao.crea(union);
+        assertNotNull(union);
 
-        this.mockMvc.perform(post("/web/union/actualiza").param("nombre", "test1").param("status", Constantes.STATUS_ACTIVO)).
-                andExpect(status().isOk()).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "union.actualizada.message"));
+        this.mockMvc.perform(post(Constantes.PATH_UNION_ACTUALIZA)
+                .param("id",union.getId().toString())
+                .param("version", union.getVersion().toString())
+                .param("nombre", "test1")
+                .param("status", union.getStatus()))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "union.actualizada.message"));
     }
 
-  @Test
+    @Test
     public void debieraEliminarUnion() throws Exception {
         log.debug("Debiera eliminar union");
-        Union union = new Union("test6", Constantes.STATUS_ACTIVO);
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         unionDao.crea(union);
+        assertNotNull(union);
 
-        this.mockMvc.perform(post("/web/union/elimina").param("id", union.getId().toString())).
-                andExpect(status().isOk()).
-                andExpect(flash().attributeExists("message")).
-                andExpect(flash().attribute("message", "union.eliminada.message"));
+        this.mockMvc.perform(post(Constantes.PATH_UNION_ELIMINA)
+                .param("id", union.getId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                    .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "union.eliminada.message"));
     }
-  
 }

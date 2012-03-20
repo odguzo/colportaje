@@ -30,13 +30,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class UnionDao {
-private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
+public class ColportorDao {
+private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
     @Autowired
     private SessionFactory sessionFactory;
 
-    public UnionDao() {
-        log.info("Nueva instancia de UnionDao");
+    public ColportorDao() {
+        log.info("Nueva instancia de ColportorDao");
     }
 
     private Session currentSession() {
@@ -44,7 +44,7 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
     }
 
     public Map<String, Object> lista(Map<String, Object> params) {
-        log.debug("Buscando lista de union con params {}", params);
+        log.debug("Buscando lista de colportor con params {}", params);
         if (params == null) {
             params = new HashMap<>();
         }
@@ -64,8 +64,8 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
         if (!params.containsKey(Constantes.CONTAINSKEY_OFFSET)) {
             params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
-        Criteria criteria = currentSession().createCriteria(Union.class);
-        Criteria countCriteria = currentSession().createCriteria(Union.class);
+        Criteria criteria = currentSession().createCriteria(Colportor.class);
+        Criteria countCriteria = currentSession().createCriteria(Colportor.class);
 
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
@@ -73,6 +73,7 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
+             propiedades.add(Restrictions.ilike("clave", filtro));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
@@ -90,7 +91,7 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
             criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
             criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));
         }
-        params.put(Constantes.CONTAINSKEY_UNIONES, criteria.list());
+        params.put(Constantes.CONTAINSKEY_COLPORTORES, criteria.list());
 
         countCriteria.setProjection(Projections.rowCount());
         params.put(Constantes.CONTAINSKEY_CANTIDAD, (Long) countCriteria.list().get(0));
@@ -98,39 +99,39 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
         return params;
     }
 
-    public Union obtiene(Long id) {
-        log.debug("Obtiene union con id = {}", id);
-        Union union = (Union) currentSession().get(Union.class, id);
-        return union;
+    public Colportor obtiene(Long id) {
+        log.debug("Obtiene colportor con id = {}", id);
+        Colportor colportor = (Colportor) currentSession().get(Colportor.class, id);
+        return colportor;
     }
 
-    public Union crea(Union union) {
-        log.debug("Creando union : {}", union);
-        currentSession().save(union);
+    public Colportor crea(Colportor colportor) {
+        log.debug("Creando colportor : {}", colportor);
+        currentSession().save(colportor);
         currentSession().flush();
-        return union;
+        return colportor;
     }
 
-    public Union actualiza(Union union) {
-        log.debug("Actualizando union {}", union);
+    public Colportor actualiza(Colportor colportor) {
+        log.debug("Actualizando colportor {}", colportor);
         
         //trae el objeto de la DB 
-        Union nueva = (Union)currentSession().get(Union.class, union.getId());
+        Colportor nuevo = (Colportor)currentSession().get(Colportor.class, colportor.getId());
         //actualiza el objeto
-        BeanUtils.copyProperties(union, nueva);
+        BeanUtils.copyProperties(colportor, nuevo);
         //lo guarda en la BD
         
-        currentSession().update(nueva);
+        currentSession().update(nuevo);
         currentSession().flush();
-        return nueva;
+        return nuevo;
     }
 
     public String elimina(Long id) throws UltimoException {
-        log.debug("Eliminando union con id {}", id);
-        Union union = obtiene(id);
-        currentSession().delete(union);
+        log.debug("Eliminando colportor con id {}", id);
+        Colportor colportor = obtiene(id);
+        currentSession().delete(colportor);
         currentSession().flush();
-        String nombre = union.getNombre();
+        String nombre = colportor.getNombre();
         return nombre;
     }
 }

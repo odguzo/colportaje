@@ -5,7 +5,6 @@
 package mx.edu.um.mateo.general.model;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "uniones")
 public class Union implements Serializable {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Version

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import mx.edu.um.mateo.general.model.*;
-import mx.edu.um.mateo.inventario.model.Almacen;
 import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.test.BaseTest;
@@ -34,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mateo.xml", "classpath:security.xml"})
 @Transactional
-public class UnionDaoTest {
+public class UnionDaoTest extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(UnionDaoTest.class);
     @Autowired
@@ -46,72 +45,87 @@ public class UnionDaoTest {
         return sessionFactory.getCurrentSession();
     }
     
+    
     /**
      * Test of lista method, of class UnionDao.
      */
     @Test
-    public void debieraMostrarListaDeUnion() {
-        log.debug("Debiera mostrar lista de Uniones");
+    public void deberiaMostrarListaDeUnion() {
+        log.debug("Debiera mostrar lista de union");
 
         for (int i = 0; i < 20; i++) {
-           Union union = new Union("test" + i, Constantes.STATUS_ACTIVO);
+            Union union = new Union(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO);
             currentSession().save(union);
             assertNotNull(union);
-            log.debug("union>>" + union);
         }
+
         Map<String, Object> params = null;
         Map result = instance.lista(params);
-        assertNotNull(result.get("uniones"));
-        assertNotNull(result.get("cantidad"));
-        assertEquals(10, ((List<Union>) result.get("uniones")).size());
-        assertEquals(20, ((Long) result.get("cantidad")).intValue());
+        assertNotNull(result.get(Constantes.CONTAINSKEY_UNIONES));
+        assertNotNull(result.get(Constantes.CONTAINSKEY_CANTIDAD));
+
+        assertEquals(10, ((List<Union>) result.get(Constantes.CONTAINSKEY_UNIONES)).size());
+        assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
-    
-    @Test
+     @Test
     public void debieraObtenerUnion() {
-        log.debug("Debiera obtener Union");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        log.debug("Debiera obtener union");
+
+        String nombre = "test";
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         assertNotNull(union.getId());
         Long id = union.getId();
 
         Union result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals("test", result.getNombre());
+        assertEquals(nombre, result.getNombre());
+
+        assertEquals(result, union);
     }
-    
-    @Test
+     @Test
     public void deberiaCrearUnion() {
         log.debug("Deberia crear Union");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         assertNotNull(union);
-        log.debug("union >> " + union);
-        union = instance.crea(union);
-        assertNotNull(union.getId());
+
+        Union union2 = instance.crea(union);
+        assertNotNull(union2);
+        assertNotNull(union2.getId());
+
+        assertEquals(union, union2);
     }
-    
+
     @Test
     public void deberiaActualizarUnion() {
         log.debug("Deberia actualizar Union");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         assertNotNull(union);
         currentSession().save(union);
-        
-        union.setNombre("test1");
 
-        union = instance.actualiza(union);
-        log.debug("union >>" + union);
-        assertEquals("test1", union.getNombre());
+        String nombre = "test1";
+        union.setNombre(nombre);
+
+        Union union2 = instance.actualiza(union);
+        assertNotNull(union2);
+        assertEquals(nombre, union.getNombre());
+
+        assertEquals(union, union2);
     }
-     @Test
+
+    @Test
     public void deberiaEliminarUnion() throws UltimoException {
         log.debug("Debiera eliminar Union");
 
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        String nom = "test";
+        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         assertNotNull(union);
+
         String nombre = instance.elimina(union.getId());
-        assertEquals("test", nombre);
+        assertEquals(nom, nombre);
 
         Union prueba = instance.obtiene(union.getId());
         assertNull(prueba);
