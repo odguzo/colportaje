@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+package mx.um.edu.mateo;
 /**
  *
- * @author wilbert
+ * @author gibrandemetrioo
  */
-package mx.um.edu.mateo;
 public class Constantes {
+
     public static final String NOMBRE= "test";
     public static final String STATUS_ACTIVO= "A";
     public static final String CLAVE= "test90";
@@ -17,12 +17,16 @@ public class Constantes {
     public static final String TELEFONO= "0000000000000";
     
     
-     /**
+    
+    
+    /**
      * Valores para el constructor de Locale
      */
     public static final String LOCALE_LANGUAGE = "es";
     public static final String LOCALE_COUNTRY = "MX";
     public static final String LOCALE_VARIANT = "Traditional_WIN";
+ 
+    
     /**
      * Formato (yyyy-MM-dd) de la fecha en el cual el mes se representa
      * numericamente.
@@ -103,6 +107,38 @@ public class Constantes {
     public static final String PATH_COLPORTOR_CREA = "/web/colportor/crea";
     public static final String PATH_COLPORTOR_ACTUALIZA = "/web/colportor/actualiza";
     public static final String PATH_COLPORTOR_ELIMINA = "/web/colportor/elimina";
+
+
+    /**
+     * Valores para el los containsKey para las clases
+     */
+    public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
+    public static final String CONTAINSKEY_ASOCIADOS = "asociados";
+    /**
+     * Valores para el los addAttribute para las clases
+     */
+    public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
+    public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
+    /**
+     * Valores para el los path's para las clases
+     */
+    public static final String PATH_ASOCIACION = "/web/asociacion";
+    public static final String PATH_ASOCIACION_LISTA = "/web/asociacion/lista";
+    public static final String PATH_ASOCIACION_VER = "/web/asociacion/ver";
+    public static final String PATH_ASOCIACION_NUEVA = "/web/asociacion/nueva";
+    public static final String PATH_ASOCIACION_EDITA = "/web/asociacion/edita";
+    public static final String PATH_ASOCIACION_CREA = "/web/asociacion/crea";
+    public static final String PATH_ASOCIACION_ACTUALIZA = "/web/asociacion/actualiza";
+    public static final String PATH_ASOCIACION_ELIMINA = "/web/asociacion/elimina";  
+    
+    public static final String PATH_ASOCIADO = "/web/asociado";
+    public static final String PATH_ASOCIADO_LISTA = "/web/asociado/lista";
+    public static final String PATH_ASOCIADO_VER = "/web/asociado/ver";
+    public static final String PATH_ASOCIADO_NUEVA = "/web/asociado/nueva";
+    public static final String PATH_ASOCIADO_EDITA = "/web/asociado/edita";
+    public static final String PATH_ASOCIADO_CREA = "/web/asociado/crea";
+    public static final String PATH_ASOCIADO_ACTUALIZA = "/web/asociado/actualiza";
+    public static final String PATH_ASOCIADO_ELIMINA = "/web/asociado/elimina";        
 
 }
 
