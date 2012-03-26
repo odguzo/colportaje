@@ -5,6 +5,8 @@
 package mx.edu.um.mateo.general.model;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +17,9 @@ import mx.edu.um.mateo.general.model.TipoAsociado;
  *
  * @author gibrandemetrioo
  */
-@Entity 
+
+@Entity
+
 @Table (name = "asociados")
 public  class Asociado  implements Serializable{
     
@@ -44,6 +48,7 @@ public  class Asociado  implements Serializable{
     
     
     
+    
     public Asociado() {
     }
 
@@ -54,6 +59,10 @@ public  class Asociado  implements Serializable{
         this.telefono = telefono;
         this.status = status;
     }
+    
+    
+    
+    
 
     public String getClave() {
         return clave;

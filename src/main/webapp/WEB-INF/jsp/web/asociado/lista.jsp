@@ -144,7 +144,7 @@
                             <td>${asociado.direccion}</td>
                             <td>${asociado.telefono}</td>
                             <td>${asociado.status}</td>
-                           <!-- <td>${asociado.correo}</td>-->
+                            <td>${asociado.correo}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
