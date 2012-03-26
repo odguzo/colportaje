@@ -46,7 +46,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sun.beans.editors.EnumEditor;
+
 /**
  *
  * @author wilbert
