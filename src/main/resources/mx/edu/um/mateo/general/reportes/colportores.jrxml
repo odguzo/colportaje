@@ -34,32 +34,32 @@
 	<columnHeader>
 		<band height="15" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="60" height="15"/>
+				<reportElement x="0" y="0" width="100" height="15"/>
 				<textElement/>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="0" width="60" height="15"/>
+				<reportElement x="100" y="0" width="40" height="15"/>
 				<textElement/>
 				<text><![CDATA[Status]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="120" y="0" width="60" height="15"/>
+				<reportElement x="140" y="0" width="60" height="15"/>
 				<textElement/>
 				<text><![CDATA[Clave]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="0" width="60" height="15"/>
+				<reportElement x="200" y="0" width="100" height="15"/>
 				<textElement/>
 				<text><![CDATA[Dirección]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="480" y="0" width="60" height="15"/>
+				<reportElement x="295" y="0" width="100" height="15"/>
 				<textElement/>
 				<text><![CDATA[Correo]]></text>
 			</staticText>
                         <staticText>
-				<reportElement x="300" y="0" width="60" height="15"/>
+				<reportElement x="390" y="0" width="100" height="15"/>
 				<textElement/>
 				<text><![CDATA[Teléfono]]></text>
 			</staticText>
@@ -69,42 +69,42 @@
 	<detail>
 		<band height="15" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="60" height="15"/>
+				<reportElement x="0" y="0" width="100" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="60" y="0" width="60" height="15"/>
+				<reportElement x="100" y="0" width="100" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="120" y="0" width="60" height="15"/>
+				<reportElement x="140" y="0" width="60" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{clave}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="240" y="0" width="60" height="15"/>
+				<reportElement x="200" y="0" width="100" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="480" y="0" width="60" height="15"/>
+				<reportElement x="295" y="0" width="100" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
 			</textField>
                         <textField isStretchWithOverflow="true">
-				<reportElement x="300" y="0" width="60" height="15"/>
+				<reportElement x="390" y="0" width="100" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>

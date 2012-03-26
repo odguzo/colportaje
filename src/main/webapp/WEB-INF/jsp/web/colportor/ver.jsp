@@ -25,7 +25,7 @@
             <h1><s:message code="colportor.ver.label" /></h1>
 
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='colportor.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='..'/>"><i class="icon-list icon-white"></i> <s:message code='colportor.lista.label' /></a>
                 <a class="btn btn-primary" href="<s:url value='../nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='colportor.nuevo.label' /></a>
             </p>
             <c:if test="${not empty message}">
