@@ -16,9 +16,9 @@
     <body>
         <nav class="navbar navbar-fixed-top" role="navigation">
             <ul class="nav">
-                <li><a href="<c:url value='web/inicio' />"><s:message code="inicio.label" /></a></li>
+                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
               
-                <li class="active"><a href="<s:url value='../union'/>" ><s:message code="union.label" /></a></li>
+                <li class="active"><a href="<s:url value='/web/union'/>" ><s:message code="union.label" /></a></li>
           
             </ul>
         </nav>
