@@ -3,11 +3,13 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
@@ -16,10 +18,12 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.ws.rs.HEAD;
 import mx.edu.um.mateo.general.dao.AsociadoDao;
-import mx.edu.um.mateo.general.dao.UsuarioDao;
+import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Asociado;
-import mx.edu.um.mateo.general.model.TipoAsociado;
+import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import mx.um.edu.mateo.Constantes;
 import net.sf.jasperreports.engine.*;
@@ -45,15 +49,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 /**
  *
  * @author gibrandemetrioo
- * 
+ *
  */
 @Controller
 @RequestMapping(Constantes.PATH_ASOCIADO)
-
 public class AsociadoController {
+
     private static final Logger log = LoggerFactory.getLogger(AsociadoController.class);
     @Autowired
     private AsociadoDao asociadoDao;
@@ -61,8 +66,6 @@ public class AsociadoController {
     private JavaMailSender mailSender;
     @Autowired
     private ResourceBundleMessageSource messageSource;
-    @Autowired
-    private UsuarioDao usuarioDao;
     @Autowired
     private Ambiente ambiente;
 
@@ -74,13 +77,15 @@ public class AsociadoController {
             @RequestParam(required = false) String correo,
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
+            Usuario usuario,
+            Errors errors,
             Model modelo) {
         log.debug("Mostrando lista de Asociado");
-        
+
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
-}
+        }
         if (pagina != null) {
             params.put(Constantes.CONTAINSKEY_PAGINA, pagina);
             modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
@@ -95,17 +100,21 @@ public class AsociadoController {
 
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
+
             params = asociadoDao.lista(params);
             try {
                 generaReporte(tipo, (List<Asociado>) params.get(Constantes.CONTAINSKEY_ASOCIADOS), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
+                params.remove(Constantes.CONTAINSKEY_REPORTE);
+                //errors.reject("error.generar.reporte");
             }
         }
 
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
+
             params = asociadoDao.lista(params);
 
             params.remove(Constantes.CONTAINSKEY_REPORTE);
@@ -117,6 +126,7 @@ public class AsociadoController {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
+
         params = asociadoDao.lista(params);
         modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIADOS, params.get(Constantes.CONTAINSKEY_ASOCIADOS));
 
@@ -129,6 +139,7 @@ public class AsociadoController {
         do {
             paginas.add(i);
         } while (i++ < cantidadDePaginas);
+
         List<Asociado> asociados = (List<Asociado>) params.get(Constantes.CONTAINSKEY_ASOCIADOS);
         Long primero = ((pagina - 1) * max) + 1;
         Long ultimo = primero + (asociados.size() - 1);
@@ -137,11 +148,13 @@ public class AsociadoController {
         modelo.addAttribute(Constantes.CONTAINSKEY_PAGINAS, paginas);
         // termina paginado
 
+
         return Constantes.PATH_ASOCIADO_LISTA;
     }
 
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
+
         log.debug("Mostrando asociado {}", id);
         Asociado asociados = asociadoDao.obtiene(id);
 
@@ -152,6 +165,7 @@ public class AsociadoController {
 
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
+
         log.debug("Nueva asociado");
         Asociado asociados = new Asociado();
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIADO, asociados);
@@ -166,10 +180,12 @@ public class AsociadoController {
         }
         if (bindingResult.hasErrors()) {
             log.debug("Hubo algun error en la forma, regresando");
+
             return Constantes.PATH_ASOCIADO_NUEVA;
         }
 
         try {
+
             asociado = asociadoDao.crea(asociado);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al asociacion", e);
@@ -179,11 +195,12 @@ public class AsociadoController {
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creada.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociado.getNombre()});
 
-        return "redirect:"+ Constantes.PATH_ASOCIADO_VER + "/" + asociado.getId();
+        return "redirect:" + Constantes.PATH_ASOCIADO_VER + "/" + asociado.getId();
     }
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
+
         log.debug("Edita Asociado {}", id);
         Asociado asociados = asociadoDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIADO, asociados);
@@ -207,7 +224,7 @@ public class AsociadoController {
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.actualizado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociados.getNombre()});
 
-        return "redirect:"+Constantes.PATH_ASOCIADO_VER+ "/" + asociados.getId();
+        return "redirect:" + Constantes.PATH_ASOCIADO_VER + "/" + asociados.getId();
     }
 
     @Transactional
@@ -235,11 +252,13 @@ public class AsociadoController {
             case "PDF":
                 archivo = generaPdf(asociados);
                 response.setContentType("application/pdf");
+
                 response.addHeader("Content-Disposition", "attachment; filename=asociados.pdf");
                 break;
             case "CSV":
                 archivo = generaCsv(asociados);
                 response.setContentType("text/csv");
+
                 response.addHeader("Content-Disposition", "attachment; filename=asociados.csv");
                 break;
             case "XLS":
@@ -330,7 +349,4 @@ public class AsociadoController {
 
         return archivo;
     }
-    
-    
 }
-

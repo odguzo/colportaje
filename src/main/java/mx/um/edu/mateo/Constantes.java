@@ -8,18 +8,23 @@ package mx.um.edu.mateo;
  * @author gibrandemetrioo
  */
 public class Constantes {
- public static final String NOMBRE= "test";
+
+
+
+    public static final String NOMBRE= "test";
     public static final String STATUS_ACTIVO= "A";
     public static final String CLAVE= "test90";
     public static final String DIRECCION= "testd";
     public static final String CORREO= "test@tes.tst";
     public static final String TELEFONO= "0000000000000";
     
+
     public static final String TIPO_DOCUMENTO= "A";
     public static final String FOLIO= "test";
     public static final String FECHA= "test";
     public static final String IMPORTE= "1test";
     public static final String OBSERVACIONES= "test teste";
+
     
     
     /**
@@ -84,15 +89,19 @@ public class Constantes {
      */
     public static final String CONTAINSKEY_UNIONES = "uniones";
     public static final String CONTAINSKEY_COLPORTORES = "colportores";
+
     public static final String CONTAINSKEY_DOCUMENTOS = "documentos";
     public static final String CONTAINSKEY_COLEGIOS = "colegios";
+
     /**
      * Valores para el los addAttribute para las clases
      */
     public static final String ADDATTRIBUTE_UNION = "union";
      public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
+
       public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
       public static final String ADDATTRIBUTE_COLEGIO = "colegio";
+
     /**
      * Valores para el los path's para las clases
      */
@@ -114,8 +123,9 @@ public class Constantes {
     public static final String PATH_COLPORTOR_CREA = "/web/colportor/crea";
     public static final String PATH_COLPORTOR_ACTUALIZA = "/web/colportor/actualiza";
     public static final String PATH_COLPORTOR_ELIMINA = "/web/colportor/elimina";
+
     
-     public static final String PATH_DOCUMENTO = "/web/documento";
+    public static final String PATH_DOCUMENTO = "/web/documento";
     public static final String PATH_DOCUMENTO_LISTA = "web/documento/lista";
     public static final String PATH_DOCUMENTO_VER = "/web/documento/ver";
     public static final String PATH_DOCUMENTO_NUEVO = "web/documento/nuevo";
@@ -132,6 +142,7 @@ public class Constantes {
     public static final String PATH_COLEGIO_CREA = "/web/colegio/crea";
     public static final String PATH_COLEGIO_ACTUALIZA = "/web/colegio/actualiza";
     public static final String PATH_COLEGIO_ELIMINA = "/web/colegio/elimina";
+
     /**
      * Valores para el los containsKey para las clases
      */
@@ -174,3 +185,4 @@ public class Constantes {
     public static final String PATH_TEMPORADA_ACTUALIZA = "/web/temporada/actualiza";
     public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";  
 }
+

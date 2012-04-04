@@ -181,7 +181,9 @@ public class ColportorController {
         try {
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear el colportor", e);
+
+            log.error("No se pudo crear la colportor", e);
+
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
         

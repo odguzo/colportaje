@@ -16,8 +16,10 @@
 
                 <li><a href="<c:url value='/web/union' />"><s:message code="union.label" /></a></li>
                  <li><a href="<c:url value='/web/colportor' />"><s:message code="colportor.label" /></a></li>
+
                    <li><a href="<c:url value='/web/documento' />"><s:message code="documento.label" /></a></li>
                       <li><a href="<c:url value='/web/colegio' />"><s:message code="colegio.label" /></a></li>
+
 
                 <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
                 <li><a href="<c:url value='/web/asociado' />"><s:message code="asociado.label" /></a></li>
