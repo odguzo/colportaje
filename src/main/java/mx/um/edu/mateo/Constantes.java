@@ -8,7 +8,10 @@ package mx.um.edu.mateo;
  * @author gibrandemetrioo
  */
 public class Constantes {
- public static final String NOMBRE= "test";
+
+
+    public static final String NOMBRE= "test";
+
     public static final String STATUS_ACTIVO= "A";
     public static final String CLAVE= "test90";
     public static final String DIRECCION= "testd";
@@ -107,7 +110,7 @@ public class Constantes {
     public static final String PATH_COLPORTOR_ACTUALIZA = "/web/colportor/actualiza";
     public static final String PATH_COLPORTOR_ELIMINA = "/web/colportor/elimina";
 
-    
+
     /**
      * Valores para el los containsKey para las clases
      */
@@ -150,3 +153,8 @@ public class Constantes {
     public static final String PATH_TEMPORADA_ACTUALIZA = "/web/temporada/actualiza";
     public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";  
 }
+
+
+    
+    
+
