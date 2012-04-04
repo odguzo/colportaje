@@ -11,7 +11,6 @@ public class Constantes {
 
 
     public static final String NOMBRE= "test";
-
     public static final String STATUS_ACTIVO= "A";
     public static final String CLAVE= "test90";
     public static final String DIRECCION= "testd";
@@ -154,7 +153,4 @@ public class Constantes {
     public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";  
 }
 
-
-    
-    
 
