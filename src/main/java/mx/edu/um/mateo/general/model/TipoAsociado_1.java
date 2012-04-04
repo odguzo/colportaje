@@ -15,7 +15,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean(name="u")
 @SessionScoped
-public class TipoAsociado {
+public class TipoAsociado_1 {
 
     private String favCoffee1 = "Extreme Mocha";
     private String favCoffee2;
