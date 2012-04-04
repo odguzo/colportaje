@@ -8,13 +8,28 @@ package mx.um.edu.mateo;
  * @author gibrandemetrioo
  */
 public class Constantes {
-/**
+ public static final String NOMBRE= "test";
+    public static final String STATUS_ACTIVO= "A";
+    public static final String CLAVE= "test90";
+    public static final String DIRECCION= "testd";
+    public static final String CORREO= "test@tes.tst";
+    public static final String TELEFONO= "0000000000000";
+    
+    public static final String TIPO_DOCUMENTO= "A";
+    public static final String FOLIO= "test";
+    public static final String FECHA= "test";
+    public static final String IMPORTE= "1test";
+    public static final String OBSERVACIONES= "test teste";
+    
+    
+    /**
      * Valores para el constructor de Locale
      */
     public static final String LOCALE_LANGUAGE = "es";
     public static final String LOCALE_COUNTRY = "MX";
     public static final String LOCALE_VARIANT = "Traditional_WIN";
-    public static final String CORREO  = "test@tes.tst";
+ 
+    
     /**
      * Formato (yyyy-MM-dd) de la fecha en el cual el mes se representa
      * numericamente.
@@ -43,7 +58,7 @@ public class Constantes {
      * Formato (dd de MMMMM de yyyy) de la fecha en la cual el mes es completo
      */
     public static final String DATE_XLONG_HUMAN_PATTERN = "dd 'de' MMMM 'de' yyyy";
-    public static final String STATUS_ACTIVO = "A";
+    //public static final String STATUS_ACTIVO = "A";
     public static final String STATUS_INACTIVO = "I";
     public static final String DECIMAL_PATTERN = "###,###,###,##0.00";
     public static final String CURRENCY_PATTERN = "$###,###,##0.00";
@@ -67,13 +82,68 @@ public class Constantes {
     /**
      * Valores para el los containsKey para las clases
      */
+    public static final String CONTAINSKEY_UNIONES = "uniones";
+    public static final String CONTAINSKEY_COLPORTORES = "colportores";
+    public static final String CONTAINSKEY_DOCUMENTOS = "documentos";
+    public static final String CONTAINSKEY_COLEGIOS = "colegios";
+    /**
+     * Valores para el los addAttribute para las clases
+     */
+    public static final String ADDATTRIBUTE_UNION = "union";
+     public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
+      public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
+      public static final String ADDATTRIBUTE_COLEGIO = "colegio";
+    /**
+     * Valores para el los path's para las clases
+     */
+    public static final String PATH_UNION = "/web/union";
+    public static final String PATH_UNION_LISTA = "web/union/lista";
+    public static final String PATH_UNION_VER = "/web/union/ver";
+    public static final String PATH_UNION_NUEVA = "web/union/nueva";
+    public static final String PATH_UNION_EDITA = "web/union/edita";
+    public static final String PATH_UNION_CREA = "/web/union/crea";
+    public static final String PATH_UNION_ACTUALIZA = "/web/union/actualiza";
+    public static final String PATH_UNION_ELIMINA = "/web/union/elimina";
+
+
+    public static final String PATH_COLPORTOR = "/web/colportor";
+    public static final String PATH_COLPORTOR_LISTA = "web/colportor/lista";
+    public static final String PATH_COLPORTOR_VER = "/web/colportor/ver";
+    public static final String PATH_COLPORTOR_NUEVO = "web/colportor/nuevo";
+    public static final String PATH_COLPORTOR_EDITA = "web/colportor/edita";
+    public static final String PATH_COLPORTOR_CREA = "/web/colportor/crea";
+    public static final String PATH_COLPORTOR_ACTUALIZA = "/web/colportor/actualiza";
+    public static final String PATH_COLPORTOR_ELIMINA = "/web/colportor/elimina";
+    
+     public static final String PATH_DOCUMENTO = "/web/documento";
+    public static final String PATH_DOCUMENTO_LISTA = "web/documento/lista";
+    public static final String PATH_DOCUMENTO_VER = "/web/documento/ver";
+    public static final String PATH_DOCUMENTO_NUEVO = "web/documento/nuevo";
+    public static final String PATH_DOCUMENTO_EDITA = "web/documento/edita";
+    public static final String PATH_DOCUMENTO_CREA = "/web/documento/crea";
+    public static final String PATH_DOCUMENTO_ACTUALIZA = "/web/documento/actualiza";
+    public static final String PATH_DOCUMENTO_ELIMINA = "/web/documento/elimina";
+
+    public static final String PATH_COLEGIO = "/web/colegio";
+    public static final String PATH_COLEGIO_LISTA = "web/colegio/lista";
+    public static final String PATH_COLEGIO_VER = "/web/colegio/ver";
+    public static final String PATH_COLEGIO_NUEVO = "web/colegio/nuevo";
+    public static final String PATH_COLEGIO_EDITA = "web/colegio/edita";
+    public static final String PATH_COLEGIO_CREA = "/web/colegio/crea";
+    public static final String PATH_COLEGIO_ACTUALIZA = "/web/colegio/actualiza";
+    public static final String PATH_COLEGIO_ELIMINA = "/web/colegio/elimina";
+    /**
+     * Valores para el los containsKey para las clases
+     */
     public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
     public static final String CONTAINSKEY_ASOCIADOS = "asociados";
+    public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
     /**
      * Valores para el los addAttribute para las clases
      */
     public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
     public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
+    public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
     /**
      * Valores para el los path's para las clases
      */
@@ -94,4 +164,13 @@ public class Constantes {
     public static final String PATH_ASOCIADO_CREA = "/web/asociado/crea";
     public static final String PATH_ASOCIADO_ACTUALIZA = "/web/asociado/actualiza";
     public static final String PATH_ASOCIADO_ELIMINA = "/web/asociado/elimina";        
+
+    public static final String PATH_TEMPORADA = "/web/temporada";
+    public static final String PATH_TEMPORADA_LISTA = "/web/temporada/lista";
+    public static final String PATH_TEMPORADA_VER = "/web/temporada/ver";
+    public static final String PATH_TEMPORADA_NUEVA = "/web/temporada/nueva";
+    public static final String PATH_TEMPORADA_EDITA = "/web/temporada/edita";
+    public static final String PATH_TEMPORADA_CREA = "/web/temporada/crea";
+    public static final String PATH_TEMPORADA_ACTUALIZA = "/web/temporada/actualiza";
+    public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";  
 }

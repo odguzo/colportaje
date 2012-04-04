@@ -101,9 +101,8 @@
                         </div>
                     </s:bind>
                     
-
-
                 </fieldset>
+
 
                 <p class="well" style="margin-top: 10px;">
                     <input type="submit" name="_action_crea" class="btn btn-primary btn-large" value="<s:message code='crear.button'/>" id="crea" />

@@ -235,17 +235,17 @@ public class AsociadoController {
             case "PDF":
                 archivo = generaPdf(asociados);
                 response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment; filename=asociado.pdf");
+                response.addHeader("Content-Disposition", "attachment; filename=asociados.pdf");
                 break;
             case "CSV":
                 archivo = generaCsv(asociados);
                 response.setContentType("text/csv");
-                response.addHeader("Content-Disposition", "attachment; filename=asociado.csv");
+                response.addHeader("Content-Disposition", "attachment; filename=asociados.csv");
                 break;
             case "XLS":
                 archivo = generaXls(asociados);
                 response.setContentType("application/vnd.ms-excel");
-                response.addHeader("Content-Disposition", "attachment; filename=asociado.xls");
+                response.addHeader("Content-Disposition", "attachment; filename=asociados.xls");
         }
         if (archivo != null) {
             response.setContentLength(archivo.length);
