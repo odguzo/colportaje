@@ -3,6 +3,7 @@ package mx.edu.um.mateo.general.model;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -33,10 +34,13 @@ public class Cliente implements Serializable {
     @Column(nullable = false, length= 64)
     private String colonia;
     @NotBlank
+    @Size(min = 6, max = 6)
     @Column(nullable = false, length= 6)
     private Integer cp;
+    @Size(min = 12, max = 12)
     @Column(nullable = true, length= 12)
     private Integer telefono;
+    @Size(min = 10, max = 10)
     @Column(nullable = true, length= 12)
     private Integer celular;
     @Column(nullable = true, length= 24)

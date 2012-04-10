@@ -55,8 +55,10 @@
                             <label for="fechaInicio">
                                 <s:message code="fechaInicio.label" />
                                 <span class="required-indicator">*</span>
-                            </label><p>"dd/MM/yyyy"</p>
-                                <form:input path="fechaInicio" maxlength="50" required="true" />
+
+                            </label>
+                            <form:input path="fechaInicio" maxlength="50" required="true" />
+
                             <form:errors path="fechaInicio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -65,7 +67,8 @@
                             <label for="fechaFinal">
                                 <s:message code="fechaFinal.label" />
                                 <span class="required-indicator">*</span>
-                            </label><p>"dd/MM/yyyy"</p>
+
+                            </label>
                             <form:input path="fechaFinal" maxlength="50" required="true"  />
                             <form:errors path="fechaFinal" cssClass="alert alert-error" />
                         </div>

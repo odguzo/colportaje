@@ -17,7 +17,7 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import mx.edu.mx.mateo.Constantes;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.ColportorDao;
 import mx.edu.um.mateo.general.model.Colportor;
 import mx.edu.um.mateo.general.model.Usuario;
@@ -180,7 +180,9 @@ public class ColportorController {
         try {
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
+
             log.error("No se pudo crear la colportor", e);
+
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
         

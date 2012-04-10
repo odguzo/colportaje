@@ -6,7 +6,7 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.List;
 import java.util.Map;
-import mx.edu.mx.mateo.Constantes;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Colportor;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;

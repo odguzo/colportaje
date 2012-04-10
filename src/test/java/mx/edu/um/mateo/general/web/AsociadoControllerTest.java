@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
-import mx.edu.mx.mateo.Constantes;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociadoDao;

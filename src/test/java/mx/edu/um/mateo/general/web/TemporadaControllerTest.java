@@ -5,7 +5,7 @@
 package mx.edu.um.mateo.general.web;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import mx.edu.mx.mateo.Constantes;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.TemporadaDao;
 import mx.edu.um.mateo.general.model.Temporada;

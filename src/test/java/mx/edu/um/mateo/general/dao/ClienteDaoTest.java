@@ -2,7 +2,7 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.List;
 import java.util.Map;
-import mx.edu.mx.mateo.Constantes;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Cliente;
 import mx.edu.um.mateo.general.test.BaseTest;
