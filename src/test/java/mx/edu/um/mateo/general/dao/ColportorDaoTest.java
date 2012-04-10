@@ -4,17 +4,12 @@
  */
 package mx.edu.um.mateo.general.dao;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import mx.edu.um.mateo.general.model.*;
-import mx.edu.um.mateo.inventario.model.Almacen;
-import mx.edu.um.mateo.general.dao.ColportorDao;
+import mx.edu.mx.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Colportor;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;
-import mx.um.edu.mateo.Constantes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.um.edu.mateo;
+package mx.edu.mx.mateo;
 /**
  *
  * @author gibrandemetrioo
@@ -81,7 +81,9 @@ public class Constantes {
      * Valores para el los containsKey para las clases
      */
     public static final String CONTAINSKEY_UNIONES = "uniones";
+    public static final String CONTAINSKEY_ASOCIACION = "asociacion";
     public static final String CONTAINSKEY_COLPORTORES = "colportores";
+    public static final String CONTAINSKEY_CLIENTES = "clientes";
     /**
      * Valores para el los addAttribute para las clases
      */

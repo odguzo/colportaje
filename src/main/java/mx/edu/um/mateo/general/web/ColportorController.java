@@ -17,7 +17,7 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import mx.um.edu.mateo.Constantes;
+import mx.edu.mx.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.ColportorDao;
 import mx.edu.um.mateo.general.model.Colportor;
 import mx.edu.um.mateo.general.model.Usuario;
@@ -43,7 +43,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 

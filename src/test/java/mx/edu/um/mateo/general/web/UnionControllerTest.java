@@ -4,13 +4,11 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import mx.um.edu.mateo.Constantes;
+import mx.edu.mx.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

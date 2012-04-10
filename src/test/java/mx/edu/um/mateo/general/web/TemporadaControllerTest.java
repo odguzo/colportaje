@@ -5,13 +5,10 @@
 package mx.edu.um.mateo.general.web;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import mx.edu.um.mateo.general.test.BaseTest;
+import mx.edu.mx.mateo.Constantes;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
-import mx.edu.um.mateo.general.dao.AsociadoDao;
 import mx.edu.um.mateo.general.dao.TemporadaDao;
-import mx.edu.um.mateo.general.model.Asociado;
 import mx.edu.um.mateo.general.model.Temporada;
-import mx.um.edu.mateo.Constantes;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

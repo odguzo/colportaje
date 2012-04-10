@@ -97,7 +97,8 @@ public class ClienteControllerTest extends BaseTest {
         currentSession().save(empresa);
         TipoCliente tipoCliente = new TipoCliente("TEST-01", "TEST-01", empresa);
         currentSession().save(tipoCliente);
-        Cliente cliente = new Cliente("tst-01", "test-01", "test-00000001", tipoCliente, empresa);
+        Cliente cliente = new Cliente("test", "test", "test", "test", "test", new Integer(0), new Integer(0), new Integer(0), "test");
+        //Cliente cliente = new Cliente("tst-01", "test-01", "test-00000001", tipoCliente, empresa);
         currentSession().save(cliente);
         Long id = cliente.getId();
         
