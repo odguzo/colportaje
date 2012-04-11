@@ -116,12 +116,14 @@ public class Constantes {
     public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
     public static final String CONTAINSKEY_ASOCIADOS = "asociados";
     public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
+    public static final String CONTAINSKEY_TEMPORADACOLPORTORES = "temporadacolportores";
     /**
      * Valores para el los addAttribute para las clases
      */
     public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
     public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
     public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
+    public static final String ADDATTRIBUTE_TEMPORADACOLPORTOR = "temporadacolportor";
     /**
      * Valores para el los path's para las clases
      */
@@ -151,6 +153,15 @@ public class Constantes {
     public static final String PATH_TEMPORADA_CREA = "/web/temporada/crea";
     public static final String PATH_TEMPORADA_ACTUALIZA = "/web/temporada/actualiza";
     public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";  
+    
+    public static final String PATH_TEMPORADACOLPORTOR = "/web/temporadacolportor";
+    public static final String PATH_TEMPORADACOLPORTOR_LISTA = "/web/temporadacolportor/lista";
+    public static final String PATH_TEMPORADACOLPORTOR_VER = "/web/temporadacolportor/ver";
+    public static final String PATH_TEMPORADACOLPORTOR_NUEVA = "/web/temporadacolportor/nueva";
+    public static final String PATH_TEMPORADACOLPORTOR_EDITA = "/web/temporadacolportor/edita";
+    public static final String PATH_TEMPORADACOLPORTOR_CREA = "/web/temporadacolportor/crea";
+    public static final String PATH_TEMPORADACOLPORTOR_ACTUALIZA = "/web/temporadacolportor/actualiza";
+    public static final String PATH_TEMPORADACOLPORTOR_ELIMINA = "/web/temporadacolportor/elimina";  
 }
 
 
