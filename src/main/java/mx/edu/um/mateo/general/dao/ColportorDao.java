@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
-
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.general.dao.EmpresaDao;
