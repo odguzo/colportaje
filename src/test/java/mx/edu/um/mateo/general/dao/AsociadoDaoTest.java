@@ -6,13 +6,9 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.List;
 import java.util.Map;
-import javax.persistence.ElementCollection;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociado;
-import mx.edu.um.mateo.general.dao.AsociadoDao;
 import mx.edu.um.mateo.general.utils.UltimoException;
-import mx.um.edu.mateo.Constantes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;

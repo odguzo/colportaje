@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -18,14 +17,11 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.ws.rs.HEAD;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.AsociadoDao;
-import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Asociado;
-import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.Ambiente;
-import mx.um.edu.mateo.Constantes;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -264,7 +260,6 @@ public class AsociadoController {
             case "XLS":
                 archivo = generaXls(asociados);
                 response.setContentType("application/vnd.ms-excel");
-
                 response.addHeader("Content-Disposition", "attachment; filename=asociados.xls");
         }
         if (archivo != null) {

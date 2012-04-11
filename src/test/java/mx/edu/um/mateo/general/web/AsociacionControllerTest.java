@@ -5,11 +5,11 @@
 package mx.edu.um.mateo.general.web;
 
 
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociacionDao;
 import mx.edu.um.mateo.general.model.Asociacion;
-import mx.um.edu.mateo.Constantes;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

@@ -200,7 +200,8 @@ public class ClienteController {
 
         try {
             Usuario usuario = ambiente.obtieneUsuario();
-            log.debug("TipoCliente: {}", cliente.getTipoCliente().getId());
+            //log.debug("TipoCliente: {}", cliente.getTipoCliente().getId());
+            log.debug("TipoCliente: {}", cliente.getNombre());
             cliente = clienteDao.crea(cliente, usuario);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al cliente", e);

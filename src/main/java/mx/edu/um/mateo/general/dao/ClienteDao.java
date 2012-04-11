@@ -1,60 +1,36 @@
-/*
- * The MIT License
- *
- * Copyright 2012 J. David Mendoza <jdmendoza@um.edu.mx>.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package mx.edu.um.mateo.general.dao;
 
 import java.util.HashMap;
 import java.util.Map;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Cliente;
-import mx.edu.um.mateo.general.model.TipoCliente;
 import mx.edu.um.mateo.general.model.Usuario;
+import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author J. David Mendoza <jdmendoza@um.edu.mx>
+ * @author nujev
  */
 @Repository
 @Transactional
-public class ClienteDao {
+public class ClienteDao {   
 
     private static final Logger log = LoggerFactory.getLogger(ClienteDao.class);
     @Autowired
     private SessionFactory sessionFactory;
 
     public ClienteDao() {
-        log.info("Se ha creado una nueva instancia de ClienteDao");
+        log.info("Nueva instancia de ClienteDao");
     }
 
     private Session currentSession() {
@@ -62,113 +38,108 @@ public class ClienteDao {
     }
 
     public Map<String, Object> lista(Map<String, Object> params) {
-        log.debug("Buscando lista de clientes con params {}", params);
+        log.debug("Buscando lista de cliente con params {}", params);
         if (params == null) {
             params = new HashMap<>();
         }
 
-        if (!params.containsKey("max")) {
-            params.put("max", 10);
+        if (!params.containsKey(Constantes.CONTAINSKEY_MAX)) {
+            params.put(Constantes.CONTAINSKEY_MAX, 10);
         } else {
-            params.put("max", Math.min((Integer) params.get("max"), 100));
+            params.put(Constantes.CONTAINSKEY_MAX, Math.min((Integer) params.get(Constantes.CONTAINSKEY_MAX), 100));
         }
 
-        if (params.containsKey("pagina")) {
-            Long pagina = (Long) params.get("pagina");
-            Long offset = (pagina - 1) * (Integer) params.get("max");
-            params.put("offset", offset.intValue());
+        if (params.containsKey(Constantes.CONTAINSKEY_PAGINA)) {
+            Long pagina = (Long) params.get(Constantes.CONTAINSKEY_PAGINA);
+            Long offset = (pagina - 1) * (Integer) params.get(Constantes.CONTAINSKEY_MAX);
+            params.put(Constantes.CONTAINSKEY_OFFSET, offset.intValue());
         }
 
-        if (!params.containsKey("offset")) {
-            params.put("offset", 0);
+        if (!params.containsKey(Constantes.CONTAINSKEY_OFFSET)) {
+            params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
         Criteria criteria = currentSession().createCriteria(Cliente.class);
         Criteria countCriteria = currentSession().createCriteria(Cliente.class);
-
-        if (params.containsKey("empresa")) {
-            criteria.createCriteria("empresa").add(Restrictions.idEq(params.get("empresa")));
-            countCriteria.createCriteria("empresa").add(Restrictions.idEq(params.get("empresa")));
+        
+        if (params.containsKey(Constantes.CONTAINSKEY_ASOCIACION)) {
+            criteria.createCriteria(Constantes.CONTAINSKEY_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.CONTAINSKEY_ASOCIACION)));
+            countCriteria.createCriteria(Constantes.CONTAINSKEY_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.CONTAINSKEY_ASOCIACION)));
         }
-
-        if (params.containsKey("tipoCliente")) {
-            criteria.createCriteria("tipoCliente").add(Restrictions.idEq(params.get("tipoCliente")));
-            countCriteria.createCriteria("tipoCliente").add(Restrictions.idEq(params.get("tipoCliente")));
-        }
-
-        if (params.containsKey("filtro")) {
-            String filtro = (String) params.get("filtro");
-            filtro = "%" + filtro + "%";
+        
+        if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
+            String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             Disjunction propiedades = Restrictions.disjunction();
-            propiedades.add(Restrictions.ilike("nombre", filtro));
-            propiedades.add(Restrictions.ilike("nombreCompleto", filtro));
-            propiedades.add(Restrictions.ilike("rfc", filtro));
-            propiedades.add(Restrictions.ilike("correo", filtro));
-            propiedades.add(Restrictions.ilike("contacto", filtro));
+            propiedades.add(Restrictions.ilike("nombre", filtro, MatchMode.ANYWHERE));
+            propiedades.add(Restrictions.ilike("apellidoP", filtro, MatchMode.ANYWHERE));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
 
-        if (params.containsKey("order")) {
-            String campo = (String) params.get("order");
-            if (params.get("sort").equals("desc")) {
+        if (params.containsKey(Constantes.CONTAINSKEY_ORDER)) {
+            String campo = (String) params.get(Constantes.CONTAINSKEY_ORDER);
+            if (params.get(Constantes.CONTAINSKEY_SORT).equals(Constantes.CONTAINSKEY_DESC)) {
                 criteria.addOrder(Order.desc(campo));
             } else {
                 criteria.addOrder(Order.asc(campo));
             }
         }
 
-        if (!params.containsKey("reporte")) {
-            criteria.setFirstResult((Integer) params.get("offset"));
-            criteria.setMaxResults((Integer) params.get("max"));
+        if (!params.containsKey(Constantes.CONTAINSKEY_REPORTE)) {
+            criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
+            criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));
         }
-        params.put("clientes", criteria.list());
+        params.put(Constantes.CONTAINSKEY_CLIENTES, criteria.list());
 
         countCriteria.setProjection(Projections.rowCount());
-        params.put("cantidad", (Long) countCriteria.list().get(0));
+        params.put(Constantes.CONTAINSKEY_CANTIDAD, (Long) countCriteria.list().get(0));
 
         return params;
     }
 
     public Cliente obtiene(Long id) {
+        log.debug("Obtiene cliente con id = {}", id);
         Cliente cliente = (Cliente) currentSession().get(Cliente.class, id);
         return cliente;
     }
 
-    public Cliente crea(Cliente cliente, Usuario usuario) {
-        Session session = currentSession();
-        if (usuario != null) {
-            cliente.setEmpresa(usuario.getEmpresa());
-        }
-        cliente.setTipoCliente((TipoCliente)session.get(TipoCliente.class, cliente.getTipoCliente().getId()));
-        session.save(cliente);
-        session.flush();
-        return cliente;
+    public Cliente crea(Cliente cliente) {
+        return crea(cliente, null);
     }
 
-    public Cliente crea(Cliente cliente) {
-        return this.crea(cliente, null);
+    public Cliente crea(Cliente cliente, Usuario usuario) {
+        log.debug("Creando cliente : {}", cliente);
+        if (usuario != null) {
+            //cliente.setAsociacion(usuario.getAsociacion());
+        }
+        currentSession().save(cliente);
+        currentSession().flush();
+        return cliente;
     }
 
     public Cliente actualiza(Cliente cliente) {
-        return this.actualiza(cliente, null);
+        return actualiza(cliente, null);
     }
 
     public Cliente actualiza(Cliente cliente, Usuario usuario) {
-        Session session = currentSession();
+        log.debug("Actualizando cliente {}", cliente);
+        
+        Cliente nueva = (Cliente)currentSession().get(Cliente.class, cliente.getId());
+        BeanUtils.copyProperties(cliente, nueva);
+        
         if (usuario != null) {
-            cliente.setEmpresa(usuario.getEmpresa());
+            //nueva.setOrganizacion(usuario.getAsociacion());
         }
-        cliente.setTipoCliente((TipoCliente)session.get(TipoCliente.class, cliente.getTipoCliente().getId()));
-        session.update(cliente);
-        session.flush();
-        return cliente;
+        currentSession().update(nueva);
+        currentSession().flush();
+        return nueva;
     }
 
-    public String elimina(Long id) {
+    public String elimina(Long id) throws UltimoException {
+        log.debug("Eliminando cliente con id {}", id);
         Cliente cliente = obtiene(id);
-        String nombre = cliente.getNombre();
         currentSession().delete(cliente);
         currentSession().flush();
+        String nombre = cliente.getNombre();
         return nombre;
     }
 }
