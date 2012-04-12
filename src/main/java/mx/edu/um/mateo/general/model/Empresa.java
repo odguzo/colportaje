@@ -64,7 +64,7 @@ public class Empresa implements Serializable {
     private Organizacion organizacion;
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Almacen> almacenes = new ArrayList<>();
-
+    
     public Empresa() {
     }
 
