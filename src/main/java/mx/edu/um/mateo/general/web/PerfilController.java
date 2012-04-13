@@ -26,9 +26,9 @@ package mx.edu.um.mateo.general.web;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
+import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.Ambiente;
-import mx.edu.um.mateo.inventario.model.Almacen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +57,9 @@ public class PerfilController {
     public String edita(Model modelo) {
         log.debug("Mostrando perfil");
         Usuario usuario = ambiente.obtieneUsuario();
-        List<Almacen> almacenes = usuarioDao.obtieneAlmacenes();
+        List<Asociacion> asociaciones = usuarioDao.obtieneAsociaciones();
         modelo.addAttribute("usuario", usuario);
-        modelo.addAttribute("almacenes", almacenes);
+        modelo.addAttribute("asociaciones", asociaciones);
         return "perfil/edita";
     }
 
@@ -70,9 +70,9 @@ public class PerfilController {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
-        Long almacenId = new Long(request.getParameter("almacen.id"));
+        Long asociacionId = new Long(request.getParameter("asociacion.id"));
         Usuario usuario = ambiente.obtieneUsuario();
-        usuarioDao.asignaAlmacen(usuario, almacenId);
+        usuarioDao.asignaAsociacion(usuario, asociacionId);
         ambiente.actualizaSesion(request);
 
         redirectAttributes.addFlashAttribute("message", "perfil.actualizado.message");

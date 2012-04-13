@@ -18,8 +18,8 @@
     <http auto-config="true" access-decision-manager-ref="webAccessDecisionManager" use-expressions="true">
         <intercept-url pattern="/inicializa/**" access="permitAll" />
         <intercept-url pattern="/prueba/**" access="permitAll" />
-        <intercept-url pattern="/admin/organizacion/**" access="hasAnyRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/admin/empresa/**" access="hasAnyRole('ROLE_ORG')" />
+        <intercept-url pattern="/admin/union/**" access="hasAnyRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/admin/asociacion/**" access="hasAnyRole('ROLE_ORG')" />
         <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_EMP')" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/login.jsp" 
@@ -55,9 +55,9 @@
     <beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
         <beans:property name="hierarchy">
             <beans:value>
-                ROLE_ADMIN > ROLE_ORG
-                ROLE_ORG   > ROLE_EMP
-                ROLE_EMP   > ROLE_USER
+                ROLE_ADMIN > ROLE_UNI
+                ROLE_UNI   > ROLE_ASO
+                ROLE_ASO   > ROLE_USER
                 ROLE_USER  > ROLE_AUTHENTICATED
                 ROLE_AUTHENTICATED > ROLE_UNAUTHENTICATED
             </beans:value>

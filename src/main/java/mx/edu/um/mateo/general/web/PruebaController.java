@@ -23,11 +23,10 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.*;
 import mx.edu.um.mateo.general.model.*;
-import mx.edu.um.mateo.inventario.model.Almacen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,19 +43,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PruebaController {
 
     @Autowired
-    private OrganizacionDao organizacionDao;
+    private UnionDao unionDao;
     @Autowired
     private RolDao rolDao;
     @Autowired
     private UsuarioDao usuarioDao;
     @Autowired
-    private EmpresaDao empresaDao;
-    @Autowired
-    private ProveedorDao proveedorDao;
-    @Autowired
-    private TipoClienteDao tipoClienteDao;
-    @Autowired
-    private ClienteDao clienteDao;
+    private AsociacionDao asociacionDao;
 
     @RequestMapping
     public String inicia() {
@@ -68,8 +61,8 @@ public class PruebaController {
     public String guarda(
             @RequestParam String username,
             @RequestParam String password) {
-        Organizacion organizacion = new Organizacion("UM", "UM", "Universidad de Montemorelos");
-        organizacion = organizacionDao.crea(organizacion);
+        Union union = new Union("UM", Constantes.STATUS_ACTIVO);
+        union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_ADMIN");
         rol = rolDao.crea(rol);
         Usuario usuario = new Usuario(
@@ -77,24 +70,22 @@ public class PruebaController {
                 password,
                 "Admin",
                 "User");
-        Long almacenId = 0l;
+        Long asociacionId = 0l;
         actualizaUsuario:
-        for (Empresa empresa : organizacion.getEmpresas()) {
-            for (Almacen almacen : empresa.getAlmacenes()) {
-                almacenId = almacen.getId();
-                break actualizaUsuario;
-            }
+        for (Asociacion asociacion : union.getAsociaciones()) {
+            asociacionId = asociacion.getId();
+            break actualizaUsuario;
         }
-        usuarioDao.crea(usuario, almacenId, new String[]{rol.getAuthority()});
-        rol = new Rol("ROLE_ORG");
+        usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
+        rol = new Rol("ROLE_UNI");
         rolDao.crea(rol);
-        rol = new Rol("ROLE_EMP");
+        rol = new Rol("ROLE_ASO");
         rolDao.crea(rol);
         rol = new Rol("ROLE_USER");
         rolDao.crea(rol);
 
-        organizacion = new Organizacion("TEST","TEST","TEST");
-        organizacionDao.crea(organizacion, usuario);
+        union = new Union("TEST", Constantes.STATUS_ACTIVO);
+        unionDao.crea(union, usuario);
 
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMinimumIntegerDigits(2);
@@ -104,27 +95,10 @@ public class PruebaController {
             String numero = nf.format(i);
             StringBuilder sb = new StringBuilder();
             sb.append("TST-").append(numero);
-            StringBuilder sb2 = new StringBuilder();
-            sb2.append("TEST-").append(numero);
-            Empresa empresa = new Empresa(sb.toString(), sb2.toString(), sb2.toString(), "0000000000"+numero, organizacion);
-            empresaDao.crea(empresa);
+            Asociacion asociacion = new Asociacion(sb.toString(), Constantes.STATUS_ACTIVO, union);
+            asociacionDao.crea(asociacion);
         }
-        
-        for (int i = 1; i < 20; i++) {
-            String numero = nf.format(i);
-            StringBuilder sb = new StringBuilder();
-            sb.append("TEST-").append(numero);
-            Proveedor proveedor = new Proveedor(sb.toString(), sb.toString(), "0000000000"+numero, null);
-            proveedorDao.crea(proveedor, usuario);
-            
-            TipoCliente tipoCliente = new TipoCliente(sb.toString(), sb.toString(), new BigDecimal("0.16"), null);
-            tipoClienteDao.crea(tipoCliente, usuario);
-            
-            Cliente cliente = new Cliente("test", "test", "test", "test", "test", new Integer(0), new Integer(0), new Integer(0), "test");
-            //Cliente cliente = new Cliente(sb.toString(), sb.toString(), "0000000000"+numero, tipoCliente, null);
-            clienteDao.crea(cliente, usuario);
-        }
-        
+
         return "redirect:/";
     }
 }

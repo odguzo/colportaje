@@ -1,38 +1,62 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package mx.edu.um.mateo.general.dao;
 
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.*;
+import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.Rol;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author wilbert
+ * @author jdmr
  */
 @Repository
 @Transactional
 public class UnionDao {
-private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
+
+    private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private ReporteDao reporteDao;
+    @Autowired
+    private AsociacionDao asociacionDao;
 
     public UnionDao() {
         log.info("Nueva instancia de UnionDao");
@@ -43,7 +67,7 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
     }
 
     public Map<String, Object> lista(Map<String, Object> params) {
-        log.debug("Buscando lista de union con params {}", params);
+        log.debug("Buscando lista de uniones con params {}", params);
         if (params == null) {
             params = new HashMap<>();
         }
@@ -65,13 +89,12 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
         }
         Criteria criteria = currentSession().createCriteria(Union.class);
         Criteria countCriteria = currentSession().createCriteria(Union.class);
-
+        
+        
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
-            filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
-            propiedades.add(Restrictions.ilike("nombre", filtro));
-            propiedades.add(Restrictions.ilike("status", filtro));
+            propiedades.add(Restrictions.ilike("nombre", filtro, MatchMode.ANYWHERE));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
@@ -98,38 +121,86 @@ private static final Logger log = LoggerFactory.getLogger(UnionDao.class);
     }
 
     public Union obtiene(Long id) {
-        log.debug("Obtiene union con id = {}", id);
         Union union = (Union) currentSession().get(Union.class, id);
         return union;
     }
 
     public Union crea(Union union) {
-        log.debug("Creando union : {}", union);
-        currentSession().save(union);
-        currentSession().flush();
+        return this.crea(union, null);
+    }
+
+    public Union crea(Union union, Usuario usuario) {
+        Session session = currentSession();
+        session.save(union);
+        Asociacion asociacion = new Asociacion("Noreste", Constantes.STATUS_ACTIVO, union);
+        if (usuario != null) {
+            usuario.setAsociacion(asociacion);
+        }
+        asociacionDao.crea(asociacion, usuario);
+        reporteDao.inicializaUnion(union);
+        session.refresh(union);
+        session.flush();
         return union;
     }
 
     public Union actualiza(Union union) {
-        log.debug("Actualizando union {}", union);
-        
-        //trae el objeto de la DB 
-        Union nueva = (Union)currentSession().get(Union.class, union.getId());
-        //actualiza el objeto
-        BeanUtils.copyProperties(union, nueva);
-        //lo guarda en la BD
-        
-        currentSession().update(nueva);
-        currentSession().flush();
-        return nueva;
+        return this.actualiza(union, null);
+    }
+
+    public Union actualiza(Union union, Usuario usuario) {
+        Session session = currentSession();
+        log.debug("NombreCompleto: {}", union.getNombre());
+        session.update(union);
+        session.flush();
+        if (usuario != null) {
+            session.refresh(union);
+            actualizaUsuario:
+            for (Asociacion asociacion : union.getAsociaciones()) {
+                usuario.setAsociacion(asociacion);
+                session.update(usuario);
+                break actualizaUsuario;
+            }
+        }
+
+        session.flush();
+        return union;
     }
 
     public String elimina(Long id) throws UltimoException {
-        log.debug("Eliminando union con id {}", id);
-        Union union = obtiene(id);
-        currentSession().delete(union);
-        currentSession().flush();
-        String nombre = union.getNombre();
-        return nombre;
+        log.debug("Eliminando union {}", id);
+        Criteria criteria = currentSession().createCriteria(Union.class);
+        criteria.setProjection(Projections.rowCount());
+        Long cantidad = (Long) criteria.list().get(0);
+        if (cantidad
+                > 1) {
+            Union union = obtiene(id);
+            Query query = currentSession().createQuery("select o from Union o where o.id != :unionId");
+            query.setLong("unionId", id);
+            query.setMaxResults(1);
+            Union otraUnion = (Union) query.uniqueResult();
+            boolean encontreAdministrador = false;
+            for (Asociacion asociacion : union.getAsociaciones()) {
+                for (Usuario usuario : asociacion.getUsuarios()) {
+                    for (Rol rol : usuario.getRoles()) {
+                        if (rol.getAuthority().equals("ROLE_ADMIN")) {
+                            usuario.setAsociacion(asociacion);
+                            currentSession().update(usuario);
+                            currentSession().flush();
+                            encontreAdministrador = true;
+                        }
+                    }
+                }
+                if (encontreAdministrador) {
+                    currentSession().refresh(asociacion);
+                }
+            }
+            String nombre = union.getNombre();
+
+            currentSession().delete(union);
+            currentSession().flush();
+            return nombre;
+        } else {
+            throw new UltimoException("No se puede eliminar porque es el ultimo");
+        }
     }
 }

@@ -23,15 +23,15 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import mx.edu.um.mateo.general.dao.OrganizacionDao;
+import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.dao.RolDao;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.Empresa;
-import mx.edu.um.mateo.general.model.Organizacion;
+import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
-import mx.edu.um.mateo.inventario.model.Almacen;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class UsuarioControllerTest {
     @Autowired
     private UsuarioDao usuarioDao;
     @Autowired
-    private OrganizacionDao organizacionDao;
+    private UnionDao unionDao;
     @Autowired
     private RolDao rolDao;
     @Autowired
@@ -90,65 +90,39 @@ public class UsuarioControllerTest {
 
     @Test
     public void debieraMostrarListaDeUsuarios() throws Exception {
-        this.mockMvc.perform(get("/admin/usuario"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/lista.jsp"))
-                .andExpect(model().attributeExists("usuarios"))
-                .andExpect(model().attributeExists("paginacion"))
-                .andExpect(model().attributeExists("paginas"))
-                .andExpect(model().attributeExists("pagina"))
-                ;
+        this.mockMvc.perform(get("/admin/usuario")).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/lista.jsp")).andExpect(model().attributeExists("usuarios")).andExpect(model().attributeExists("paginacion")).andExpect(model().attributeExists("paginas")).andExpect(model().attributeExists("pagina"));
     }
 
     @Test
     public void debieraMostrarUsuario() throws Exception {
-        Organizacion organizacion = new Organizacion("TEST01", "TEST01", "TEST01");
-        organizacion = organizacionDao.crea(organizacion);
+        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);
         Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
-        Long almacenId = 0l;
+        Long asociacionId = 0l;
         actualizaUsuario:
-        for (Empresa empresa : organizacion.getEmpresas()) {
-            for (Almacen almacen : empresa.getAlmacenes()) {
-                almacenId = almacen.getId();
-                break actualizaUsuario;
-            }
+        for (Asociacion asociacion : union.getAsociaciones()) {
+            asociacionId = asociacion.getId();
+            break actualizaUsuario;
         }
-        usuario = usuarioDao.crea(usuario, almacenId, new String[]{rol.getAuthority()});
+        usuario = usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
         Long id = usuario.getId();
-        this.mockMvc.perform(get("/admin/usuario/ver/"+id))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/ver.jsp"))
-                .andExpect(model().attributeExists("usuario"))
-                .andExpect(model().attributeExists("roles"))
-                ;
+        this.mockMvc.perform(get("/admin/usuario/ver/" + id)).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/ver.jsp")).andExpect(model().attributeExists("usuario")).andExpect(model().attributeExists("roles"));
     }
 
     // TODO: Arreglar prueba
     public void debieraCrearUsuario() throws Exception {
-        Organizacion organizacion = new Organizacion("TEST01", "TEST01", "TEST01");
-        organizacion = organizacionDao.crea(organizacion);
+        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_USER");
         rolDao.crea(rol);
-        Long almacenId = 0l;
+        Long asociacionId = 0l;
         actualizaUsuario:
-        for (Empresa empresa : organizacion.getEmpresas()) {
-            for (Almacen almacen : empresa.getAlmacenes()) {
-                almacenId = almacen.getId();
-                break actualizaUsuario;
-            }
+        for (Asociacion asociacion : union.getAsociaciones()) {
+            asociacionId = asociacion.getId();
+            break actualizaUsuario;
         }
-        this.mockMvc.perform(post("/admin/usuario/crea")
-                .sessionAttr("almacenId", almacenId)
-                .param("username", "test--01@test.com")
-                .param("nombre", "TEST--01")
-                .param("apellido","TEST--01")
-                )
-                .andExpect(status().isOk())
-                .andExpect(redirectedUrl("/admin/usuario/ver/1"))
-                .andExpect(flash().attributeExists("message"))
-                .andExpect(flash().attribute("message","usuario.creado.message"))
-                ;
+        this.mockMvc.perform(post("/admin/usuario/crea").sessionAttr("asociacionId", asociacionId).param("username", "test--01@test.com").param("nombre", "TEST--01").param("apellido", "TEST--01")).andExpect(status().isOk()).andExpect(redirectedUrl("/admin/usuario/ver/1")).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "usuario.creado.message"));
     }
 }

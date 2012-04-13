@@ -47,12 +47,10 @@ public class Ambiente {
     public void actualizaSesion(HttpServletRequest request, Usuario usuario) {
         log.debug("Actualizando sesion");
         if (usuario != null) {
-            request.getSession().setAttribute("organizacionLabel", usuario.getEmpresa().getOrganizacion().getNombre());
-            request.getSession().setAttribute("empresaLabel", usuario.getEmpresa().getNombre());
-            request.getSession().setAttribute("almacenLabel", usuario.getAlmacen().getNombre());
-            request.getSession().setAttribute("organizacionId", usuario.getEmpresa().getOrganizacion().getId());
-            request.getSession().setAttribute("empresaId", usuario.getEmpresa().getId());
-            request.getSession().setAttribute("almacenId", usuario.getAlmacen().getId());
+            request.getSession().setAttribute("unionLabel", usuario.getAsociacion().getUnion().getNombre());
+            request.getSession().setAttribute("asociacionLabel", usuario.getAsociacion().getNombre());
+            request.getSession().setAttribute("unionId", usuario.getAsociacion().getUnion().getId());
+            request.getSession().setAttribute("asociacionId", usuario.getAsociacion().getId());
         }
     }
 

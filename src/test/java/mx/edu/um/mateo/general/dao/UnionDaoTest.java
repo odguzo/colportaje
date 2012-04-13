@@ -4,10 +4,9 @@
  */
 package mx.edu.um.mateo.general.dao;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.*;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
@@ -18,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,95 +36,128 @@ public class UnionDaoTest extends BaseTest {
     private UnionDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-    
-   private Session currentSession() {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
-    
-    /**
-     * Test of lista method, of class UnionDao.
-     */
+
     @Test
-    public void deberiaMostrarListaDeUnion() {
-        log.debug("Debiera mostrar lista de union");
-
+    public void debieraMostrarListaDeUniones() {
+        log.debug("Debiera mostrar lista de uniones");
         for (int i = 0; i < 20; i++) {
-            Union union = new Union(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO);
+            Union union = new Union("tst-" + i, Constantes.STATUS_ACTIVO);
             currentSession().save(union);
-            assertNotNull(union);
         }
-
         Map<String, Object> params = null;
         Map result = instance.lista(params);
         assertNotNull(result.get(Constantes.CONTAINSKEY_UNIONES));
         assertNotNull(result.get(Constantes.CONTAINSKEY_CANTIDAD));
-
+        
         assertEquals(10, ((List<Union>) result.get(Constantes.CONTAINSKEY_UNIONES)).size());
         assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
-     @Test
+
+    @Test
     public void debieraObtenerUnion() {
         log.debug("Debiera obtener union");
-
-        String nombre = "test";
-        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
+        Union union = new Union("tst-01", Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         assertNotNull(union.getId());
         Long id = union.getId();
 
         Union result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals(nombre, result.getNombre());
-
-        assertEquals(result, union);
-    }
-     @Test
-    public void deberiaCrearUnion() {
-        log.debug("Deberia crear Union");
-
-        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
-        assertNotNull(union);
-
-        Union union2 = instance.crea(union);
-        assertNotNull(union2);
-        assertNotNull(union2.getId());
-
-        assertEquals(union, union2);
+        assertEquals("tst-01", result.getNombre());
     }
 
     @Test
-    public void deberiaActualizarUnion() {
-        log.debug("Deberia actualizar Union");
-
-        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
-        assertNotNull(union);
+    public void debieraCrearUnion() {
+        log.debug("Debiera crear union");
+        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
         currentSession().save(union);
+        Rol rol = new Rol("ROLE_TEST");
+        currentSession().save(rol);
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
+        currentSession().save(asociacion);
+        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        usuario.setAsociacion(asociacion);
+        usuario.setRoles(roles);
+        currentSession().save(usuario);
+        currentSession().flush();
+        Long id = usuario.getId();
+        assertNotNull(id);
 
-        String nombre = "test1";
-        union.setNombre(nombre);
-
-        Union union2 = instance.actualiza(union);
-        assertNotNull(union2);
-        assertEquals(nombre, union.getNombre());
-
-        assertEquals(union, union2);
+        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
+        union = new Union("tst-01", Constantes.STATUS_ACTIVO);
+        union = instance.crea(union, usuario);
+        assertNotNull(union.getId());
     }
 
     @Test
-    public void deberiaEliminarUnion() throws UltimoException {
-        log.debug("Debiera eliminar Union");
-
-        String nom = "test";
-        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
+    public void debieraActualizarUnion() {
+        log.debug("Debiera actualizar union");
+        Union union = new Union("test", Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        assertNotNull(union);
+        Rol rol = new Rol("ROLE_TEST");
+        currentSession().save(rol);
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
+        currentSession().save(asociacion);
+        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        usuario.setAsociacion(asociacion);
+        usuario.setRoles(roles);
+        currentSession().save(usuario);
+        currentSession().flush();
+        Long id = usuario.getId();
+        assertNotNull(id);
+        id = union.getId();
 
-        String nombre = instance.elimina(union.getId());
-        assertEquals(nom, nombre);
+        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
+
+        Union result = instance.obtiene(union.getId());
+        assertNotNull(result);
+        result.setNombre("PRUEBA");
+        instance.actualiza(result);
 
         Union prueba = instance.obtiene(union.getId());
+        assertNotNull(prueba);
+        assertEquals("PRUEBA", prueba.getNombre());
+    }
+
+    @Test
+    public void debieraEliminarUnion() throws UltimoException {
+        log.debug("Debiera eliminar union");
+
+        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        currentSession().save(union);
+        Rol rol = new Rol("ROLE_TEST");
+        currentSession().save(rol);
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
+        currentSession().save(asociacion);
+        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        usuario.setAsociacion(asociacion);
+        usuario.setRoles(roles);
+        currentSession().save(usuario);
+        Long id = usuario.getId();
+        assertNotNull(id);
+        id = union.getId();
+        currentSession().refresh(asociacion);
+        currentSession().refresh(union);
+
+        union = new Union("TEST02", Constantes.STATUS_ACTIVO);
+        currentSession().save(union);
+
+        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
+
+        String nombre = instance.elimina(id);
+        assertEquals("TEST01", nombre);
+
+        Union prueba = instance.obtiene(id);
         assertNull(prueba);
     }
-    
 }

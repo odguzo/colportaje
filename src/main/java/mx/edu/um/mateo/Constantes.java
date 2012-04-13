@@ -9,6 +9,18 @@ package mx.edu.um.mateo;
  * @author gibrandemetrioo
  */
 public class Constantes {
+    public static final String ABIERTA = "ABIERTA";
+    public static final String PENDIENTE = "PENDIENTE";
+    public static final String CERRADA = "CERRADA";
+    public static final String FACTURADA = "FACTURADA";
+    public static final String CANCELADA = "CANCELADA";
+    public static final String CREAR = "CREAR";
+    public static final String ACTUALIZAR = "ACTUALIZAR";
+    public static final String ELIMINAR = "ELIMINAR";
+    public static final String CANCELAR = "CANCELAR";
+    public static final String ADMIN = "ADMIN";
+    public static final String UNI = "UNI";
+    public static final String ASO = "ASO";
 
     public static final String NOMBRE = "test";
     public static final String STATUS_ACTIVO = "A";
@@ -95,14 +107,23 @@ public class Constantes {
     /**
      * Valores para el los path's para las clases
      */
-    public static final String PATH_UNION = "/web/union";
-    public static final String PATH_UNION_LISTA = "web/union/lista";
-    public static final String PATH_UNION_VER = "/web/union/ver";
-    public static final String PATH_UNION_NUEVA = "web/union/nueva";
-    public static final String PATH_UNION_EDITA = "web/union/edita";
-    public static final String PATH_UNION_CREA = "/web/union/crea";
-    public static final String PATH_UNION_ACTUALIZA = "/web/union/actualiza";
-    public static final String PATH_UNION_ELIMINA = "/web/union/elimina";
+    public static final String PATH_UNION = "/admin/union";
+    public static final String PATH_UNION_LISTA = "admin/union/lista";
+    public static final String PATH_UNION_VER = "/admin/union/ver";
+    public static final String PATH_UNION_NUEVA = "admin/union/nueva";
+    public static final String PATH_UNION_EDITA = "admin/union/edita";
+    public static final String PATH_UNION_CREA = "/admin/union/crea";
+    public static final String PATH_UNION_ACTUALIZA = "/admin/union/actualiza";
+    public static final String PATH_UNION_ELIMINA = "/admin/union/elimina";
+    public static final String PATH_ASOCIACION = "/admin/asociacion";
+    public static final String PATH_ASOCIACION_LISTA = "/admin/asociacion/lista";
+    public static final String PATH_ASOCIACION_VER = "/admin/asociacion/ver";
+    public static final String PATH_ASOCIACION_NUEVA = "/admin/asociacion/nueva";
+    public static final String PATH_ASOCIACION_EDITA = "/admin/asociacion/edita";
+    public static final String PATH_ASOCIACION_CREA = "/admin/asociacion/crea";
+    public static final String PATH_ASOCIACION_ACTUALIZA = "/admin/asociacion/actualiza";
+    public static final String PATH_ASOCIACION_ELIMINA = "/admin/asociacion/elimina";
+    
     public static final String PATH_COLPORTOR = "/web/colportor";
     public static final String PATH_COLPORTOR_LISTA = "web/colportor/lista";
     public static final String PATH_COLPORTOR_VER = "/web/colportor/ver";
@@ -142,14 +163,6 @@ public class Constantes {
     /**
      * Valores para el los path's para las clases
      */
-    public static final String PATH_ASOCIACION = "/web/asociacion";
-    public static final String PATH_ASOCIACION_LISTA = "/web/asociacion/lista";
-    public static final String PATH_ASOCIACION_VER = "/web/asociacion/ver";
-    public static final String PATH_ASOCIACION_NUEVA = "/web/asociacion/nueva";
-    public static final String PATH_ASOCIACION_EDITA = "/web/asociacion/edita";
-    public static final String PATH_ASOCIACION_CREA = "/web/asociacion/crea";
-    public static final String PATH_ASOCIACION_ACTUALIZA = "/web/asociacion/actualiza";
-    public static final String PATH_ASOCIACION_ELIMINA = "/web/asociacion/elimina";
     public static final String PATH_ASOCIADO = "/web/asociado";
     public static final String PATH_ASOCIADO_LISTA = "/web/asociado/lista";
     public static final String PATH_ASOCIADO_VER = "/web/asociado/ver";

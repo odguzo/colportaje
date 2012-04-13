@@ -10,17 +10,11 @@
         <nav class="navbar navbar-fixed-top" role="navigation">
             <ul class="nav">
                 <li class="active"><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li><a href="<c:url value='/contabilidad' />"><s:message code="contabilidad.label" /></a></li>
-                <li><a href="<c:url value='/inventario' />"><s:message code="inventario.label" /></a></li>
                 <li><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
-
                 <li><a href="<c:url value='/web/union' />"><s:message code="union.label" /></a></li>
-                 <li><a href="<c:url value='/web/colportor' />"><s:message code="colportor.label" /></a></li>
-
-                   <li><a href="<c:url value='/web/documento' />"><s:message code="documento.label" /></a></li>
-                      <li><a href="<c:url value='/web/colegio' />"><s:message code="colegio.label" /></a></li>
-
-
+                <li><a href="<c:url value='/web/colportor' />"><s:message code="colportor.label" /></a></li>
+                <li><a href="<c:url value='/web/documento' />"><s:message code="documento.label" /></a></li>
+                <li><a href="<c:url value='/web/colegio' />"><s:message code="colegio.label" /></a></li>
                 <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
                 <li><a href="<c:url value='/web/asociado' />"><s:message code="asociado.label" /></a></li>
                 <li><a href="<c:url value='/web/temporada' />"><s:message code="temporada.label" /></a></li>

@@ -5,17 +5,20 @@
 package mx.edu.um.mateo.general.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 /**
  *
  * @author wilbert
  */
-
 @Entity
 @Table(name = "uniones")
 public class Union implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,14 +30,18 @@ public class Union implements Serializable {
     @NotNull
     @Column(nullable = false, length = 2, name = "status")
     private String status;
-   
-      public Union() {
+    @OneToMany(mappedBy = "union", cascade = CascadeType.ALL)
+    private List<Asociacion> asociaciones;
+    @ManyToMany
+    private List<Reporte> reportes = new ArrayList<>();
+
+    public Union() {
     }
-      
-      public Union(String nombre, String status){
-          this.nombre = nombre;
-          this.status = status;
-      }
+
+    public Union(String nombre, String status) {
+        this.nombre = nombre;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -51,7 +58,6 @@ public class Union implements Serializable {
     public void setVersion(Integer version) {
         this.version = version;
     }
-    
 
     public String getNombre() {
         return nombre;
@@ -67,6 +73,22 @@ public class Union implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Asociacion> getAsociaciones() {
+        return asociaciones;
+    }
+
+    public void setAsociaciones(List<Asociacion> asociaciones) {
+        this.asociaciones = asociaciones;
+    }
+
+    public List<Reporte> getReportes() {
+        return reportes;
+    }
+
+    public void setReportes(List<Reporte> reportes) {
+        this.reportes = reportes;
     }
 
     @Override
@@ -99,7 +121,4 @@ public class Union implements Serializable {
     public String toString() {
         return "Union{" + "nombre=" + nombre + ", status=" + status + '}';
     }
-    
- 
-        
 }

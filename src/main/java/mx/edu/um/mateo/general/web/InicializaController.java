@@ -23,14 +23,17 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import mx.edu.um.mateo.general.dao.OrganizacionDao;
+import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.ReporteDao;
 import mx.edu.um.mateo.general.dao.RolDao;
+import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.Empresa;
-import mx.edu.um.mateo.general.model.Organizacion;
-import mx.edu.um.mateo.general.model.Rol;
-import mx.edu.um.mateo.general.model.Usuario;
-import mx.edu.um.mateo.inventario.model.Almacen;
+import mx.edu.um.mateo.general.model.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,13 +49,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/inicializa")
 public class InicializaController {
 
+    private static final Logger log = LoggerFactory.getLogger(InicializaController.class);
     @Autowired
-    private OrganizacionDao organizacionDao;
+    private UnionDao unionDao;
     @Autowired
     private RolDao rolDao;
     @Autowired
     private UsuarioDao usuarioDao;
-    
+    @Autowired
+    private SessionFactory sessionFactory;
+    @Autowired
+    private ReporteDao reporteDao;
+
     @RequestMapping
     public String inicia() {
         return "/inicializa/index";
@@ -61,33 +69,46 @@ public class InicializaController {
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public String guarda(
-            @RequestParam String username, 
+            @RequestParam String username,
             @RequestParam String password) {
-        Organizacion organizacion = new Organizacion("UM", "UM", "Universidad de Montemorelos");
-        organizacion = organizacionDao.crea(organizacion);
-        Rol rol = new Rol("ROLE_ADMIN");
-        rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario(
-                username,
-                password,
-                "Admin",
-                "User");
-        Long almacenId = 0l;
-        actualizaUsuario:
-        for (Empresa empresa : organizacion.getEmpresas()) {
-            for (Almacen almacen : empresa.getAlmacenes()) {
-                almacenId = almacen.getId();
+
+        Transaction transaction = null;
+        try {
+            transaction = currentSession().beginTransaction();
+            reporteDao.inicializa();
+            Union union = new Union("Noreste", Constantes.STATUS_ACTIVO);
+            union = unionDao.crea(union);
+            Rol rol = new Rol("ROLE_ADMIN");
+            rol = rolDao.crea(rol);
+            Usuario usuario = new Usuario(
+                    username,
+                    password,
+                    "Admin",
+                    "User");
+            Long asosiacionId = 0l;
+            actualizaUsuario:
+            for (Asociacion asociacion : union.getAsociaciones()) {
+                asosiacionId = asociacion.getId();
                 break actualizaUsuario;
             }
+            usuarioDao.crea(usuario, asosiacionId, new String[]{rol.getAuthority()});
+            rol = new Rol("ROLE_UNI");
+            rolDao.crea(rol);
+            rol = new Rol("ROLE_ASO");
+            rolDao.crea(rol);
+            rol = new Rol("ROLE_USER");
+            rolDao.crea(rol);
+
+            transaction.commit();
+        } catch (Exception e) {
+            log.error("No se pudo inicializar la aplicacion", e);
+            transaction.rollback();
         }
-        usuarioDao.crea(usuario, almacenId, new String[]{rol.getAuthority()});
-        rol = new Rol("ROLE_ORG");
-        rolDao.crea(rol);
-        rol = new Rol("ROLE_EMP");
-        rolDao.crea(rol);
-        rol = new Rol("ROLE_USER");
-        rolDao.crea(rol);
 
         return "redirect:/";
+    }
+
+    private Session currentSession() {
+        return sessionFactory.getCurrentSession();
     }
 }

@@ -24,16 +24,13 @@
 package mx.edu.um.mateo.general.dao;
 
 import java.util.*;
+import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.SpringSecurityUtils;
 import mx.edu.um.mateo.general.utils.UltimoException;
-import mx.edu.um.mateo.inventario.model.Almacen;
 import org.hibernate.*;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,18 +83,17 @@ public class UsuarioDao {
         Criteria criteria = currentSession().createCriteria(Usuario.class);
         Criteria countCriteria = currentSession().createCriteria(Usuario.class);
 
-        if (params.containsKey("empresa")) {
-            criteria.createCriteria("empresa").add(Restrictions.idEq(params.get("empresa")));
-            countCriteria.createCriteria("empresa").add(Restrictions.idEq(params.get("empresa")));
+        if (params.containsKey("asociacion")) {
+            criteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
+            countCriteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
         }
 
         if (params.containsKey("filtro")) {
             String filtro = (String) params.get("filtro");
-            filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
-            propiedades.add(Restrictions.ilike("username", filtro));
-            propiedades.add(Restrictions.ilike("nombre", filtro));
-            propiedades.add(Restrictions.ilike("apellido", filtro));
+            propiedades.add(Restrictions.ilike("username", filtro, MatchMode.ANYWHERE));
+            propiedades.add(Restrictions.ilike("nombre", filtro, MatchMode.ANYWHERE));
+            propiedades.add(Restrictions.ilike("apellido", filtro, MatchMode.ANYWHERE));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
@@ -134,17 +130,23 @@ public class UsuarioDao {
         return (Usuario) query.uniqueResult();
     }
 
-    public Usuario obtienePorOpenId(String username) {
-        log.debug("Buscando usuario por openId {}", username);
-        Query query = currentSession().createQuery("select u from Usuario u where u.openId = :username");
-        query.setString("username", username);
+    public Usuario obtienePorOpenId(String openId) {
+        log.debug("Buscando usuario por openId {}", openId);
+        Query query = currentSession().createQuery("select u from Usuario u where u.openId = :openId");
+        query.setString("openId", openId);
         return (Usuario) query.uniqueResult();
     }
 
-    public Usuario crea(Usuario usuario, Long almacenId, String[] nombreDeRoles) {
-        Almacen almacen = (Almacen) currentSession().get(Almacen.class, almacenId);
-        usuario.setAlmacen(almacen);
-        usuario.setEmpresa(almacen.getEmpresa());
+    public Usuario obtienePorCorreo(String correo) {
+        log.debug("Buscando usuario por correo {}", correo);
+        Query query = currentSession().createQuery("select u from Usuario u where u.correo = :correo");
+        query.setString("correo", correo);
+        return (Usuario) query.uniqueResult();
+    }
+
+    public Usuario crea(Usuario usuario, Long asociacionId, String[] nombreDeRoles) {
+        Asociacion asociacion = (Asociacion) currentSession().get(Asociacion.class, asociacionId);
+        usuario.setAsociacion(asociacion);
         usuario.setPassword(passwordEncoder.encodePassword(usuario.getPassword(), usuario.getUsername()));
 
         if (usuario.getRoles() != null) {
@@ -166,39 +168,41 @@ public class UsuarioDao {
         return usuario;
     }
 
-    public Usuario actualiza(Usuario usuario, Long almacenId, String[] nombreDeRoles) {
-        Usuario viejoUsuario = (Usuario) currentSession().get(Usuario.class, usuario.getId());
-        if (viejoUsuario.getVersion() == usuario.getVersion()) {
-            usuario.setAlmacen(viejoUsuario.getAlmacen());
-            usuario.setEmpresa(viejoUsuario.getEmpresa());
+    public Usuario actualiza(Usuario usuario, Long asociacionId, String[] nombreDeRoles) {
+        Usuario nuevoUsuario = (Usuario) currentSession().get(Usuario.class, usuario.getId());
+        nuevoUsuario.setVersion(usuario.getVersion());
+        nuevoUsuario.setUsername(usuario.getUsername());
+        nuevoUsuario.setNombre(usuario.getNombre());
+        nuevoUsuario.setApellido(usuario.getApellido());
 
-            usuario.getRoles().clear();
-            Query query = currentSession().createQuery("select r from Rol r where r.authority = :nombre");
-            for (String nombre : nombreDeRoles) {
-                query.setString("nombre", nombre);
-                Rol rol = (Rol) query.uniqueResult();
-                usuario.addRol(rol);
-            }
-            log.debug("Roles del usuario {}", usuario.getAuthorities());
-            try {
-                currentSession().update(usuario);
-                currentSession().flush();
-            } catch (NonUniqueObjectException e) {
-                log.warn("Ya hay un objeto previamente cargado, intentando hacer merge", e);
-                currentSession().merge(usuario);
-                currentSession().flush();
-            }
-            return usuario;
-        } else {
-            throw new RuntimeException("No se pude actualizar porque ya alguien lo actualizo antes");
+        nuevoUsuario.getRoles().clear();
+        Query query = currentSession().createQuery("select r from Rol r where r.authority = :nombre");
+        for (String nombre : nombreDeRoles) {
+            query.setString("nombre", nombre);
+            Rol rol = (Rol) query.uniqueResult();
+            nuevoUsuario.addRol(rol);
         }
+        try {
+            currentSession().update(nuevoUsuario);
+            currentSession().flush();
+        } catch (NonUniqueObjectException e) {
+            log.warn("Ya hay un objeto previamente cargado, intentando hacer merge", e);
+            currentSession().merge(nuevoUsuario);
+            currentSession().flush();
+        }
+        return nuevoUsuario;
     }
 
+    public void actualiza(Usuario usuario) {
+        currentSession().update(usuario);
+        currentSession().flush();
+    }
+    
     public String elimina(Long id) throws UltimoException {
         Usuario usuario = obtiene(id);
         Criteria criteria = currentSession().createCriteria(Usuario.class);
         criteria.setProjection(Projections.rowCount());
-        List resultados = criteria.createCriteria("empresa").add(Restrictions.eq("id", usuario.getEmpresa().getId())).list();
+        List resultados = criteria.createCriteria("asociacion").add(Restrictions.eq("id", usuario.getAsociacion().getId())).list();
         Long cantidad = (Long) resultados.get(0);
         if (cantidad > 1) {
             String nombre = usuario.getUsername();
@@ -219,34 +223,38 @@ public class UsuarioDao {
         return sessionFactory.getCurrentSession();
     }
 
-    public List<Almacen> obtieneAlmacenes() {
-        List<Almacen> almacenes;
+    public List<Asociacion> obtieneAsociaciones() {
+        List<Asociacion> asociaciones;
         if (springSecurityUtils.ifAnyGranted("ROLE_ADMIN")) {
-            Query query = currentSession().createQuery("select a from Almacen a order by a.empresa.organizacion, a.empresa, a.nombre");
-            almacenes = query.list();
+            Query query = currentSession().createQuery("select a from Asociacion a order by a.asociacion.union, a.asociacion, a.nombre");
+            asociaciones = query.list();
         } else if (springSecurityUtils.ifAnyGranted("ROLE_ORG")) {
             Usuario usuario = springSecurityUtils.obtieneUsuario();
-            Query query = currentSession().createQuery("select a from Almacen a where a.organizacion.id = :organizacionId order by a.empresa, a.nombre");
-            query.setLong("organizacionId", usuario.getEmpresa().getOrganizacion().getId());
-            almacenes = query.list();
+            Query query = currentSession().createQuery("select a from Asociacion a where a.union.id = :unionId order by a.asociacion, a.nombre");
+            query.setLong("unionId", usuario.getAsociacion().getUnion().getId());
+            asociaciones = query.list();
         } else {
             Usuario usuario = springSecurityUtils.obtieneUsuario();
-            Query query = currentSession().createQuery("select a from Almacen a where a.empresa.id = :empresaId order by a.nombre");
-            query.setLong("empresaId", usuario.getEmpresa().getId());
-            almacenes = query.list();
+            Query query = currentSession().createQuery("select a from Asociacion a where a.asociacion.id = :asociacionId order by a.nombre");
+            query.setLong("asociacionId", usuario.getAsociacion().getId());
+            asociaciones = query.list();
         }
-        return almacenes;
+        return asociaciones;
     }
 
-    public void asignaAlmacen(Usuario usuario, Long almacenId) {
-        Almacen almacen = (Almacen) currentSession().get(Almacen.class, almacenId);
-        if (almacen != null) {
-            log.debug("Asignando {} a usuario {}", almacen, usuario);
+    public void asignaAsociacion(Usuario usuario, Long asociacionId) {
+        Asociacion asociacion = (Asociacion) currentSession().get(Asociacion.class, asociacionId);
+        if (asociacion != null) {
+            log.debug("Asignando {} a usuario {}", asociacion, usuario);
+            String password = usuario.getPassword();
             currentSession().refresh(usuario);
-            usuario.setAlmacen(almacen);
-            usuario.setEmpresa(almacen.getEmpresa());
+            if (!password.equals(usuario.getPassword())) {
+                usuario.setPassword(passwordEncoder.encodePassword(password, usuario.getUsername()));
+            }
+            usuario.setAsociacion(asociacion);
             currentSession().update(usuario);
             currentSession().flush();
         }
     }
+
 }

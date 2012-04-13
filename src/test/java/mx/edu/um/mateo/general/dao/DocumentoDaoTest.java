@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
+
 import java.util.List;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
  *
  * @author wilbert
@@ -27,23 +29,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mateo.xml", "classpath:security.xml"})
 @Transactional
-public class DocumentoDaoTest extends BaseTest{
-     private static final Logger log = LoggerFactory.getLogger(DocumentoDaoTest.class);
+public class DocumentoDaoTest extends BaseTest {
+
+    private static final Logger log = LoggerFactory.getLogger(DocumentoDaoTest.class);
     @Autowired
     private DocumentoDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-    
-   private Session currentSession() {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-   
-   @Test
+
+    @Test
     public void deberiaMostrarListaDeDocumento() {
         log.debug("Debiera mostrar lista de documento");
 
-      for (int i = 0; i < 20; i++) {
-            Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO,Constantes.FECHA,Constantes.IMPORTE,Constantes.OBSERVACIONES);
+        for (int i = 0; i < 20; i++) {
+            Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO, Constantes.FECHA, Constantes.IMPORTE, Constantes.OBSERVACIONES);
             currentSession().save(documento);
             assertNotNull(documento);
         }
@@ -54,7 +57,7 @@ public class DocumentoDaoTest extends BaseTest{
         assertNotNull(result.get(Constantes.CONTAINSKEY_CANTIDAD));
 
         assertEquals(10, ((List<Documento>) result.get(Constantes.CONTAINSKEY_DOCUMENTOS)).size());
-        assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue()); 
+        assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
 
     @Test
@@ -62,7 +65,7 @@ public class DocumentoDaoTest extends BaseTest{
         log.debug("Debiera obtener documento");
 
         String folio = "test";
-        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO,Constantes.FECHA,Constantes.IMPORTE,Constantes.OBSERVACIONES);
+        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO, Constantes.FECHA, Constantes.IMPORTE, Constantes.OBSERVACIONES);
         currentSession().save(documento);
         assertNotNull(documento.getId());
         Long id = documento.getId();
@@ -78,7 +81,7 @@ public class DocumentoDaoTest extends BaseTest{
     public void deberiaCrearDocumento() {
         log.debug("Deberia crear Documento");
 
-        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO,Constantes.FECHA,Constantes.IMPORTE,Constantes.OBSERVACIONES);
+        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO, Constantes.FECHA, Constantes.IMPORTE, Constantes.OBSERVACIONES);
         assertNotNull(documento);
 
         Documento documento2 = instance.crea(documento);
@@ -92,7 +95,7 @@ public class DocumentoDaoTest extends BaseTest{
     public void deberiaActualizarDocumento() {
         log.debug("Deberia actualizar Documento");
 
-        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO,Constantes.FECHA,Constantes.IMPORTE,Constantes.OBSERVACIONES);
+        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO, Constantes.FECHA, Constantes.IMPORTE, Constantes.OBSERVACIONES);
         assertNotNull(documento);
         currentSession().save(documento);
 
@@ -111,7 +114,7 @@ public class DocumentoDaoTest extends BaseTest{
         log.debug("Debiera eliminar Documento");
 
         String fol = "test";
-        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO,Constantes.FECHA,Constantes.IMPORTE,Constantes.OBSERVACIONES);
+        Documento documento = new Documento(Constantes.TIPO_DOCUMENTO, Constantes.FOLIO, Constantes.FECHA, Constantes.IMPORTE, Constantes.OBSERVACIONES);
         currentSession().save(documento);
         assertNotNull(documento);
 
@@ -121,5 +124,4 @@ public class DocumentoDaoTest extends BaseTest{
         Documento prueba = instance.obtiene(documento.getId());
         assertNull(prueba);
     }
-    
 }
