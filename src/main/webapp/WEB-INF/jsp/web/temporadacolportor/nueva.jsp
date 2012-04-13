@@ -12,24 +12,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="temporada.nuevo.label" /></title>
+        <title><s:message code="temporadaColportor.nuevo.label" /></title>
     </head>
     <body>
         <nav class="navbar navbar-fixed-top" role="navigation">
             <ul class="nav">
                 <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
 
-                <li class="active"><a href="<s:url value='/web/temporada'/>" ><s:message code="temporada.label" /></a></li>
+                <li class="active"><a href="<s:url value='/web/temporadacolportor'/>" ><s:message code="temporadaColportor.label" /></a></li>
 
             </ul>
         </nav>
 
-        <div id="nueva-temporada" class="content scaffold-list" role="main">
-            <h1><s:message code="temporada.nuevo.label" /></h1>
+        <div id="nueva-temporadaColportor" class="content scaffold-list" role="main">
+            <h1><s:message code="temporadaColportor.nuevo.label" /></h1>
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/temporada'/>"><i class="icon-list icon-white"></i> <s:message code='temporada.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/web/temporadacolportor'/>"><i class="icon-list icon-white"></i> <s:message code='temporadaColportor.lista.label' /></a>
             </p>
-            <form:form commandName="temporada" action="crea" method="post">
+            <form:form commandName="temporadacolportor" action="crea" method="post">
                 <form:errors path="*">
                     <div class="alert alert-block alert-error fade in" role="status">
                         <a class="close" data-dismiss="alert">×</a>
@@ -40,34 +40,43 @@
                 </form:errors>
 
                 <fieldset>
-                    <s:bind path="temporada.nombre">
+                    <s:bind path="temporadacolportor.fecha">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="nombre">
-                                <s:message code="nombre.label" />
+                                <label for="fecha">
+                                <s:message code="fecha.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="nombre" maxlength="128" required="true" />
-                            <form:errors path="nombre" cssClass="alert alert-error" />
+                            <form:input path="fecha" maxlength="128" required="true" />
+                            <form:errors path="fecha" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="temporada.fechaInicio">
+                    <s:bind path="temporadacolportor.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="fechaInicio">
-                                <s:message code="fechaInicio.label" />
+                            <label for="status">
+                                <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
-                            </label><p>"dd/MM/yyyy"</p>
-                                <form:input path="fechaInicio" maxlength="50" required="true" />
-                            <form:errors path="fechaInicio" cssClass="alert alert-error" />
+                            
+                                <form:input path="status" maxlength="50" required="true" />
+                            <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="temporada.fechaFinal">
+                    <s:bind path="temporadacolportor.objetivo">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="fechaFinal">
-                                <s:message code="fechaFinal.label" />
+                            <label for="objetivo">
+                                <s:message code="objetivo.label" />
                                 <span class="required-indicator">*</span>
-                            </label><p>"dd/MM/yyyy"</p>
-                            <form:input path="fechaFinal" maxlength="50" required="true"  />
-                            <form:errors path="fechaFinal" cssClass="alert alert-error" />
+                            <form:input path="objetivo" maxlength="50" required="true"  />
+                            <form:errors path="objetivo" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    
+                    <s:bind path="temporadacolportor.observacion">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="observacion">
+                                <s:message code="observacion.label" />
+                                <span class="required-indicator">*</span>
+                                <form:textarea path="observacion" maxlength="4000" required="true"  />
+                            <form:errors path="observacion" cssClass="alert alert-error" type="texttarea"/>
                         </div>
                     </s:bind>
                    
