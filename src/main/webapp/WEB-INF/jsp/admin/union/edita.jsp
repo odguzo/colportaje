@@ -11,18 +11,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-       <title><s:message code="union.edita.label" /></title>
+        <title><s:message code="union.edita.label" /></title>
     </head>
     <body>
-          <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="union.label" /></a></li>
-  
-            </ul>
-        </nav>
-            
-       <div id="edita-union" class="content scaffold-list" role="main">
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="union" />
+        </jsp:include>
+        
+        <div id="edita-union" class="content scaffold-list" role="main">
             <h1><s:message code="union.edita.label" /></h1>
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='union.lista.label' /></a>
@@ -43,7 +39,7 @@
                 <fieldset>
                     <s:bind path="union.nombre">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="nombre">
+                                <label for="nombre">
                                 <s:message code="nombre.label" />
                                 <span class="required-indicator">*</span>
                             </label>
@@ -53,7 +49,7 @@
                     </s:bind>
                     <s:bind path="union.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="status">
+                                <label for="status">
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
                             </label>
@@ -68,12 +64,12 @@
                 </p>
             </form:form>
         </div>
-        <content>
-            <script>
-                $(document).ready(function() {
-                    $('input#nombre').focus();
-                });
-            </script>                    
-        </content>
-    </body>
+    <content>
+        <script>
+            $(document).ready(function() {
+                $('input#nombre').focus();
+            });
+        </script>                    
+    </content>
+</body>
 </html>

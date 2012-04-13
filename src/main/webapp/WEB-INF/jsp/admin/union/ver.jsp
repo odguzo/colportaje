@@ -14,12 +14,9 @@
         <title><s:message code="union.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-             <li class="active"><a href="<s:url value='../'/>" ><s:message code="union.label" /></a></li>
-               
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="union" />
+        </jsp:include>
 
         <div id="ver-union" class="content scaffold-list" role="main">
             <h1><s:message code="union.ver.label" /></h1>
@@ -38,7 +35,7 @@
             <c:url var="eliminaUrl" value="../elimina" />
             <form:form commandName="union" action="${eliminaUrl}" >
                 <form:errors path="*" cssClass="alert alert-error" element="ul" />
-              
+
                 <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${union.nombre}</div>

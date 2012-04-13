@@ -19,8 +19,8 @@
         <intercept-url pattern="/inicializa/**" access="permitAll" />
         <intercept-url pattern="/prueba/**" access="permitAll" />
         <intercept-url pattern="/admin/union/**" access="hasAnyRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/admin/asociacion/**" access="hasAnyRole('ROLE_ORG')" />
-        <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_EMP')" />
+        <intercept-url pattern="/admin/asociacion/**" access="hasAnyRole('ROLE_UNI')" />
+        <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ASO')" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/login.jsp" 
                     login-processing-url="/entrar" 

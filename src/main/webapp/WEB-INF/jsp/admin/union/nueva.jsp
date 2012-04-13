@@ -14,14 +14,9 @@
         <title><s:message code="union.nueva.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-              
-                <li class="active"><a href="<s:url value='/web/union'/>" ><s:message code="union.label" /></a></li>
-          
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="union" />
+        </jsp:include>
 
         <div id="nueva-union" class="content scaffold-list" role="main">
             <h1><s:message code="union.nueva.label" /></h1>
@@ -41,7 +36,7 @@
                 <fieldset>
                     <s:bind path="union.nombre">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="nombre">
+                                <label for="nombre">
                                 <s:message code="nombre.label" />
                                 <span class="required-indicator">*</span>
                             </label>
@@ -49,9 +44,9 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                        <s:bind path="union.status">
+                    <s:bind path="union.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="status">
+                                <label for="status">
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
                             </label>
@@ -59,7 +54,7 @@
                             <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                  
+
                 </fieldset>
 
                 <p class="well" style="margin-top: 10px;">
@@ -67,12 +62,12 @@
                 </p>
             </form:form>
         </div>
-        <content>
-            <script>
-                $(document).ready(function() {
-                    $('input#nombre').focus();
-                });
-            </script>                    
-        </content>
-    </body>
+    <content>
+        <script>
+            $(document).ready(function() {
+                $('input#nombre').focus();
+            });
+        </script>                    
+    </content>
+</body>
 </html>

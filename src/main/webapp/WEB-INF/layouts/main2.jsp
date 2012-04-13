@@ -45,7 +45,7 @@
 
         <footer>
             <hr />
-            <p>&copy; <s:message code="proyecto.copyright.year.label" /> <s:message code="proyecto.empresa.label" /></p>
+            <p>&copy; <s:message code="proyecto.copyright.year.label" /> <s:message code="proyecto.asociacion.label" /></p>
         </footer>
         
         <!-- JavaScript at the bottom for fast page loading -->

@@ -7,27 +7,15 @@
         <title><s:message code="inicio.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li class="active"><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
-                <li><a href="<c:url value='/web/union' />"><s:message code="union.label" /></a></li>
-                <li><a href="<c:url value='/web/colportor' />"><s:message code="colportor.label" /></a></li>
-                <li><a href="<c:url value='/web/documento' />"><s:message code="documento.label" /></a></li>
-                <li><a href="<c:url value='/web/colegio' />"><s:message code="colegio.label" /></a></li>
-                <li><a href="<c:url value='/web/asociacion' />"><s:message code="asociacion.label" /></a></li>
-                <li><a href="<c:url value='/web/asociado' />"><s:message code="asociado.label" /></a></li>
-                <li><a href="<c:url value='/web/temporada' />"><s:message code="temporada.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="principal" />
+        </jsp:include>
         <h1><s:message code="inicio.label" /></h1>
         <c:if test="${not empty message}">
-            <div class="alert alert-block alert-success fade in" role="status">
+            <div class="alert alert-block <c:choose><c:when test='${not empty messageStyle}'>${messageStyle}</c:when><c:otherwise>alert-success</c:otherwise></c:choose> fade in" role="status">
                 <a class="close" data-dismiss="alert">×</a>
                 <s:message code="${message}" arguments="${messageAttrs}" />
             </div>
         </c:if>
-
     </body>
 </html>

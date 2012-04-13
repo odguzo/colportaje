@@ -14,14 +14,9 @@
         <title><s:message code="perfil.edita.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li><a href="<c:url value='/contabilidad' />"><s:message code="contabilidad.label" /></a></li>
-                <li><a href="<c:url value='/inventario' />"><s:message code="inventario.label" /></a></li>
-                <li><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="principal" />
+        </jsp:include>
 
         <div id="edita-usuario" class="content scaffold-list" role="main">
             <h1><s:message code="perfil.edita.label" /></h1>

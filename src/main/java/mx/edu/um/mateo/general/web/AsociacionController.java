@@ -108,7 +108,7 @@ public class AsociacionController extends BaseController {
         return Constantes.PATH_ASOCIACION_VER;
     }
 
-    @RequestMapping("/nuevo")
+    @RequestMapping("/nueva")
     public String nuevo(Model modelo) {
         log.debug("Nueva Asociacion");
         Asociacion asociacion = new Asociacion();

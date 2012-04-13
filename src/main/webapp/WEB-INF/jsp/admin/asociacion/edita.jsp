@@ -13,13 +13,9 @@
         <title><s:message code="asociacion.edita.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="asociacion.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="asociacion" />
+        </jsp:include>
 
         <div id="edita-asociacion" class="content scaffold-list" role="main">
             <h1><s:message code="asociacion.edita.label" /></h1>
@@ -50,10 +46,9 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                   
-                    <s:bind path="asociacion.status">
+                    <s:bind path="union.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="status">
+                                <label for="status">
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
                             </label>

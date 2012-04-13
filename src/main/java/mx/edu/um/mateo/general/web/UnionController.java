@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import mx.edu.um.mateo.general.dao.UnionDao;
-import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.ReporteException;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.apache.commons.lang.StringUtils;
@@ -61,6 +61,7 @@ public class UnionController extends BaseController {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = unionDao.lista(params);
             try {
+                log.debug("Generando reportes por Union en " + tipo);
                 generaReporte(tipo, (List<Union>) params.get(Constantes.CONTAINSKEY_UNIONES), response, Constantes.CONTAINSKEY_UNIONES, Constantes.ADMIN, null);
                 return null;
             } catch (ReporteException e) {
