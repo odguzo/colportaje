@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
-
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.ColegioDao;
 import mx.edu.um.mateo.general.model.Colegio;

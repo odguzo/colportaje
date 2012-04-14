@@ -17,7 +17,7 @@
         <jsp:include page="../menu.jsp" >
             <jsp:param name="menu" value="union" />
         </jsp:include>
-        
+
         <div id="edita-union" class="content scaffold-list" role="main">
             <h1><s:message code="union.edita.label" /></h1>
             <p class="well">
@@ -39,7 +39,7 @@
                 <fieldset>
                     <s:bind path="union.nombre">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="nombre">
+                            <label for="nombre">
                                 <s:message code="nombre.label" />
                                 <span class="required-indicator">*</span>
                             </label>
@@ -47,16 +47,24 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="union.status">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                    <c:if test='${union.status == "I"}'>
+                        <s:bind path="union.status">
+                            <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="status">
-                                <s:message code="status.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="status" maxlength="2" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
+                                    <s:message code="status.label" />
+                                    <span class="required-indicator">*</span>
+                                </label>
+                                <form:select path="status">
+                                    <form:option value="0" label="Inactivo" />
+                                    <form:option value="1" label="Activo" />
+                                </form:select>
+                                <form:errors path="status" cssClass="alert alert-error" />
+                            </div>
+                        </s:bind>
+                    </c:if>
+                    <c:if test='${union.status == "A"}'>
+                        <form:hidden path="status" />
+                    </c:if>
                 </fieldset>
 
                 <p class="well" style="margin-top: 10px;">

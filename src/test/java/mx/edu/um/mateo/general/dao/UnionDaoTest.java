@@ -3,10 +3,12 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
-
 import java.util.*;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.*;
+import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Rol;
+import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
@@ -45,7 +47,8 @@ public class UnionDaoTest extends BaseTest {
     public void debieraMostrarListaDeUniones() {
         log.debug("Debiera mostrar lista de uniones");
         for (int i = 0; i < 20; i++) {
-            Union union = new Union("tst-" + i, Constantes.STATUS_ACTIVO);
+            Union union = new Union("tst-" + i);
+            union.setStatus(Constantes.STATUS_ACTIVO);
             currentSession().save(union);
         }
         Map<String, Object> params = null;
@@ -60,7 +63,8 @@ public class UnionDaoTest extends BaseTest {
     @Test
     public void debieraObtenerUnion() {
         log.debug("Debiera obtener union");
-        Union union = new Union("tst-01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("tst-01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         assertNotNull(union.getId());
         Long id = union.getId();
@@ -73,7 +77,8 @@ public class UnionDaoTest extends BaseTest {
     @Test
     public void debieraCrearUnion() {
         log.debug("Debiera crear union");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -90,7 +95,7 @@ public class UnionDaoTest extends BaseTest {
         assertNotNull(id);
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
-        union = new Union("tst-01", Constantes.STATUS_ACTIVO);
+        union = new Union("tst-01");
         union = instance.crea(union, usuario);
         assertNotNull(union.getId());
     }
@@ -98,7 +103,8 @@ public class UnionDaoTest extends BaseTest {
     @Test
     public void debieraActualizarUnion() {
         log.debug("Debiera actualizar union");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -131,7 +137,8 @@ public class UnionDaoTest extends BaseTest {
     public void debieraEliminarUnion() throws UltimoException {
         log.debug("Debiera eliminar union");
 
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -149,7 +156,8 @@ public class UnionDaoTest extends BaseTest {
         currentSession().refresh(asociacion);
         currentSession().refresh(union);
 
-        union = new Union("TEST02", Constantes.STATUS_ACTIVO);
+        union = new Union("TEST02");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
@@ -158,6 +166,6 @@ public class UnionDaoTest extends BaseTest {
         assertEquals("TEST01", nombre);
 
         Union prueba = instance.obtiene(id);
-        assertNull(prueba);
+        assertEquals(Constantes.STATUS_INACTIVO, prueba.getStatus());
     }
 }

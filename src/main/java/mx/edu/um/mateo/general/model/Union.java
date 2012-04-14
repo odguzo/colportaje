@@ -38,9 +38,8 @@ public class Union implements Serializable {
     public Union() {
     }
 
-    public Union(String nombre, String status) {
+    public Union(String nombre) {
         this.nombre = nombre;
-        this.status = status;
     }
 
     public Long getId() {

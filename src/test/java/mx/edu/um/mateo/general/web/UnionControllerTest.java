@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
-
 import java.util.ArrayList;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.RolDao;
@@ -77,7 +76,7 @@ public class UnionControllerTest extends BaseTest {
         log.debug("Debiera monstrar lista de uniones");
         
         for (int i = 0; i < 20; i++) {
-            Union union = new Union(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO);
+            Union union = new Union("test" + i);
             unionDao.crea(union);
             assertNotNull(union);
         }
@@ -94,7 +93,7 @@ public class UnionControllerTest extends BaseTest {
    @Test
     public void debieraMostrarUnion() throws Exception {
         log.debug("Debiera mostrar union");
-        Union union = new Union(Constantes.NOMBRE, Constantes.STATUS_ACTIVO);
+        Union union = new Union(Constantes.NOMBRE);
         union = unionDao.crea(union);
         assertNotNull(union);
 
@@ -109,7 +108,7 @@ public class UnionControllerTest extends BaseTest {
     public void debieraCrearUnion() throws Exception {
         log.debug("Debiera crear union");
         
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
         union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);

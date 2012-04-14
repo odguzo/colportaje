@@ -23,12 +23,14 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.ReporteDao;
 import mx.edu.um.mateo.general.dao.RolDao;
 import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.*;
+import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Rol;
+import mx.edu.um.mateo.general.model.Union;
+import mx.edu.um.mateo.general.model.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -76,7 +78,7 @@ public class InicializaController {
         try {
             transaction = currentSession().beginTransaction();
             reporteDao.inicializa();
-            Union union = new Union("Noreste", Constantes.STATUS_ACTIVO);
+            Union union = new Union("Noreste");
             union = unionDao.crea(union);
             Rol rol = new Rol("ROLE_ADMIN");
             rol = rolDao.crea(rol);

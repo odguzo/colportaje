@@ -26,8 +26,8 @@ package mx.edu.um.mateo.general.dao;
 import java.util.*;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
-import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Rol;
+import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
@@ -71,7 +71,8 @@ public class UsuarioDaoTest {
     public void debieraObtenerListaDeUsuarios() {
         log.debug("Debiera obtener lista de usuarios");
 
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -101,7 +102,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraObtenerUsuario() {
         log.debug("Debiera obtener usuario");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -128,7 +130,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraCrearUsuario() {
         log.debug("Debiera crear usuario");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -147,7 +150,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraActualizarUsuario() {
         log.debug("Debiera actualizar usuario");
-        Union union = new Union("TEST01",Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -172,7 +176,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraCambiarRolDeUsuario() {
         log.debug("Debiera actualizar usuario");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -207,7 +212,8 @@ public class UsuarioDaoTest {
     @Test(expected = UltimoException.class)
     public void noDebieraEliminarUsuario() throws UltimoException {
         log.debug("Debiera actualizar usuario");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -232,7 +238,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraEliminarUsuario() throws UltimoException {
         log.debug("Debiera actualizar usuario");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -261,7 +268,8 @@ public class UsuarioDaoTest {
     @Test
     public void debieraMostrarLosUsuariosFiltradosPorAsociacion() {
         log.debug("Mostrar los usuarios filtrados por asociacion");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);

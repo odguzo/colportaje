@@ -40,12 +40,6 @@
                     <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${union.nombre}</div>
                 </div>
-
-                <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="status.label" /></div>
-                    <div class="span11">${union.status}</div>
-                </div>
-
                 <p class="well">
                     <a href="<c:url value='../edita/${union.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
                     <form:hidden path="id" />

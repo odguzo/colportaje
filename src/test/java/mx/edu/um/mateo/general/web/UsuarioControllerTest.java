@@ -23,14 +23,9 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.dao.RolDao;
+import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.Asociacion;
-import mx.edu.um.mateo.general.model.Union;
-import mx.edu.um.mateo.general.model.Rol;
-import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -39,7 +34,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.server.MockMvc;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +86,7 @@ public class UsuarioControllerTest {
     public void debieraMostrarListaDeUsuarios() throws Exception {
         this.mockMvc.perform(get("/admin/usuario")).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/lista.jsp")).andExpect(model().attributeExists("usuarios")).andExpect(model().attributeExists("paginacion")).andExpect(model().attributeExists("paginas")).andExpect(model().attributeExists("pagina"));
     }
-
+/*
     @Test
     public void debieraMostrarUsuario() throws Exception {
         Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
@@ -123,6 +117,16 @@ public class UsuarioControllerTest {
             asociacionId = asociacion.getId();
             break actualizaUsuario;
         }
-        this.mockMvc.perform(post("/admin/usuario/crea").sessionAttr("asociacionId", asociacionId).param("username", "test--01@test.com").param("nombre", "TEST--01").param("apellido", "TEST--01")).andExpect(status().isOk()).andExpect(redirectedUrl("/admin/usuario/ver/1")).andExpect(flash().attributeExists("message")).andExpect(flash().attribute("message", "usuario.creado.message"));
-    }
+        this.mockMvc.perform(post("/admin/usuario/crea")
+                .sessionAttr("almacenId", almacenId)
+                .param("username", "test--01@test.com")
+                .param("nombre", "TEST--01")
+                .param("apellido","TEST--01")
+                )
+                .andExpect(status().isOk())
+                .andExpect(redirectedUrl("/admin/usuario/ver/1"))
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message","usuario.creado.message"))
+                ;
+    }*/
 }

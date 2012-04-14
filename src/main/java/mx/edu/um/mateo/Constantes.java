@@ -9,15 +9,6 @@ package mx.edu.um.mateo;
  * @author gibrandemetrioo
  */
 public class Constantes {
-    public static final String ABIERTA = "ABIERTA";
-    public static final String PENDIENTE = "PENDIENTE";
-    public static final String CERRADA = "CERRADA";
-    public static final String FACTURADA = "FACTURADA";
-    public static final String CANCELADA = "CANCELADA";
-    public static final String CREAR = "CREAR";
-    public static final String ACTUALIZAR = "ACTUALIZAR";
-    public static final String ELIMINAR = "ELIMINAR";
-    public static final String CANCELAR = "CANCELAR";
     public static final String ADMIN = "ADMIN";
     public static final String UNI = "UNI";
     public static final String ASO = "ASO";
@@ -33,6 +24,7 @@ public class Constantes {
     public static final String FECHA = "test";
     public static final String IMPORTE = "1test";
     public static final String OBSERVACIONES = "test teste";
+    
     /**
      * Valores para el constructor de Locale
      */
@@ -92,11 +84,13 @@ public class Constantes {
      * Valores para el los containsKey para las clases
      */
     public static final String CONTAINSKEY_UNIONES = "uniones";
-    public static final String CONTAINSKEY_ASOCIACION = "asociacion";
     public static final String CONTAINSKEY_COLPORTORES = "colportores";
-    public static final String CONTAINSKEY_CLIENTES = "clientes";
     public static final String CONTAINSKEY_DOCUMENTOS = "documentos";
     public static final String CONTAINSKEY_COLEGIOS = "colegios";
+    public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
+    public static final String CONTAINSKEY_ASOCIADOS = "asociados";
+    public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
+    public static final String CONTAINSKEY_TEMPORADACOLPORTORES = "temporadaColportores";
     /**
      * Valores para el los addAttribute para las clases
      */
@@ -104,6 +98,10 @@ public class Constantes {
     public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
     public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
     public static final String ADDATTRIBUTE_COLEGIO = "colegio";
+    public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
+    public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
+    public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
+    public static final String ADDATTRIBUTE_TEMPORADACOLPORTOR = "temporadaColportor";
     /**
      * Valores para el los path's para las clases
      */
@@ -123,7 +121,6 @@ public class Constantes {
     public static final String PATH_ASOCIACION_CREA = "/admin/asociacion/crea";
     public static final String PATH_ASOCIACION_ACTUALIZA = "/admin/asociacion/actualiza";
     public static final String PATH_ASOCIACION_ELIMINA = "/admin/asociacion/elimina";
-    
     public static final String PATH_COLPORTOR = "/web/colportor";
     public static final String PATH_COLPORTOR_LISTA = "web/colportor/lista";
     public static final String PATH_COLPORTOR_VER = "/web/colportor/ver";
@@ -148,21 +145,6 @@ public class Constantes {
     public static final String PATH_COLEGIO_CREA = "/web/colegio/crea";
     public static final String PATH_COLEGIO_ACTUALIZA = "/web/colegio/actualiza";
     public static final String PATH_COLEGIO_ELIMINA = "/web/colegio/elimina";
-    /**
-     * Valores para el los containsKey para las clases
-     */
-    public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
-    public static final String CONTAINSKEY_ASOCIADOS = "asociados";
-    public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
-    /**
-     * Valores para el los addAttribute para las clases
-     */
-    public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
-    public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
-    public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
-    /**
-     * Valores para el los path's para las clases
-     */
     public static final String PATH_ASOCIADO = "/web/asociado";
     public static final String PATH_ASOCIADO_LISTA = "/web/asociado/lista";
     public static final String PATH_ASOCIADO_VER = "/web/asociado/ver";
@@ -179,4 +161,12 @@ public class Constantes {
     public static final String PATH_TEMPORADA_CREA = "/web/temporada/crea";
     public static final String PATH_TEMPORADA_ACTUALIZA = "/web/temporada/actualiza";
     public static final String PATH_TEMPORADA_ELIMINA = "/web/temporada/elimina";
+    public static final String PATH_TEMPORADACOLPORTOR = "/web/temporadaColportor";
+    public static final String PATH_TEMPORADACOLPORTOR_LISTA = "/web/temporadaColportor/lista";
+    public static final String PATH_TEMPORADACOLPORTOR_VER = "/web/temporadaColportor/ver";
+    public static final String PATH_TEMPORADACOLPORTOR_NUEVA = "/web/temporadaColportor/nueva";
+    public static final String PATH_TEMPORADACOLPORTOR_EDITA = "/web/temporadaColportor/edita";
+    public static final String PATH_TEMPORADACOLPORTOR_CREA = "/web/temporadaColportor/crea";
+    public static final String PATH_TEMPORADACOLPORTOR_ACTUALIZA = "/web/temporadaColportor/actualiza";
+    public static final String PATH_TEMPORADACOLPORTOR_ELIMINA = "/web/temporadaColportor/elimina";
 }

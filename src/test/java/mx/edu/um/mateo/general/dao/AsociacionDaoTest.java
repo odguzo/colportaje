@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
-
 import java.util.*;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
@@ -50,7 +49,8 @@ public class AsociacionDaoTest extends BaseTest {
     @Test
     public void debieraMostrarListaDeAsociaciones() {
         log.debug("Debiera mostrar lista de asociaciones");
-        Union union = new Union("tst-01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("tst-01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         for (int i = 0; i < 20; i++) {
             Asociacion asociacion = new Asociacion("tst-01", Constantes.STATUS_ACTIVO, union);
@@ -72,7 +72,8 @@ public class AsociacionDaoTest extends BaseTest {
     @Test
     public void debieraObtenerAsociacion() {
         log.debug("Debiera obtener asociacion");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion asociacion = new Asociacion("test-01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
@@ -88,7 +89,8 @@ public class AsociacionDaoTest extends BaseTest {
     @Test
     public void debieraCrearAsociacion() {
         log.debug("Debiera crear asociacion");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -116,7 +118,8 @@ public class AsociacionDaoTest extends BaseTest {
     @Test
     public void debieraActualizarAsociacion() {
         log.debug("Debiera actualizar asociacion");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         assertNotNull(union);
         Rol rol = new Rol("ROLE_TEST");
@@ -157,7 +160,8 @@ public class AsociacionDaoTest extends BaseTest {
     @Test(expected = UltimoException.class)
     public void noDebieraEliminarAsociacion() throws Exception {
         log.debug("Debiera actualizar asociacion");
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);
@@ -185,7 +189,8 @@ public class AsociacionDaoTest extends BaseTest {
     public void debieraEliminarAsociacion() throws UltimoException {
         log.debug("Debiera actualizar asociacion");
 
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+        Union union = new Union("TEST01");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Rol rol = new Rol("ROLE_TEST");
         currentSession().save(rol);

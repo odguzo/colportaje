@@ -5,24 +5,25 @@
 package mx.edu.um.mateo.general.web;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociacionDao;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
+import mx.edu.um.mateo.general.test.BaseTest;
+import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import static org.junit.Assert.assertNotNull;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.server.MockMvc;
@@ -30,10 +31,8 @@ import static org.springframework.test.web.server.request.MockMvcRequestBuilders
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import static org.junit.Assert.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  *
@@ -82,7 +81,8 @@ public class AsociacionControllerTest extends BaseTest {
     public void debieraMostrarListaDeAsociacion() throws Exception {
         log.debug("Debiera monstrar lista de cuentas de asociacion");
 
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         for (int i = 0; i < 20; i++) {
             Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
@@ -102,7 +102,8 @@ public class AsociacionControllerTest extends BaseTest {
     @Test
     public void debieraMostrarAsociacion() throws Exception {
         log.debug("Debiera mostrar  asociacion");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         asociacion = asociacionDao.crea(asociacion);
@@ -117,7 +118,8 @@ public class AsociacionControllerTest extends BaseTest {
     @Test
     public void debieraCrearASociacion() throws Exception {
         log.debug("Debiera crear asociacion");
-        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+        Union union = new Union("test");
+        union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         asociacionDao.crea(asociacion);

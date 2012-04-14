@@ -4,10 +4,11 @@
  */
 package mx.edu.um.mateo.general.web;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import mx.edu.um.mateo.general.dao.AsociadoDao;
 import mx.edu.um.mateo.general.model.Asociado;
+import mx.edu.um.mateo.general.test.BaseTest;
+import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
+import static org.junit.Assert.assertNotNull;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,9 +21,8 @@ import static org.springframework.test.web.server.request.MockMvcRequestBuilders
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import static org.junit.Assert.*;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 /**
  *
  * @author gibrandemetrioo

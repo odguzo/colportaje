@@ -4,6 +4,7 @@
  */
 package mx.edu.um.mateo.general.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,8 +105,9 @@ public class UnionController extends BaseController {
 
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
-        log.debug("Nuevo union");
+        log.debug("Nueva union");
         Union union = new Union();
+        union.setStatus(Constantes.STATUS_ACTIVO);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
         return Constantes.PATH_UNION_NUEVA;
     }
@@ -122,8 +124,10 @@ public class UnionController extends BaseController {
 
         try {
             Usuario usuario = null;
+            log.debug("ambiente.obtieneUsuario >>>>>>>" + ambiente.obtieneUsuario());
             if (ambiente.obtieneUsuario() != null) {
                 usuario = ambiente.obtieneUsuario();
+                log.debug("usuario >>>>>>>" + usuario);
             }
             union = unionDao.crea(union, usuario);
 
@@ -145,6 +149,8 @@ public class UnionController extends BaseController {
         log.debug("Edita union {}", id);
         Union union = unionDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
+
+
         return Constantes.PATH_UNION_EDITA;
     }
 
@@ -159,6 +165,12 @@ public class UnionController extends BaseController {
             Usuario usuario = null;
             if (ambiente.obtieneUsuario() != null) {
                 usuario = ambiente.obtieneUsuario();
+            }
+            log.debug("status>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + union.getStatus());
+            if (union.getStatus() == "0") {
+                union.setStatus(Constantes.STATUS_INACTIVO);
+            } else {
+                union.setStatus(Constantes.STATUS_ACTIVO);
             }
             union = unionDao.actualiza(union, usuario);
             ambiente.actualizaSesion(request, usuario);

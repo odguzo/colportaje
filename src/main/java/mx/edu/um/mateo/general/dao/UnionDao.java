@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
-import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Rol;
+import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
@@ -89,8 +89,8 @@ public class UnionDao {
         }
         Criteria criteria = currentSession().createCriteria(Union.class);
         Criteria countCriteria = currentSession().createCriteria(Union.class);
-        
-        
+
+
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             Disjunction propiedades = Restrictions.disjunction();
@@ -131,9 +131,11 @@ public class UnionDao {
 
     public Union crea(Union union, Usuario usuario) {
         Session session = currentSession();
+        union.setStatus(Constantes.STATUS_ACTIVO);
         session.save(union);
         Asociacion asociacion = new Asociacion("Noreste", Constantes.STATUS_ACTIVO, union);
         if (usuario != null) {
+            log.debug("asigando asociacion con id >>>>>>>>>>>>>>>>>" + asociacion.getId());
             usuario.setAsociacion(asociacion);
         }
         asociacionDao.crea(asociacion, usuario);
@@ -174,19 +176,24 @@ public class UnionDao {
         if (cantidad
                 > 1) {
             Union union = obtiene(id);
-            Query query = currentSession().createQuery("select o from Union o where o.id != :unionId");
+            Query query = currentSession().createQuery("select u from Union u where u.id != :unionId");
             query.setLong("unionId", id);
             query.setMaxResults(1);
             Union otraUnion = (Union) query.uniqueResult();
             boolean encontreAdministrador = false;
             for (Asociacion asociacion : union.getAsociaciones()) {
+                currentSession().refresh(asociacion);
                 for (Usuario usuario : asociacion.getUsuarios()) {
                     for (Rol rol : usuario.getRoles()) {
                         if (rol.getAuthority().equals("ROLE_ADMIN")) {
-                            usuario.setAsociacion(asociacion);
-                            currentSession().update(usuario);
-                            currentSession().flush();
-                            encontreAdministrador = true;
+                            encontreAlmacen:
+                            for (Asociacion otraAsociacion : otraUnion.getAsociaciones()) {
+                                usuario.setAsociacion(otraAsociacion);
+                                currentSession().update(usuario);
+                                currentSession().flush();
+                                encontreAdministrador = true;
+                                break encontreAlmacen;
+                            }
                         }
                     }
                 }
@@ -195,9 +202,8 @@ public class UnionDao {
                 }
             }
             String nombre = union.getNombre();
-
-            currentSession().delete(union);
-            currentSession().flush();
+            union.setStatus(Constantes.STATUS_INACTIVO);
+            actualiza(union);
             return nombre;
         } else {
             throw new UltimoException("No se puede eliminar porque es el ultimo");
