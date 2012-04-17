@@ -4,7 +4,6 @@
  */
 package mx.edu.um.mateo.general.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,7 +191,12 @@ public class UnionController extends BaseController {
         try {
             String nombre = unionDao.elimina(id);
 
-            ambiente.actualizaSesion(request);
+            Usuario usuario = null;
+            if (ambiente.obtieneUsuario() != null) {
+                usuario = ambiente.obtieneUsuario();
+                log.debug("usuario >>>>>>>" + usuario);
+            }
+            union = unionDao.crea(union, usuario);
 
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "union.eliminada.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
