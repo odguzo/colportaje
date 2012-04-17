@@ -13,12 +13,9 @@
        <title><s:message code="colportor.lista.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li class="active"><a href="<s:url value='/web/colportor'/>" ><s:message code="colportor.label" /></a></li>
-               </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="colportor" />
+        </jsp:include>
 
         <h1><s:message code="colportor.lista.label" /></h1>
         <hr/>
@@ -30,7 +27,7 @@
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/colportor/nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='colportor.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/colportor/nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='colportor.nuevo.label' /></a>
                 <input name="filtro" type="text" class="input-medium search-query" value="${param.filtro}">
                 <button type="submit" class="btn"><s:message code="buscar.label" /></button>
             </p>
@@ -142,7 +139,7 @@
                 <tbody>
                     <c:forEach items="${colportores}" var="colportor" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
-                            <td><a href="<c:url value='colportor/ver/${colportor.id}' />">${colportor.nombre}</a></td>
+                            <td><a href="<c:url value='/colportor/ver/${colportor.id}' />">${colportor.nombre}</a></td>
                             <td>${colportor.status}</td>
                             <td>${colportor.clave}</td>
                             <td>${colportor.direccion}</td>

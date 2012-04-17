@@ -13,12 +13,9 @@
         <title><s:message code="temporada.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="temporada.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="temporada" />
+        </jsp:include>
 
         <div id="ver-temporada" class="content scaffold-list" role="main">
             <h1><s:message code="temporada.ver.label" /></h1>
@@ -34,7 +31,7 @@
                 </div>
             </c:if>
 
-            <c:url var="eliminaUrl" value="/web/temporada/elimina" />
+            <c:url var="eliminaUrl" value="/temporada/elimina" />
             <form:form commandName="temporada" action="${eliminaUrl}" >
                 <form:errors path="*" cssClass="alert alert-error" element="ul" />
 
@@ -53,7 +50,7 @@
                
 
                 <p class="well">
-                    <a href="<c:url value='/web/temporada/edita/${temporada.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
+                    <a href="<c:url value='/temporada/edita/${temporada.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
                 <form:hidden path="id" />
                 <input type="submit" name="elimina" value="<s:message code='eliminar.button'/>" class="btn btn-danger icon-remove" style="margin-bottom: 2px;" onclick="return confirm('<s:message code="confirma.elimina.message" />');" />
                 </p>

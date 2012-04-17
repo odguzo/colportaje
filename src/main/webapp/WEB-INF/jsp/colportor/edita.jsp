@@ -1,6 +1,6 @@
 <%-- 
-    Document   : nuevo
-    Created on : 14/03/2012, 03:28:11 PM
+    Document   : edita
+    Created on : 14/03/2012, 03:34:26 PM
     Author     : wilbert
 --%>
 
@@ -11,24 +11,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="colportor.nuevo.label" /></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <title><s:message code="colportor.edita.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-              
-                <li class="active"><a href="<s:url value='/web/colportor'/>" ><s:message code="colportor.label" /></a></li>
-          
-            </ul>
-        </nav>
-
-        <div id="nuevo-colportor" class="content scaffold-list" role="main">
-            <h1><s:message code="colportor.nuevo.label" /></h1>
+          <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="colportor" />
+        </jsp:include>
+            
+       <div id="edita-colportor" class="content scaffold-list" role="main">
+            <h1><s:message code="colportor.edita.label" /></h1>
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='../colportor'/>"><i class="icon-list icon-white"></i> <s:message code='colportor.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='colportor.lista.label' /></a>
             </p>
-            <form:form commandName="colportor" action="crea" method="post">
+            <c:url var="actualizaUrl" value="../actualiza" />
+            <form:form commandName="colportor" method="post" action="${actualizaUrl}">
                 <form:errors path="*">
                     <div class="alert alert-block alert-error fade in" role="status">
                         <a class="close" data-dismiss="alert">×</a>
@@ -37,6 +34,8 @@
                         </c:forEach>
                     </div>
                 </form:errors>
+                <form:hidden path="id" />
+                <form:hidden path="version" />
 
                 <fieldset>
                     <s:bind path="colportor.nombre">
@@ -49,7 +48,7 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                        <s:bind path="colportor.status">
+                    <s:bind path="colportor.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="status">
                                 <s:message code="status.label" />
@@ -60,7 +59,7 @@
                         </div>
                     </s:bind>
                     
-                       <s:bind path="colportor.clave">
+                     <s:bind path="colportor.clave">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="clave">
                                 <s:message code="clave.label" />
@@ -105,14 +104,12 @@
                             <form:errors path="telefono" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
+                   
                     
-                    
-                    
-                  
                 </fieldset>
 
                 <p class="well" style="margin-top: 10px;">
-                    <input type="submit" name="_action_crea" class="btn btn-primary btn-large" value="<s:message code='crear.button'/>" id="crea" />
+                    <input type="submit" name="actualiza" value="<s:message code='actualizar.button' />" class="btn btn-large btn-primary" />
                 </p>
             </form:form>
         </div>
@@ -125,4 +122,3 @@
         </content>
     </body>
 </html>
-

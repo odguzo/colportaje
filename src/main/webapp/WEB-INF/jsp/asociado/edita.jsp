@@ -14,13 +14,9 @@
         <title><s:message code="asociado.edita.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="asociado.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="asociado" />
+        </jsp:include>
 
         <div id="edita-asociado" class="content scaffold-list" role="main">
             <h1><s:message code="asociado.edita.label" /></h1>

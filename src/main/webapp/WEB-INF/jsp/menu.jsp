@@ -4,6 +4,12 @@
 <nav class="navbar navbar-fixed-top" role="navigation">
     <ul class="nav">
         <li<c:if test="${param.menu eq 'principal'}"> class="active"</c:if>><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-        <li><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
+        <li<c:if test="${param.menu eq 'admin'}"> class="active"</c:if>><a href="<c:url value='/admin' />"><s:message code="admin.label" /></a></li>
+        <li<c:if test="${param.menu eq 'colportor'}"> class="active"</c:if>><a href="<c:url value='/colportor' />"><s:message code="colportor.label" /></a></li>
+        <li<c:if test="${param.menu eq 'colegio'}"> class="active"</c:if>><a href="<c:url value='/colegio' />"><s:message code="colegio.label" /></a></li>
+        <li<c:if test="${param.menu eq 'documento'}"> class="active"</c:if>><a href="<c:url value='/documento' />"><s:message code="documento.label" /></a></li>
+        <li<c:if test="${param.menu eq 'asociado'}"> class="active"</c:if>><a href="<c:url value='/asociado' />"><s:message code="asociado.label" /></a></li>
+        <li<c:if test="${param.menu eq 'temporada'}"> class="active"</c:if>><a href="<c:url value='/temporada' />"><s:message code="temporada.label" /></a></li>
+        <li<c:if test="${param.menu eq 'temporadaColportor'}"> class="active"</c:if>><a href="<c:url value='/temporadaColportor' />"><s:message code="temporadaColportor.label" /></a></li>
     </ul>
 </nav>

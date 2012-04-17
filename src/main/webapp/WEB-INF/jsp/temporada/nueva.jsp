@@ -15,19 +15,14 @@
         <title><s:message code="temporada.nuevo.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-
-                <li class="active"><a href="<s:url value='/web/temporada'/>" ><s:message code="temporada.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="temporada" />
+        </jsp:include>
 
         <div id="nueva-temporada" class="content scaffold-list" role="main">
             <h1><s:message code="temporada.nuevo.label" /></h1>
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/temporada'/>"><i class="icon-list icon-white"></i> <s:message code='temporada.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/temporada'/>"><i class="icon-list icon-white"></i> <s:message code='temporada.lista.label' /></a>
             </p>
             <form:form commandName="temporada" action="crea" method="post">
                 <form:errors path="*">

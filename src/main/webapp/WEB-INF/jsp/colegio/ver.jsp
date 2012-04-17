@@ -14,12 +14,9 @@
         <title><s:message code="colegio.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-             <li class="active"><a href="<s:url value='../'/>" ><s:message code="colegio.label" /></a></li>
-               
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="colegio" />
+        </jsp:include>
 
         <div id="ver-colegio" class="content scaffold-list" role="main">
             <h1><s:message code="colegio.ver.label" /></h1>

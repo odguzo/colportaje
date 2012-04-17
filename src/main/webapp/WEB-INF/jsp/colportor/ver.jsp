@@ -14,12 +14,9 @@
         <title><s:message code="colportor.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-             <li class="active"><a href="<s:url value='../'/>" ><s:message code="colportor.label" /></a></li>
-               
-            </ul>
-        </nav>
+         <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="colportor" />
+        </jsp:include>
 
         <div id="ver-colportor" class="content scaffold-list" role="main">
             <h1><s:message code="colportor.ver.label" /></h1>

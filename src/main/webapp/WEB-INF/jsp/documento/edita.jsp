@@ -15,13 +15,9 @@
        <title><s:message code="documento.edita.label" /></title>
     </head>
     <body>
-          <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="documento.label" /></a></li>
-  
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="documento" />
+        </jsp:include>
             
        <div id="edita-documento" class="content scaffold-list" role="main">
             <h1><s:message code="documento.edita.label" /></h1>

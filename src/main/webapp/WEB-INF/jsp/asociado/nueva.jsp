@@ -15,19 +15,14 @@
         <title><s:message code="asociado.nuevo.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li><a href="<c:url value='/inicio' />"><s:message code="inicio.label" /></a></li>
-
-                <li class="active"><a href="<s:url value='/web/asociado'/>" ><s:message code="asociado.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="asociado" />
+        </jsp:include>
 
         <div id="nueva-asociado" class="content scaffold-list" role="main">
             <h1><s:message code="asociado.nuevo.label" /></h1>
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/asociado'/>"><i class="icon-list icon-white"></i> <s:message code='asociado.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/asociado'/>"><i class="icon-list icon-white"></i> <s:message code='asociado.lista.label' /></a>
             </p>
             <form:form commandName="asociado" action="crea" method="post">
                 <form:errors path="*">

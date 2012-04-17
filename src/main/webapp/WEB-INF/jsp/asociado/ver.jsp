@@ -13,12 +13,9 @@
         <title><s:message code="asociado.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-                <li class="active"><a href="<s:url value='../'/>" ><s:message code="asociado.label" /></a></li>
-
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="asociado" />
+        </jsp:include>
 
         <div id="ver-asociado" class="content scaffold-list" role="main">
             <h1><s:message code="asociado.ver.label" /></h1>
@@ -61,7 +58,7 @@
               
 
                 <p class="well">
-                    <a href="<c:url value='/web/asociado/edita/${asociado.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
+                    <a href="<c:url value='/asociado/edita/${asociado.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
                 <form:hidden path="id" />
                 <input type="submit" name="elimina" value="<s:message code='eliminar.button'/>" class="btn btn-danger icon-remove" style="margin-bottom: 2px;" onclick="return confirm('<s:message code="confirma.elimina.message" />');" />
                 </p>

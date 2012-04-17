@@ -14,12 +14,9 @@
         <title><s:message code="documento.ver.label" /></title>
     </head>
     <body>
-        <nav class="navbar navbar-fixed-top" role="navigation">
-            <ul class="nav">
-             <li class="active"><a href="<s:url value='../'/>" ><s:message code="documento.label" /></a></li>
-               
-            </ul>
-        </nav>
+        <jsp:include page="../menu.jsp" >
+            <jsp:param name="menu" value="documento" />
+        </jsp:include>
 
         <div id="ver-documento" class="content scaffold-list" role="main">
             <h1><s:message code="documento.ver.label" /></h1>
