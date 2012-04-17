@@ -1,17 +1,10 @@
 
-/*
->>>>>>> b2ae35d68ea8f3b79ccb88e47079de5fa184c2ca
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mx.edu.um.mateo.general.dao;
-
 import java.util.HashMap;
 import java.util.Map;
-import mx.edu.um.mateo.general.dao.EmpresaDao;
-import mx.edu.um.mateo.general.model.*;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import mx.um.edu.mateo.Constantes;
+import mx.edu.um.mateo.general.model.Colportor;
+import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

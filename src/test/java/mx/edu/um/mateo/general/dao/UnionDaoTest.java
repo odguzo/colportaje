@@ -3,13 +3,8 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import mx.edu.um.mateo.general.model.*;
-import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;

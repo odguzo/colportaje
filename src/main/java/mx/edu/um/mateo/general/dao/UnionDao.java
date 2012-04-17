@@ -6,8 +6,7 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.HashMap;
 import java.util.Map;
-import mx.edu.um.mateo.general.dao.EmpresaDao;
-import mx.edu.um.mateo.general.model.*;
+import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import mx.um.edu.mateo.Constantes;
 import org.hibernate.Criteria;

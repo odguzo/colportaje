@@ -43,7 +43,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -181,7 +180,9 @@ public class ColportorController {
         try {
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
+
             log.error("No se pudo crear la colportor", e);
+
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
         

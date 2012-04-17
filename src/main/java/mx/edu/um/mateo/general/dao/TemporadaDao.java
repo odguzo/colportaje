@@ -6,7 +6,6 @@ package mx.edu.um.mateo.general.dao;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import mx.edu.um.mateo.general.model.Asociado;
 import mx.edu.um.mateo.general.model.Temporada;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import mx.um.edu.mateo.Constantes;
