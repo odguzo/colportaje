@@ -226,16 +226,17 @@ public class UsuarioDao {
     public List<Asociacion> obtieneAsociaciones() {
         List<Asociacion> asociaciones;
         if (springSecurityUtils.ifAnyGranted("ROLE_ADMIN")) {
-            Query query = currentSession().createQuery("select a from Asociacion a order by a.asociacion.union, a.asociacion, a.nombre");
+            //Query query = currentSession().createQuery("select a from Almacen a order by a.empresa.organizacion, a.empresa, a.nombre");
+            Query query = currentSession().createQuery("select a from Asociacion a order by a.union, a.nombre");
             asociaciones = query.list();
         } else if (springSecurityUtils.ifAnyGranted("ROLE_ORG")) {
             Usuario usuario = springSecurityUtils.obtieneUsuario();
-            Query query = currentSession().createQuery("select a from Asociacion a where a.union.id = :unionId order by a.asociacion, a.nombre");
+            Query query = currentSession().createQuery("select a from Asociaciones a where a.union.id = :unionId order by a.asociacion, a.nombre");
             query.setLong("unionId", usuario.getAsociacion().getUnion().getId());
             asociaciones = query.list();
         } else {
             Usuario usuario = springSecurityUtils.obtieneUsuario();
-            Query query = currentSession().createQuery("select a from Asociacion a where a.asociacion.id = :asociacionId order by a.nombre");
+            Query query = currentSession().createQuery("select a from Asociaciones a where a.asociacion.id = :asociacionId order by a.nombre");
             query.setLong("asociacionId", usuario.getAsociacion().getId());
             asociaciones = query.list();
         }
