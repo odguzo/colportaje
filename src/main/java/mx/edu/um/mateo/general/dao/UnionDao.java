@@ -167,46 +167,12 @@ public class UnionDao {
         return union;
     }
 
-    public String elimina(Long id) throws UltimoException {
+    public String elimina(Long id) {
         log.debug("Eliminando union {}", id);
-        Criteria criteria = currentSession().createCriteria(Union.class);
-        criteria.setProjection(Projections.rowCount());
-        Long cantidad = (Long) criteria.list().get(0);
-        if (cantidad
-                > 1) {
-//            Union union = obtiene(id);
-//            Query query = currentSession().createQuery("select u from Union u where u.id != :unionId");
-//            query.setLong("unionId", id);
-//            query.setMaxResults(1);
-//            Union otraUnion = (Union) query.uniqueResult();
-//            boolean encontreAdministrador = false;
-//            for (Asociacion asociacion : union.getAsociaciones()) {
-//                currentSession().refresh(asociacion);
-//                for (Usuario usuario : asociacion.getUsuarios()) {
-//                    for (Rol rol : usuario.getRoles()) {
-//                        if (rol.getAuthority().equals("ROLE_ADMIN")) {
-//                            encontreAlmacen:
-//                            for (Asociacion otraAsociacion : otraUnion.getAsociaciones()) {
-//                                usuario.setAsociacion(otraAsociacion);
-//                                currentSession().update(usuario);
-//                                currentSession().flush();
-//                                encontreAdministrador = true;
-//                                break encontreAlmacen;
-//                            }
-//                        }
-//                    }
-//                }
-//                if (encontreAdministrador) {
-//                    currentSession().refresh(asociacion);
-//                }
-//            }
-            Union union = obtiene(id);
-            String nombre = union.getNombre();
-            union.setStatus(Constantes.STATUS_INACTIVO);
-            actualiza(union);
-            return nombre;
-        } else {
-            throw new UltimoException("No se puede eliminar porque es el ultimo");
-        }
+        Union union = obtiene(id);
+        String nombre = union.getNombre();
+        union.setStatus(Constantes.STATUS_INACTIVO);
+        actualiza(union);
+        return nombre;
     }
 }

@@ -15,7 +15,6 @@ import mx.edu.um.mateo.general.dao.UnionDao;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.ReporteException;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +105,6 @@ public class UnionController extends BaseController {
     public String nueva(Model modelo) {
         log.debug("Nueva union");
         Union union = new Union();
-        union.setStatus(Constantes.STATUS_ACTIVO);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
         return Constantes.PATH_UNION_NUEVA;
     }
@@ -123,10 +121,8 @@ public class UnionController extends BaseController {
 
         try {
             Usuario usuario = null;
-            log.debug("ambiente.obtieneUsuario >>>>>>>" + ambiente.obtieneUsuario());
             if (ambiente.obtieneUsuario() != null) {
                 usuario = ambiente.obtieneUsuario();
-                log.debug("usuario >>>>>>>" + usuario);
             }
             union = unionDao.crea(union, usuario);
 
@@ -149,7 +145,6 @@ public class UnionController extends BaseController {
         Union union = unionDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
 
-
         return Constantes.PATH_UNION_EDITA;
     }
 
@@ -157,6 +152,9 @@ public class UnionController extends BaseController {
     public String actualiza(HttpServletRequest request, @Valid Union union, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                log.debug("Error: {}", error);
+            }
             return Constantes.PATH_UNION_EDITA;
         }
 
@@ -171,6 +169,7 @@ public class UnionController extends BaseController {
                 union.setStatus(Constantes.STATUS_ACTIVO);
             }
             union = unionDao.actualiza(union, usuario);
+            
             ambiente.actualizaSesion(request, usuario);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al union", e);
@@ -193,20 +192,8 @@ public class UnionController extends BaseController {
 
             ambiente.actualizaSesion(request);
 
-
-//            Usuario usuario = null;
-//            if (ambiente.obtieneUsuario() != null) {
-//                usuario = ambiente.obtieneUsuario();
-//                log.debug("usuario >>>>>>>" + usuario);
-//            }
-//            union = unionDao.crea(union, usuario);
-
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "union.eliminada.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
-        } catch (UltimoException e) {
-            log.error("No se pudo eliminar el union " + id, e);
-            bindingResult.addError(new ObjectError("union", new String[]{"ultima.union.no.eliminada.message"}, null, null));
-            return "admin/union/ver";
         } catch (Exception e) {
             log.error("No se pudo eliminar el union " + id, e);
             bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_UNION, new String[]{"union.no.eliminada.message"}, null, null));

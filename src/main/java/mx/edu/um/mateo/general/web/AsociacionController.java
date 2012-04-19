@@ -36,7 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AsociacionController extends BaseController {
 
     @Autowired
-    private AsociacionDao AsociacionDao;
+    private AsociacionDao asociacionDao;
 
     public AsociacionController() {
         log.info("Se ha creado una nueva instancia de AsociacionController");
@@ -65,7 +65,7 @@ public class AsociacionController extends BaseController {
 
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = AsociacionDao.lista(params);
+            params = asociacionDao.lista(params);
             try {
                 generaReporte(tipo, (List<Asociacion>) params.get(Constantes.CONTAINSKEY_ASOCIACIONES), response, Constantes.CONTAINSKEY_ASOCIACIONES, Constantes.UNI, null);
                 return null;
@@ -79,7 +79,7 @@ public class AsociacionController extends BaseController {
 
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = AsociacionDao.lista(params);
+            params = asociacionDao.lista(params);
 
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
@@ -90,7 +90,7 @@ public class AsociacionController extends BaseController {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
-        params = AsociacionDao.lista(params);
+        params = asociacionDao.lista(params);
         modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIACIONES, params.get(Constantes.CONTAINSKEY_ASOCIACIONES));
 
         this.pagina(params, modelo, Constantes.CONTAINSKEY_ASOCIACIONES, pagina);
@@ -101,7 +101,7 @@ public class AsociacionController extends BaseController {
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
         log.debug("Mostrando Asociacion {}", id);
-        Asociacion asociacion = AsociacionDao.obtiene(id);
+        Asociacion asociacion = asociacionDao.obtiene(id);
 
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociacion);
 
@@ -112,7 +112,6 @@ public class AsociacionController extends BaseController {
     public String nuevo(Model modelo) {
         log.debug("Nueva Asociacion");
         Asociacion asociacion = new Asociacion();
-        asociacion.setStatus(Constantes.STATUS_ACTIVO);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociacion);
         return Constantes.PATH_ASOCIACION_NUEVA;
     }
@@ -131,8 +130,11 @@ public class AsociacionController extends BaseController {
         }
 
         try {
-            Usuario usuario = ambiente.obtieneUsuario();
-            asociacion = AsociacionDao.crea(asociacion, usuario);
+            Usuario usuario = null;
+            if (ambiente.obtieneUsuario() != null) {
+                usuario = ambiente.obtieneUsuario();
+            }
+            asociacion = asociacionDao.crea(asociacion, usuario);
 
             ambiente.actualizaSesion(request, usuario);
         } catch (ConstraintViolationException e) {
@@ -150,8 +152,9 @@ public class AsociacionController extends BaseController {
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Asociacion {}", id);
-        Asociacion asociacion = AsociacionDao.obtiene(id);
+        Asociacion asociacion = asociacionDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociacion);
+        
         return Constantes.PATH_ASOCIACION_EDITA;
     }
 
@@ -166,8 +169,16 @@ public class AsociacionController extends BaseController {
         }
 
         try {
-            Usuario usuario = ambiente.obtieneUsuario();
-            asociacion = AsociacionDao.actualiza(asociacion, usuario);
+            Usuario usuario = null;
+            if (ambiente.obtieneUsuario() != null) {
+                usuario = ambiente.obtieneUsuario();
+            }
+            if (asociacion.getStatus() == "0") {
+                asociacion.setStatus(Constantes.STATUS_INACTIVO);
+            } else {
+                asociacion.setStatus(Constantes.STATUS_ACTIVO);
+            }
+            asociacion = asociacionDao.actualiza(asociacion, usuario);
 
             ambiente.actualizaSesion(request, usuario);
         } catch (ConstraintViolationException e) {
@@ -187,16 +198,12 @@ public class AsociacionController extends BaseController {
         log.debug("Elimina Asociacion");
         try {
             Long unionId = (Long) request.getSession().getAttribute("unionId");
-            String nombre = AsociacionDao.elimina(id, unionId);
+            String nombre = asociacionDao.elimina(id, unionId);
 
             ambiente.actualizaSesion(request);
 
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.eliminada.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
-        } catch (UltimoException e) {
-            log.error("No se pudo eliminar el Asociacion " + id, e);
-            bindingResult.addError(new ObjectError("Asociacion", new String[]{"ultimo.Asociacion.no.eliminado.message"}, null, null));
-            return "inventario/Asociacion/ver";
         } catch (Exception e) {
             log.error("No se pudo eliminar la Asociacion " + id, e);
             bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_ASOCIACION, new String[]{"union.no.eliminada.message"}, null, null));

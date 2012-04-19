@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import mx.edu.um.mateo.Constantes;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -30,7 +31,7 @@ public class Asociacion implements Serializable {
     private String nombre;
     @NotNull
     @Column(nullable = false, length = 2, name = "status")
-    private String status;
+    private String status = Constantes.STATUS_ACTIVO;
     @ManyToOne(optional = false)
     private Union union;
     @OneToMany(mappedBy = "asociacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
