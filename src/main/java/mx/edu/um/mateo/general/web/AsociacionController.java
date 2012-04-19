@@ -112,6 +112,7 @@ public class AsociacionController extends BaseController {
     public String nuevo(Model modelo) {
         log.debug("Nueva Asociacion");
         Asociacion asociacion = new Asociacion();
+        asociacion.setStatus(Constantes.STATUS_ACTIVO);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_ASOCIACION, asociacion);
         return Constantes.PATH_ASOCIACION_NUEVA;
     }
@@ -143,7 +144,7 @@ public class AsociacionController extends BaseController {
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociacion.getNombre()});
 
-        return "redirect:" + Constantes.PATH_UNION_VER + "/" + asociacion.getId();
+        return "redirect:" + Constantes.PATH_ASOCIACION_VER + "/" + asociacion.getId();
     }
 
     @RequestMapping("/edita/{id}")

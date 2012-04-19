@@ -63,7 +63,7 @@
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
                             <td><a href="<c:url value='/admin/asociacion/ver/${asociacion.id}' />">${asociacion.nombre}</a></td>
                             <td>${asociacion.status}</td>
-                            <td>${asociacion.union}</td>
+                            <td>${asociacion.union.getNombre()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

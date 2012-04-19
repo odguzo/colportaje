@@ -131,7 +131,6 @@ public class UnionDao {
 
     public Union crea(Union union, Usuario usuario) {
         Session session = currentSession();
-        union.setStatus(Constantes.STATUS_ACTIVO);
         session.save(union);
         Asociacion asociacion = new Asociacion("Noreste", Constantes.STATUS_ACTIVO, union);
         if (usuario != null) {
@@ -175,32 +174,33 @@ public class UnionDao {
         Long cantidad = (Long) criteria.list().get(0);
         if (cantidad
                 > 1) {
+//            Union union = obtiene(id);
+//            Query query = currentSession().createQuery("select u from Union u where u.id != :unionId");
+//            query.setLong("unionId", id);
+//            query.setMaxResults(1);
+//            Union otraUnion = (Union) query.uniqueResult();
+//            boolean encontreAdministrador = false;
+//            for (Asociacion asociacion : union.getAsociaciones()) {
+//                currentSession().refresh(asociacion);
+//                for (Usuario usuario : asociacion.getUsuarios()) {
+//                    for (Rol rol : usuario.getRoles()) {
+//                        if (rol.getAuthority().equals("ROLE_ADMIN")) {
+//                            encontreAlmacen:
+//                            for (Asociacion otraAsociacion : otraUnion.getAsociaciones()) {
+//                                usuario.setAsociacion(otraAsociacion);
+//                                currentSession().update(usuario);
+//                                currentSession().flush();
+//                                encontreAdministrador = true;
+//                                break encontreAlmacen;
+//                            }
+//                        }
+//                    }
+//                }
+//                if (encontreAdministrador) {
+//                    currentSession().refresh(asociacion);
+//                }
+//            }
             Union union = obtiene(id);
-            Query query = currentSession().createQuery("select u from Union u where u.id != :unionId");
-            query.setLong("unionId", id);
-            query.setMaxResults(1);
-            Union otraUnion = (Union) query.uniqueResult();
-            boolean encontreAdministrador = false;
-            for (Asociacion asociacion : union.getAsociaciones()) {
-                currentSession().refresh(asociacion);
-                for (Usuario usuario : asociacion.getUsuarios()) {
-                    for (Rol rol : usuario.getRoles()) {
-                        if (rol.getAuthority().equals("ROLE_ADMIN")) {
-                            encontreAlmacen:
-                            for (Asociacion otraAsociacion : otraUnion.getAsociaciones()) {
-                                usuario.setAsociacion(otraAsociacion);
-                                currentSession().update(usuario);
-                                currentSession().flush();
-                                encontreAdministrador = true;
-                                break encontreAlmacen;
-                            }
-                        }
-                    }
-                }
-                if (encontreAdministrador) {
-                    currentSession().refresh(asociacion);
-                }
-            }
             String nombre = union.getNombre();
             union.setStatus(Constantes.STATUS_INACTIVO);
             actualiza(union);

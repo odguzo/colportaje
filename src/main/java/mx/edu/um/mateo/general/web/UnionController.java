@@ -165,7 +165,6 @@ public class UnionController extends BaseController {
             if (ambiente.obtieneUsuario() != null) {
                 usuario = ambiente.obtieneUsuario();
             }
-            log.debug("status>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + union.getStatus());
             if (union.getStatus() == "0") {
                 union.setStatus(Constantes.STATUS_INACTIVO);
             } else {
@@ -189,11 +188,11 @@ public class UnionController extends BaseController {
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Union union, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina union");
         try {
-            
+
             String nombre = unionDao.elimina(id);
 
             ambiente.actualizaSesion(request);
-            
+
 
 //            Usuario usuario = null;
 //            if (ambiente.obtieneUsuario() != null) {
