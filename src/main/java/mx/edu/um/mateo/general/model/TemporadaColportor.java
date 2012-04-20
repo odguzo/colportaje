@@ -5,12 +5,9 @@
 package mx.edu.um.mateo.general.model;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 /**
  *
@@ -36,7 +33,7 @@ public class TemporadaColportor implements Serializable{
     private String objetivo;
     @NotBlank
     @Column(nullable = false, length = 300)
-    private String observacion;
+    private String observaciones;
     @ManyToOne
     private Colportor colportor;
     @ManyToOne
@@ -59,10 +56,10 @@ public class TemporadaColportor implements Serializable{
         this.union = union;
         
     }
-    public TemporadaColportor(String status,String objetivo, String observacion){
+    public TemporadaColportor(String status,String objetivo, String observaciones){
         this.status = status;
         this.objetivo = objetivo;
-        this.observacion = observacion;
+        this.observaciones = observaciones;
         Date f = new Date();
         this.fecha = f;
     }
@@ -115,12 +112,12 @@ public class TemporadaColportor implements Serializable{
         this.objetivo = objetivo;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public String getObservaciones() {
+        return observaciones;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public String getStatus() {

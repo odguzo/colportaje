@@ -207,21 +207,28 @@ public class TemporadaColportorController {
 
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid TemporadaColportor temporadaColportor, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String actualiza(HttpServletRequest request, @Valid TemporadaColportor temporadaColportor, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_TEMPORADACOLPORTOR_EDITA;
         }
+        //try fechaInicio
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            temporadaColportor.setFecha(sdf.parse(request.getParameter("fecha")));
+        }catch(ConstraintViolationException e) {
+            log.error("Fecha  Incorrecta", e);
+            return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
+        }
         try {
-            temporadaColportor.setFecha(new Date());
             temporadaColportor = temporadaColportorDao.actualiza(temporadaColportor);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Asociacion", e);
             return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporadaColportor.getObservacion()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.actualizada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporadaColportor.getObservaciones()});
 
         return "redirect:"+Constantes.PATH_TEMPORADACOLPORTOR_VER+ "/" + temporadaColportor.getId();
     }
@@ -232,7 +239,7 @@ public class TemporadaColportorController {
         try {
             String nombre = temporadaColportorDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.eliminado.message");
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.eliminada.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el asociado " + id, e);

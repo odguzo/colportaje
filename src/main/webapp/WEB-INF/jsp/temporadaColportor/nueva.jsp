@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="temporadaColportor.nuevo.label" /></title>
+        <title><s:message code="temporadaColportor.nueva.label" /></title>
     </head>
     <body>
         <jsp:include page="../menu.jsp" >
@@ -20,7 +20,7 @@
         </jsp:include>
 
         <div id="nueva-temporadaColportor" class="content scaffold-list" role="main">
-            <h1><s:message code="temporadaColportor.nuevo.label" /></h1>
+            <h1><s:message code="temporadaColportor.nueva.label" /></h1>
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='/temporadaColportor'/>"><i class="icon-list icon-white"></i> <s:message code='temporadaColportor.lista.label' /></a>
             </p>
@@ -66,13 +66,13 @@
                         </div>
                     </s:bind>
                     
-                    <s:bind path="temporadaColportor.observacion">
+                    <s:bind path="temporadaColportor.observaciones">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="observacion">
-                                <s:message code="observacion.label" />
+                            <label for="observaciones">
+                                <s:message code="observaciones.label" />
                                 <span class="required-indicator">*</span>
-                                <form:textarea path="observacion" maxlength="4000" required="true"  />
-                            <form:errors path="observacion" cssClass="alert alert-error" type="texttarea"/>
+                                <form:textarea path="observaciones" maxlength="4000" required="true"  />
+                            <form:errors path="observaciones" cssClass="alert alert-error" type="texttarea"/>
                         </div>
                     </s:bind>
                    

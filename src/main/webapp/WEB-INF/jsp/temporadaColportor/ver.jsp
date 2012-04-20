@@ -22,7 +22,7 @@
 
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='temporadaColportor.lista.label' /></a>
-                <a class="btn btn-primary" href="<s:url value='../nueva'/>"><i class="icon-user icon-white"></i> <s:message code='temporadaColportor.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../nueva'/>"><i class="icon-user icon-white"></i> <s:message code='temporadaColportor.nueva.label' /></a>
             </p>
             <c:if test="${not empty message}">
                 <div class="alert alert-block alert-success fade in" role="status">
@@ -48,8 +48,8 @@
                     <div class="span11">${temporadaColportor.objetivo}</div>
                 </div>
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="observacion.label" /></div>
-                    <div class="span11">${temporadaColportor.observacion}</div>
+                    <div class="span1"><s:message code="observaciones.label" /></div>
+                    <div class="span11">${temporadaColportor.observaciones}</div>
                 </div>
                
 

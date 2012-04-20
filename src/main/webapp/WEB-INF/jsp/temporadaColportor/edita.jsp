@@ -67,14 +67,14 @@
                             <form:errors path="objetivo" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="temporadaColportor.observacion">
+                    <s:bind path="temporadaColportor.observaciones">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="observacion">
-                                <s:message code="observacion.label" />
+                            <label for="observaciones">
+                                <s:message code="observaciones.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="observacion" maxlength="50" required="true"  />
-                            <form:errors path="observacion" cssClass="alert alert-error" />
+                            <form:input path="observaciones" maxlength="50" required="true"  />
+                            <form:errors path="observaciones" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     

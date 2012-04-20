@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="temporada.nuevo.label" /></title>
+        <title><s:message code="temporada.nueva.label" /></title>
     </head>
     <body>
         <jsp:include page="../menu.jsp" >
@@ -20,7 +20,7 @@
         </jsp:include>
 
         <div id="nueva-temporada" class="content scaffold-list" role="main">
-            <h1><s:message code="temporada.nuevo.label" /></h1>
+            <h1><s:message code="temporada.nueva.label" /></h1>
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='/temporada'/>"><i class="icon-list icon-white"></i> <s:message code='temporada.lista.label' /></a>
             </p>

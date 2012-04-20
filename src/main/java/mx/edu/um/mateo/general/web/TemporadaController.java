@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 /**
  *
  * @author gibrandemetrioo
@@ -50,6 +52,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(Constantes.PATH_TEMPORADA)
 public class TemporadaController {
+
     private static final Logger log = LoggerFactory.getLogger(TemporadaController.class);
     @Autowired
     private TemporadaDao temporadaDao;
@@ -72,11 +75,11 @@ public class TemporadaController {
             @RequestParam(required = false) String sort,
             Model modelo) {
         log.debug("Mostrando lista de Temporada");
-        
+
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
-}
+        }
         if (pagina != null) {
             params.put(Constantes.CONTAINSKEY_PAGINA, pagina);
             modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
@@ -163,25 +166,25 @@ public class TemporadaController {
             return Constantes.PATH_TEMPORADA_NUEVA;
         }
         //try fechaInicio
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             temporada.setFechaInicio(sdf.parse(request.getParameter("fechaInicio")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("Fecha de Inicio Incorrecta", e);
             return Constantes.PATH_TEMPORADA_NUEVA;
         }
         //try fechaFinal
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             temporada.setFechaFinal(sdf.parse(request.getParameter("fechaFinal")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("Fecha de Final Incorrecta", e);
             return Constantes.PATH_TEMPORADA_NUEVA;
         }
-        
+
         try {
-            log.debug("Temporada FEcha Inicio"+temporada.getFechaInicio());
-            log.debug("Temporada FEcha Inicio"+temporada.getFechaFinal());
+            log.debug("Temporada FEcha Inicio" + temporada.getFechaInicio());
+            log.debug("Temporada FEcha Inicio" + temporada.getFechaFinal());
             temporada = temporadaDao.crea(temporada);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la temporada", e);
@@ -191,7 +194,7 @@ public class TemporadaController {
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.creada.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporada.getNombre()});
 
-        return "redirect:"+ Constantes.PATH_TEMPORADA_VER + "/" + temporada.getId();
+        return "redirect:" + Constantes.PATH_TEMPORADA_VER + "/" + temporada.getId();
     }
 
     @RequestMapping("/edita/{id}")
@@ -204,24 +207,40 @@ public class TemporadaController {
 
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid Temporada temporadas, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String actualiza(HttpServletRequest request, @Valid Temporada temporada, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_TEMPORADA_EDITA;
         }
+        //try fechaInicio
         try {
-            temporadas.setFechaInicio(new Date());
-            temporadas.setFechaFinal(new Date());
-            temporadas = temporadaDao.actualiza(temporadas);
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            temporada.setFechaInicio(sdf.parse(request.getParameter("fechaInicio")));
+        } catch (ConstraintViolationException e) {
+            log.error("Fecha de Inicio Incorrecta", e);
+            return Constantes.PATH_TEMPORADA_EDITA;
+        }
+        //try fechaFinal
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            temporada.setFechaFinal(sdf.parse(request.getParameter("fechaFinal")));
+        } catch (ConstraintViolationException e) {
+            log.error("Fecha de Final Incorrecta", e);
+            return Constantes.PATH_TEMPORADA_EDITA;
+        }
+        try {
+            log.debug("Temporada FEcha Inicio" + temporada.getFechaInicio());
+            log.debug("Temporada FEcha Inicio" + temporada.getFechaFinal());
+            temporada = temporadaDao.actualiza(temporada);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Temporada", e);
-            return Constantes.PATH_TEMPORADA_NUEVA;
+            return Constantes.PATH_TEMPORADA_EDITA;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporadas.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.actualizada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporada.getNombre()});
 
-        return "redirect:"+Constantes.PATH_TEMPORADA_VER+ "/" + temporadas.getId();
+        return "redirect:" + Constantes.PATH_TEMPORADA_VER + "/" + temporada.getId();
     }
 
     @Transactional
@@ -231,7 +250,7 @@ public class TemporadaController {
         try {
             String nombre = temporadaDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.eliminado.message");
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.eliminada.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el temporada " + id, e);
@@ -344,6 +363,4 @@ public class TemporadaController {
 
         return archivo;
     }
-    
-    
 }

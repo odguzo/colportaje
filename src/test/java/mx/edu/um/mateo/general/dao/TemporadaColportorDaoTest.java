@@ -93,7 +93,7 @@ public class TemporadaColportorDaoTest {
 
         TemporadaColportor result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals(nombre, result.getObservacion());
+        assertEquals(nombre, result.getObservaciones());
 
         assertEquals(result, temporadacolportor);
     }
@@ -150,11 +150,11 @@ public class TemporadaColportorDaoTest {
         currentSession().save(temporadacolportor);
 
         String nombre = "test1";
-        temporadacolportor.setObservacion(nombre);
+        temporadacolportor.setObservaciones(nombre);
 
         TemporadaColportor temporadacolportor2 = instance.actualiza(temporadacolportor);
         assertNotNull(temporadacolportor2);
-        assertEquals(nombre, temporadacolportor.getObservacion());
+        assertEquals(nombre, temporadacolportor.getObservaciones());
 
         assertEquals(temporadacolportor, temporadacolportor2);
     }
