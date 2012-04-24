@@ -4,10 +4,15 @@
  */
 package mx.edu.um.mateo.general.web;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.RolDao;
 import mx.edu.um.mateo.general.dao.TemporadaColportorDao;
+import mx.edu.um.mateo.general.dao.UnionDao;
+import mx.edu.um.mateo.general.dao.UsuarioDao;
 import mx.edu.um.mateo.general.model.*;
+import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.test.GenericWebXmlContextLoader;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,7 +42,7 @@ import org.springframework.web.context.WebApplicationContext;
     "classpath:dispatcher-servlet.xml"
 })
 @Transactional
-public class TemporadaColportorControllerTest {
+public class TemporadaColportorControllerTest extends BaseTest {
     private static final Logger log = LoggerFactory.getLogger(TemporadaColportorControllerTest.class);
     @Autowired
     private WebApplicationContext wac;
@@ -46,6 +51,12 @@ public class TemporadaColportorControllerTest {
     private TemporadaColportorDao temporadaColportorDao;
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private UnionDao unionDao;
+    @Autowired
+    private RolDao rolDao;
+    @Autowired
+    private UsuarioDao usuarioDao;
     private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -82,7 +93,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         for (int i = 0; i < 20; i++) {
             TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO+i,"TEST","TEST");
-            temporadaColportor.setColporto(test);
+            temporadaColportor.setColportor(test);
             temporadaColportor.setAsociacion(test2);
             temporadaColportor.setAsociado(test3);
             temporadaColportor.setTemporada(test4);
@@ -114,7 +125,7 @@ public class TemporadaColportorControllerTest {
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -142,6 +153,21 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
+        union = unionDao.crea(union);
+        Rol rol = new Rol("ROLE_TEST");
+        rol = rolDao.crea(rol);
+        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Long asociacionId = 0l;
+        actualizaUsuario:
+        for (Asociacion asociacion : union.getAsociaciones()) {
+            asociacionId = asociacion.getId();
+            break actualizaUsuario;
+        }
+        usuario = usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
+        Long id = usuario.getId();
+        assertNotNull(id);
+        
+        this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
         
         SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
         this.mockMvc.perform(
@@ -157,7 +183,7 @@ public class TemporadaColportorControllerTest {
     @Test
     public void debieraActualizarTemporadaColportor() throws Exception {
         log.debug("Debiera actualizar  temporada Colportor");
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE, Constantes.DIRECCION, Constantes.CORREO, Constantes.TELEFONO);
+       Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE, Constantes.DIRECCION, Constantes.CORREO, Constantes.TELEFONO);
         currentSession().save(test);
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
@@ -168,8 +194,23 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
+        union = unionDao.crea(union);
+        Rol rol = new Rol("ROLE_TEST");
+        rol = rolDao.crea(rol);
+        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Long asociacionId = 0l;
+        actualizaUsuario:
+        for (Asociacion asociacion : union.getAsociaciones()) {
+            asociacionId = asociacion.getId();
+            break actualizaUsuario;
+        }
+        usuario = usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
+        Long id = usuario.getId();
+        assertNotNull(id);
+        
+        this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -205,7 +246,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);

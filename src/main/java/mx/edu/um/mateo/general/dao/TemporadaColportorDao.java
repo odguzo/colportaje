@@ -8,9 +8,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.TemporadaColportor;
+import mx.edu.um.mateo.general.model.*;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -119,29 +120,20 @@ public class TemporadaColportorDao {
         TemporadaColportor temporadacolportor = (TemporadaColportor) currentSession().get(TemporadaColportor.class, id);
         return temporadacolportor;
     }
-
+    
     public TemporadaColportor crea(TemporadaColportor temporadacolportor) {
         log.debug("Creando Temporada Colportor : {}", temporadacolportor);
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
+        
         currentSession().save(temporadacolportor);
         currentSession().flush();
         return temporadacolportor;
     }
-
+    
     public TemporadaColportor actualiza(TemporadaColportor temporadacolportor) {
         log.debug("Actualizando Temporada Colportor {}", temporadacolportor);
         //trae el objeto de la DB 
         TemporadaColportor nueva = (TemporadaColportor) currentSession().get(TemporadaColportor.class, temporadacolportor.getId());
         //actualiza el objeto
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
         BeanUtils.copyProperties(temporadacolportor, nueva);
         //lo guarda en la BD
         currentSession().update(nueva);

@@ -51,6 +51,20 @@
                     <div class="span1"><s:message code="observacion.label" /></div>
                     <div class="span11">${temporadaColportor.observacion}</div>
                 </div>
+                <div class="row-fluid" style="padding-bottom: 10px;">
+                    <h4><s:message code="colportor.label" /></h4>
+                    <h3>${temporadaColportor.colportor.nombre}</h3>
+                </div>
+                
+                <div class="row-fluid" style="padding-bottom: 10px;">
+                    <h4><s:message code="asociado.label" /></h4>
+                    <h3>${temporadaColportor.asociado.nombre}</h3>
+                </div>
+                <div class="row-fluid" style="padding-bottom: 10px;">
+                    <h4><s:message code="temporada.label" /></h4>
+                    <h3>${temporadaColportor.temporada.nombre}</h3>
+                </div>
+                
                
 
                 <p class="well">

@@ -31,7 +31,7 @@
                 </div>
             </c:if>
 
-            <c:url var="eliminaUrl" value="/web/asociado/elimina" />
+            <c:url var="eliminaUrl" value="/asociado/elimina" />
             <form:form commandName="asociado" action="${eliminaUrl}" >
                 <form:errors path="*" cssClass="alert alert-error" element="ul" />
 

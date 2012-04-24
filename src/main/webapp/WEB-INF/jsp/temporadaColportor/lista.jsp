@@ -52,6 +52,7 @@
             <table id="lista" class="table">
                 <thead>
                     <tr>
+                        
                         <th>
                             <a href="javascript:ordena('fecha');">
                                 <s:message code="fecha.label" />
@@ -104,6 +105,21 @@
                                 </c:choose>
                             </a>
                         </th>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociacion" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociado" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="temporada" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="union" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="colportor" />
+                        </jsp:include>
                        
                     </tr>
                 </thead>
@@ -114,6 +130,13 @@
                             <td>${temporadacolportor.status}</td>
                             <td>${temporadacolportor.objetivo}</td>
                             <td>${temporadacolportor.observacion}</td>
+                            <td>${temporadacolportor.asociacion.nombre}</td>
+                            <td>${temporadacolportor.asociado.nombre}</td>
+                            <td>${temporadacolportor.temporada.nombre}</td>
+                            <td>${temporadacolportor.union.nombre}</td>
+                            <td>${temporadacolportor.colportor.nombre}</td>
+                            
+                            
                         </tr>
                     </c:forEach>
                 </tbody>
