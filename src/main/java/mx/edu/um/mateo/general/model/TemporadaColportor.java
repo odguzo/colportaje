@@ -176,9 +176,7 @@ public class TemporadaColportor implements Serializable{
 
     @Override
     public String toString() {
-        return "TemporadaColportor{" + "status=" + status + '}';
+        return "TemporadaColportor{" + "fecha=" + fecha + ", status=" + status + ", objetivo=" + objetivo + ", observaciones=" + observaciones + ", colportor=" + colportor + ", asociacion=" + asociacion + ", asociado=" + asociado + ", temporada=" + temporada + ", union=" + union + '}';
     }
-    
-    
-    
+
 }

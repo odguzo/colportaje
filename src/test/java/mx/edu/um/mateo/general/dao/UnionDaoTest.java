@@ -10,7 +10,6 @@ import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;
