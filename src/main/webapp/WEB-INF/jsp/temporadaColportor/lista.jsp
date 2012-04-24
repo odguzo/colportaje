@@ -19,14 +19,14 @@
         <h1><s:message code="temporadaColportor.lista.label" /></h1>
         <hr/>
 
-        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/web/temporadaColportor' />">
+        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/temporadaColportor' />">
             <input type="hidden" name="pagina" id="pagina" value="${pagina}" />
             <input type="hidden" name="tipo" id="tipo" value="" />
             <input type="hidden" name="correo" id="correo" value="" />
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/temporadaColportor/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='temporadaColportor.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/temporadaColportor/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='temporadaColportor.nueva.label' /></a>
                 <input name="filtro" type="text" class="input-medium search-query" value="${param.filtro}">
                 <button type="submit" class="btn"><s:message code="buscar.label" /></button>
             </p>
@@ -52,75 +52,33 @@
             <table id="lista" class="table">
                 <thead>
                     <tr>
-                        
-                        <th>
-                            <a href="javascript:ordena('fecha');">
-                                <s:message code="fecha.label" />
-                                <c:choose>
-                                    <c:when test="${param.order == 'fecha' && param.sort == 'asc'}">
-                                        <i class="icon-chevron-up"></i>
-                                    </c:when>
-                                    <c:when test="${param.order == 'fecha' && param.sort == 'desc'}">
-                                        <i class="icon-chevron-down"></i>
-                                    </c:when>
-                                </c:choose>
-                            </a>
-                        </th>
-                        <th>
-                            <a href="javascript:ordena('status');">
-                                <s:message code="status.label" />
-                                <c:choose>
-                                    <c:when test="${param.order == 'status' && param.sort == 'asc'}">
-                                        <i class="icon-chevron-up"></i>
-                                    </c:when>
-                                    <c:when test="${param.order == 'status' && param.sort == 'desc'}">
-                                        <i class="icon-chevron-down"></i>
-                                    </c:when>
-                                </c:choose>
-                            </a>
-                        </th>
-                        <th>
-                            <a href="javascript:ordena('objetivo');">
-                                <s:message code="objetivo.label" />
-                                <c:choose>
-                                    <c:when test="${param.order == 'objetivo' && param.sort == 'asc'}">
-                                        <i class="icon-chevron-up"></i>
-                                    </c:when>
-                                    <c:when test="${param.order == 'objetivo' && param.sort == 'desc'}">
-                                        <i class="icon-chevron-down"></i>
-                                    </c:when>
-                                </c:choose>
-                            </a>
-                        </th>
-                        <th>
-                            <a href="javascript:ordena('observacion');">
-                                <s:message code="observacion.label" />
-                                <c:choose>
-                                    <c:when test="${param.order == 'observacion' && param.sort == 'asc'}">
-                                        <i class="icon-chevron-up"></i>
-                                    </c:when>
-                                    <c:when test="${param.order == 'observacion' && param.sort == 'desc'}">
-                                        <i class="icon-chevron-down"></i>
-                                    </c:when>
-                                </c:choose>
-                            </a>
-                        </th>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="asociacion" />
+                            <jsp:param name="columna" value="fecha" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="asociado" />
+                            <jsp:param name="columna" value="status" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="temporada" />
+                            <jsp:param name="columna" value="objetivo" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="observaciones" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="union" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociacion" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="temporada" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociado" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="colportor" />
                         </jsp:include>
-                       
                     </tr>
                 </thead>
                 <tbody>
@@ -129,82 +87,20 @@
                             <td><a href="<c:url value='/temporadaColportor/ver/${temporadacolportor.id}' />">${temporadacolportor.fecha}</a></td>
                             <td>${temporadacolportor.status}</td>
                             <td>${temporadacolportor.objetivo}</td>
-                            <td>${temporadacolportor.observacion}</td>
-                            <td>${temporadacolportor.asociacion.nombre}</td>
-                            <td>${temporadacolportor.asociado.nombre}</td>
-                            <td>${temporadacolportor.temporada.nombre}</td>
-                            <td>${temporadacolportor.union.nombre}</td>
-                            <td>${temporadacolportor.colportor.nombre}</td>
-                            
-                            
+                            <td>${temporadacolportor.observaciones}</td>
+                            <td>${temporadacolportor.union.getNombre()}</td>
+                            <td>${temporadacolportor.asociacion.getNombre()}</td>
+                            <td>${temporadacolportor.temporada.getNombre()}</td>
+                            <td>${temporadacolportor.asociado.getNombre()}</td>
+                            <td>${temporadacolportor.colportor.getNombre()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
-            <div class="row-fluid">
-                <div class="span8">
-                    <div class="pagination">
-                        <ul>
-                            <li class="disabled"><a href="#"><s:message code="mensaje.paginacion" arguments="${paginacion}" /></a></li>
-                            <c:forEach items="${paginas}" var="paginaId">
-                                <li <c:if test="${pagina == paginaId}" >class="active"</c:if>>
-                                    <a href="javascript:buscaPagina(${paginaId});" >${paginaId}</a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
-                </div>
-                <div class="span4">
-                    <div class="btn-group pull-right" style="margin-top: 22px;margin-left: 10px;">
-                        <button id="enviaCorreoBtn" class="btn" data-loading-text="<s:message code='enviando.label'/>" onclick="javascript:enviaCorreo('XLS');" ><s:message code="envia.correo.label" /></button>
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:enviaCorreo('PDF');"><img src="<c:url value='/images/pdf.gif' />" /></a></li>
-                            <li><a href="javascript:enviaCorreo('CSV');"><img src="<c:url value='/images/csv.gif' />" /></a></li>
-                            <li><a href="javascript:enviaCorreo('XLS');"><img src="<c:url value='/images/xls.gif' />" /></a></li>
-                        </ul>
-                    </div>
-                    <p class="pull-right" style="margin-top: 20px;">
-                        <a href="javascript:imprime('PDF');"><img src="<c:url value='/images/pdf.gif' />" /></a>
-                        <a href="javascript:imprime('CSV');"><img src="<c:url value='/images/csv.gif' />" /></a>
-                        <a href="javascript:imprime('XLS');"><img src="<c:url value='/images/xls.gif' />" /></a>
-                    </p>
-                </div>
-            </div>
+            <jsp:include page="/WEB-INF/jsp/paginacion.jsp" />
         </form>        
         <content>
-            <script>
-                $(document).ready(function() {
-                    highlightTableRows("lista");
-
-                });
-
-                function buscaPagina(paginaId) {
-                    $('input#pagina').val(paginaId);
-                    document.forms["filtraLista"].submit();
-                }
-                
-                function imprime(tipo) {
-                    $('input#tipo').val(tipo);
-                    document.forms["filtraLista"].submit();
-                }
-                
-                function enviaCorreo(tipo) {
-                    $('#enviaCorreoBtn').button('loading');
-                    $('input#correo').val(tipo);
-                    document.forms["filtraLista"].submit();
-                }
-                
-                function ordena(campo) {
-                    if ($('input#order').val() == campo && $('input#sort').val() == 'asc') {
-                        $('input#sort').val('desc');
-                    } else {
-                        $('input#sort').val('asc');
-                    }
-                    $('input#order').val(campo);
-                    document.forms["filtraLista"].submit();
-                }
-            </script>
+            <script src="<c:url value='/js/lista.js' />"></script>
         </content>
     </body>
 </html>

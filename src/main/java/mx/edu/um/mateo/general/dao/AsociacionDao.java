@@ -6,9 +6,9 @@ package mx.edu.um.mateo.general.dao;
 
 import java.util.HashMap;
 import java.util.Map;
+import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Usuario;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
@@ -108,6 +108,10 @@ public class AsociacionDao {
         return asociacion;
     }
 
+    public Asociacion crea(Asociacion asociacion) {
+        return this.crea(asociacion, null);
+    }
+
     public Asociacion crea(Asociacion asociacion, Usuario usuario) {
         Session session = currentSession();
         if (usuario != null) {
@@ -119,10 +123,6 @@ public class AsociacionDao {
         }
         session.flush();
         return asociacion;
-    }
-
-    public Asociacion crea(Asociacion asociacion) {
-        return this.crea(asociacion, null);
     }
 
     public Asociacion actualiza(Asociacion asociacion) {
@@ -155,18 +155,12 @@ public class AsociacionDao {
         return asociacion;
     }
 
-    public String elimina(Long id, Long unionId) throws UltimoException {
-        Criteria criteria = currentSession().createCriteria(Asociacion.class);
-        criteria.createCriteria("union").add(Restrictions.idEq(unionId));
-        criteria.setProjection(Projections.rowCount());
-        Long cantidad = (Long) criteria.list().get(0);
-        if (cantidad > 1) {
-            Asociacion asociacion = obtiene(id);
-            String nombre = asociacion.getNombre();
-            currentSession().delete(asociacion);
-            return nombre;
-        } else {
-            throw new UltimoException("No se puede eliminar porque es el ultimo");
-        }
+    public String elimina(Long id, Long unionId) {
+        log.debug("Eliminando asociación {}", id);
+        Asociacion asociacion = obtiene(id);
+        String nombre = asociacion.getNombre();
+        asociacion.setStatus(Constantes.STATUS_INACTIVO);
+        actualiza(asociacion);
+        return nombre;
     }
 }

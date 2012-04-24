@@ -103,7 +103,7 @@ public class AsociadoControllerTest extends BaseTest{
                 .param("status", Constantes.STATUS_ACTIVO))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
-                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creada.message"));
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creado.message"));
     }
     @Test
     public void debieraActualizarAsociado() throws Exception {

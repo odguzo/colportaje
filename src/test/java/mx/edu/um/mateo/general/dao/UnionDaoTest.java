@@ -10,7 +10,6 @@ import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;
@@ -134,7 +133,7 @@ public class UnionDaoTest extends BaseTest {
     }
 
     @Test
-    public void debieraEliminarUnion() throws UltimoException {
+    public void debieraEliminarUnion() {
         log.debug("Debiera eliminar union");
 
         Union union = new Union("TEST01");
@@ -165,7 +164,7 @@ public class UnionDaoTest extends BaseTest {
         String nombre = instance.elimina(id);
         assertEquals("TEST01", nombre);
 
-        Union prueba = instance.obtiene(id);
-        assertEquals(Constantes.STATUS_INACTIVO, prueba.getStatus());
+        union = instance.obtiene(id);
+        assertEquals(Constantes.STATUS_INACTIVO, union.getStatus());
     }
 }

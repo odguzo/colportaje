@@ -1,7 +1,7 @@
 <%-- 
     Document   : ver
-    Created on : Jan 27, 2012, 6:52:45 AM
-    Author     : jdmr
+    Created on : 28/02/2012, 11:40:15 AM
+    Author     : wilbert
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,8 +22,8 @@
             <h1><s:message code="usuario.ver.label" /></h1>
 
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/admin/usuario'/>"><i class="icon-list icon-white"></i> <s:message code='usuario.lista.label' /></a>
-                <a class="btn btn-primary" href="<s:url value='/admin/usuario/nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='usuario.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../'/>"><i class="icon-list icon-white"></i> <s:message code='usuario.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='../nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='usuario.nuevo.label' /></a>
             </p>
             <c:if test="${not empty message}">
                 <div class="alert alert-block alert-success fade in" role="status">
@@ -32,39 +32,28 @@
                 </div>
             </c:if>
 
-            <c:url var="eliminaUrl" value="/admin/usuario/elimina" />
+            <c:url var="eliminaUrl" value="../elimina" />
             <form:form commandName="usuario" action="${eliminaUrl}" >
                 <form:errors path="*" cssClass="alert alert-error" element="ul" />
+
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="usuario.username.label" /></div>
+                    <div class="span1"><s:message code="username.label" /></div>
                     <div class="span11">${usuario.username}</div>
                 </div>
-
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="usuario.nombre.label" /></div>
+                    <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${usuario.nombre}</div>
                 </div>
-
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="usuario.apellido.label" /></div>
+                    <div class="span1"><s:message code="apellido.label" /></div>
                     <div class="span11">${usuario.apellido}</div>
                 </div>
-
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="empresa.label" /></div>
-                    <div class="span11">${usuario.empresa.nombre}</div>
-                </div>
-
-                <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="rol.list.label" /></div>
-                    <div class="span11">
-                        <c:forEach items="${roles}" var="rol">
-                            <form:checkbox path="roles" value="${rol.authority}" disabled="true" /> <s:message code="${rol.authority}" />&nbsp;
-                        </c:forEach>
-                    </div>
+                    <div class="span1"><s:message code="asociacion.label" /></div>
+                    <div class="span11">${usuario.asociacion.getNombre()}</div>
                 </div>
                 <p class="well">
-                    <a href="<c:url value='/admin/usuario/edita/${usuario.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
+                    <a href="<c:url value='../edita/${usuario.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
                     <form:hidden path="id" />
                     <input type="submit" name="elimina" value="<s:message code='eliminar.button'/>" class="btn btn-danger icon-remove" style="margin-bottom: 2px;" onclick="return confirm('<s:message code="confirma.elimina.message" />');" />
                 </p>

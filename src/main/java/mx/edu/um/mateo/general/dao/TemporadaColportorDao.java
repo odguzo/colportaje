@@ -123,7 +123,6 @@ public class TemporadaColportorDao {
     
     public TemporadaColportor crea(TemporadaColportor temporadacolportor) {
         log.debug("Creando Temporada Colportor : {}", temporadacolportor);
-        
         currentSession().save(temporadacolportor);
         currentSession().flush();
         return temporadacolportor;

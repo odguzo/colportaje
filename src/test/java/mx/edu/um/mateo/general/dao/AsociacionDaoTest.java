@@ -157,36 +157,8 @@ public class AsociacionDaoTest extends BaseTest {
     /**
      * Test of elimina method, of class AsociacionDao.
      */
-    @Test(expected = UltimoException.class)
-    public void noDebieraEliminarAsociacion() throws Exception {
-        log.debug("Debiera actualizar asociacion");
-        Union union = new Union("TEST01");
-        union.setStatus(Constantes.STATUS_ACTIVO);
-        currentSession().save(union);
-        Rol rol = new Rol("ROLE_TEST");
-        currentSession().save(rol);
-        Set<Rol> roles = new HashSet<>();
-        roles.add(rol);
-        Asociacion asociacion = new Asociacion("tst-01", Constantes.STATUS_ACTIVO, union);
-        currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
-        usuario.setAsociacion(asociacion);
-        usuario.setRoles(roles);
-        currentSession().save(usuario);
-        Long id = usuario.getId();
-        assertNotNull(id);
-        assertNotNull(id);
-
-        String nombre = instance.elimina(id, asociacion.getId());
-        assertNotNull(nombre);
-        assertEquals("TEST01", nombre);
-
-        Asociacion prueba2 = instance.obtiene(id);
-        assertNull(prueba2);
-    }
-
     @Test
-    public void debieraEliminarAsociacion() throws UltimoException {
+    public void debieraEliminarAsociacion() {
         log.debug("Debiera actualizar asociacion");
 
         Union union = new Union("TEST01");
@@ -218,6 +190,6 @@ public class AsociacionDaoTest extends BaseTest {
         assertEquals("tst-01", nombre);
 
         asociacion = instance.obtiene(id);
-        assertNull(asociacion);
+        assertEquals(Constantes.STATUS_INACTIVO, asociacion.getStatus());
     }
 }

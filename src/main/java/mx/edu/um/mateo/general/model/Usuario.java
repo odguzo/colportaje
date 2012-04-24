@@ -36,7 +36,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author jdmr
  */
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuarios") 
 public class Usuario implements Serializable, UserDetails {
 
     @Id
@@ -66,10 +66,6 @@ public class Usuario implements Serializable, UserDetails {
     @NotEmpty
     @Column(nullable = false, length = 128)
     private String apellido;
-    @Email
-    @NotEmpty
-    @Column(nullable = false, name = "correo")
-    private String correo;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = {
         @JoinColumn(name = "usuario_id")}, inverseJoinColumns =
@@ -88,15 +84,6 @@ public class Usuario implements Serializable, UserDetails {
         this.password = password;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.correo = "test@test.com";
-    }
-
-    public Usuario(String username, String password, String nombre, String apellido, String correo) {
-        this.username = username;
-        this.password = password;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
     }
 
     
@@ -186,14 +173,6 @@ public class Usuario implements Serializable, UserDetails {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
 
     /**
@@ -286,6 +265,6 @@ public class Usuario implements Serializable, UserDetails {
 
     @Override
     public String toString() {
-        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + ", asociacion=" + asociacion + '}';
+        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + ", asociacion=" + asociacion + '}';
     }
 }

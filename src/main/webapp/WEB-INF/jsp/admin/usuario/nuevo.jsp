@@ -36,8 +36,8 @@
                 <fieldset>
                     <s:bind path="usuario.username">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="username">
-                                <s:message code="usuario.username.label" />
+                            <label for="correo">
+                                <s:message code="usuario.correo.label" />
                                 <span class="required-indicator">*</span>
                             </label>
                             <form:input path="username" maxlength="128" required="true" />

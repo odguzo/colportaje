@@ -32,14 +32,14 @@
                 </form:errors>
 
                 <fieldset>
-                    <s:bind path="usuario.almacen">
+                    <s:bind path="usuario.asociacion">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="almacen">
-                                <s:message code="perfil.almacen.label" />
+                            <label for="asociacion">
+                                <s:message code="perfil.asociacion.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:select path="almacen.id" id="almacenId" items="${almacenes}" itemLabel="nombreCompleto" itemValue="id"/>
-                            <form:errors path="almacen" cssClass="alert alert-error" />
+                            <form:select path="asociacion.id" id="asociacionId" items="${asociaciones}" itemLabel="nombreCompleto" itemValue="id"/>
+                            <form:errors path="asociacion" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                 </fieldset>
@@ -52,7 +52,7 @@
         <content>
             <script>
                 $(document).ready(function() {
-                    $('#almacenId').focus();
+                    $('#asociacionId').focus();
                 });
             </script>                    
         </content>
