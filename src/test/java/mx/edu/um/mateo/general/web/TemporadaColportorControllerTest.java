@@ -82,7 +82,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         for (int i = 0; i < 20; i++) {
             TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO+i,"TEST","TEST");
-            temporadaColportor.setColporto(test);
+            temporadaColportor.setColportor(test);
             temporadaColportor.setAsociacion(test2);
             temporadaColportor.setAsociado(test3);
             temporadaColportor.setTemporada(test4);
@@ -114,7 +114,7 @@ public class TemporadaColportorControllerTest {
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -169,7 +169,7 @@ public class TemporadaColportorControllerTest {
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -205,7 +205,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);

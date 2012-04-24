@@ -27,12 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Asociacion;
-import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
@@ -134,7 +131,6 @@ public class UnionDao {
         session.save(union);
         Asociacion asociacion = new Asociacion("Noreste", Constantes.STATUS_ACTIVO, union);
         if (usuario != null) {
-            log.debug("asigando asociacion con id >>>>>>>>>>>>>>>>>" + asociacion.getId());
             usuario.setAsociacion(asociacion);
         }
         asociacionDao.crea(asociacion, usuario);

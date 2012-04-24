@@ -36,7 +36,6 @@
                 <form:hidden path="id" />
                 <form:hidden path="version" />
                 <form:hidden path="username" />
-                <form:hidden path="correo" />
 
                 <fieldset>
                     <s:bind path="usuario.nombre">

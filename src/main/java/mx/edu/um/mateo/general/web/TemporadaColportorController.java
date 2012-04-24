@@ -8,7 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -16,9 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.ColportorDao;
 import mx.edu.um.mateo.general.dao.TemporadaColportorDao;
-import mx.edu.um.mateo.general.dao.UsuarioDao;
+import mx.edu.um.mateo.general.model.Colportor;
 import mx.edu.um.mateo.general.model.TemporadaColportor;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -58,7 +63,7 @@ public class TemporadaColportorController {
     @Autowired
     private ResourceBundleMessageSource messageSource;
     @Autowired
-    private UsuarioDao usuarioDao;
+    private ColportorDao colportorDao;
     @Autowired
     private Ambiente ambiente;
 
@@ -74,21 +79,6 @@ public class TemporadaColportorController {
         log.debug("Mostrando lista de Temporada Colportor");
         
         Map<String, Object> params = new HashMap<>();
-        Long colportorId = (Long) request.getSession().getAttribute("colportorId");
-        params.put("colportor", colportorId);
-        
-        Long asociacionId = (Long) request.getSession().getAttribute("asociadionId");
-        params.put("asociacion", asociacionId);
-        
-        Long asociadoId = (Long) request.getSession().getAttribute("asociadoId");
-        params.put("asociado", asociadoId);
-        
-        Long temporadaId = (Long) request.getSession().getAttribute("temporadaId");
-        params.put("temporada", temporadaId);
-        
-        Long unionId = (Long) request.getSession().getAttribute("unionId");
-        params.put("union", unionId);
-      
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
         }
@@ -161,7 +151,14 @@ public class TemporadaColportorController {
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
         log.debug("Nueva Temporada Colportor");
+        Usuario usuario = ambiente.obtieneUsuario();
         TemporadaColportor temporadaColportor = new TemporadaColportor();
+        temporadaColportor.setAsociacion(usuario.getAsociacion());
+        temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
+        
+        Map<String, Object> colportores = colportorDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_COLPORTORES, colportores.get(Constantes.CONTAINSKEY_COLPORTORES));
+        
         modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
     }

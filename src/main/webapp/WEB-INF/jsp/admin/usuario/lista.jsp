@@ -17,7 +17,6 @@
         <form name="filtraLista" class="form-search" method="post" action="<c:url value='/admin/usuario' />">
             <input type="hidden" name="pagina" id="pagina" value="${pagina}" />
             <input type="hidden" name="tipo" id="tipo" value="" />
-            <input type="hidden" name="correo" id="correo" value="" />
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
@@ -57,9 +56,6 @@
                             <jsp:param name="columna" value="apellido" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="correo" />
-                        </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="asociacion" />
                         </jsp:include>
                     </tr>
@@ -70,7 +66,6 @@
                             <td><a href="<c:url value='/admin/usuario/ver/${usuario.id}' />">${usuario.username}</a></td>
                             <td>${usuario.nombre}</td>
                             <td>${usuario.apellido}</td>
-                            <td>${usuario.correo}</td>
                             <td>${usuario.asociacion.getNombre()}</td>
                         </tr>
                     </c:forEach>

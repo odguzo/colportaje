@@ -36,8 +36,8 @@
                 <fieldset>
                     <s:bind path="usuario.username">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="username">
-                                <s:message code="usuario.username.label" />
+                            <label for="correo">
+                                <s:message code="usuario.correo.label" />
                                 <span class="required-indicator">*</span>
                             </label>
                             <form:input path="username" maxlength="128" required="true" />
@@ -62,16 +62,6 @@
                             </label>
                             <form:input path="apellido" maxlength="128" required="true" />
                             <form:errors path="apellido" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    <s:bind path="usuario.correo">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="correo">
-                                <s:message code="usuario.correo.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="correo" maxlength="128" required="true" />
-                            <form:errors path="correo" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="usuario.roles">

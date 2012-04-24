@@ -80,11 +80,11 @@ public class TemporadaColportor implements Serializable{
         this.asociado = asociado;
     }
 
-    public Colportor getColporto() {
+    public Colportor getColportor() {
         return colportor;
     }
 
-    public void setColporto(Colportor colportor) {
+    public void setColportor(Colportor colportor) {
         this.colportor = colportor;
     }
 

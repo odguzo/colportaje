@@ -23,7 +23,10 @@
  */
 package mx.edu.um.mateo.general.dao;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Usuario;
@@ -134,13 +137,6 @@ public class UsuarioDao {
         log.debug("Buscando usuario por openId {}", openId);
         Query query = currentSession().createQuery("select u from Usuario u where u.openId = :openId");
         query.setString("openId", openId);
-        return (Usuario) query.uniqueResult();
-    }
-
-    public Usuario obtienePorCorreo(String correo) {
-        log.debug("Buscando usuario por correo {}", correo);
-        Query query = currentSession().createQuery("select u from Usuario u where u.correo = :correo");
-        query.setString("correo", correo);
         return (Usuario) query.uniqueResult();
     }
 
