@@ -53,8 +53,8 @@ public class AsociacionController extends BaseController {
             Model modelo) {
         log.debug("Mostrando lista de Asociaciones");
         Map<String, Object> params = new HashMap<>();
-        Long unionId = (Long) request.getSession().getAttribute("unionId");
-        params.put("union", unionId);
+        Long asociacionId = (Long) request.getSession().getAttribute("asociacionId");
+        params.put("asociacion", asociacionId);
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
         }
@@ -143,7 +143,7 @@ public class AsociacionController extends BaseController {
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociacion.creada.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociacion.getNombre()});
 
-        return "redirect:" + Constantes.PATH_UNION_VER + "/" + asociacion.getId();
+        return "redirect:" + Constantes.PATH_ASOCIACION_VER + "/" + asociacion.getId();
     }
 
     @RequestMapping("/edita/{id}")
@@ -185,8 +185,8 @@ public class AsociacionController extends BaseController {
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Asociacion Asociacion, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina Asociacion");
         try {
-            Long unionId = (Long) request.getSession().getAttribute("unionId");
-            String nombre = AsociacionDao.elimina(id, unionId);
+            Long asociacionId = (Long) request.getSession().getAttribute("asociacionId");
+            String nombre = AsociacionDao.elimina(id, asociacionId);
 
             ambiente.actualizaSesion(request);
 
@@ -198,7 +198,7 @@ public class AsociacionController extends BaseController {
             return "inventario/Asociacion/ver";
         } catch (Exception e) {
             log.error("No se pudo eliminar la Asociacion " + id, e);
-            bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_ASOCIACION, new String[]{"union.no.eliminada.message"}, null, null));
+            bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_ASOCIACION, new String[]{"asociacion.no.eliminada.message"}, null, null));
             return Constantes.PATH_ASOCIACION_VER;
         }
 
