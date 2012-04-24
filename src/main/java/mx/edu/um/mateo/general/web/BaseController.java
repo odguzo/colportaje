@@ -234,7 +234,7 @@ public abstract class BaseController {
 
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(ambiente.obtieneUsuario().getCorreo());
+            helper.setTo(ambiente.obtieneUsuario().getUsername());
             String titulo = messageSource.getMessage(nombre +".reporte.label", null, request.getLocale());
             helper.setSubject(messageSource.getMessage("envia.correo.titulo.message", new String[]{titulo}, request.getLocale()));
             helper.setText(messageSource.getMessage("envia.correo.contenido.message", new String[]{titulo}, request.getLocale()), true);

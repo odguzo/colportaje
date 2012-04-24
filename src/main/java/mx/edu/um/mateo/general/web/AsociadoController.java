@@ -188,7 +188,7 @@ public class AsociadoController {
             return Constantes.PATH_ASOCIADO_NUEVA;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociado.getNombre()});
 
         return "redirect:" + Constantes.PATH_ASOCIADO_VER + "/" + asociado.getId();
@@ -234,7 +234,7 @@ public class AsociadoController {
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
             log.error("No se pudo eliminar el asociado " + id, e);
-            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_ASOCIADOS, new String[]{"asociado.no.eliminada.message"}, null, null));
+            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_ASOCIADOS, new String[]{"asociado.no.eliminado.message"}, null, null));
             return Constantes.PATH_ASOCIADO_VER;
         }
 

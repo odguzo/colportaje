@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><s:message code="temporadaColportor.nuevo.label" /></title>
+        <title><s:message code="temporadaColportor.nueva.label" /></title>
     </head>
     <body>
         <jsp:include page="../menu.jsp" >
@@ -20,7 +20,7 @@
         </jsp:include>
 
         <div id="nueva-temporadaColportor" class="content scaffold-list" role="main">
-            <h1><s:message code="temporadaColportor.nuevo.label" /></h1>
+            <h1><s:message code="temporadaColportor.nueva.label" /></h1>
             <p class="well">
                 <a class="btn btn-primary" href="<s:url value='/temporadaColportor'/>"><i class="icon-list icon-white"></i> <s:message code='temporadaColportor.lista.label' /></a>
             </p>
@@ -35,13 +35,23 @@
                 </form:errors>
 
                 <fieldset>
+                    <s:bind path="temporadaColportor.colportor">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                                <label for="colportor">
+                                <s:message code="colportor.label" />
+                                <span class="required-indicator">*</span>
+                                <form:select id="colportorId" path="colportor.id" items="${colportores}" itemLabel="nombre" itemValue="id" />
+                                <form:errors path="colportor" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+
                     <s:bind path="temporadaColportor.fecha">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="fecha">
+                            <label for="fecha">
                                 <s:message code="fecha.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                                <s:message code="fecha.formato.label" /><br>
+                            <s:message code="fecha.formato.label" /><br>
                             <form:input path="fecha" maxlength="128" required="true" />
                             <form:errors path="fecha" cssClass="alert alert-error" />
                         </div>
@@ -51,9 +61,9 @@
                             <label for="status">
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
-                            
+
                                 <form:input path="status" maxlength="50" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
+                                <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="temporadaColportor.objetivo">
@@ -61,21 +71,21 @@
                             <label for="objetivo">
                                 <s:message code="objetivo.label" />
                                 <span class="required-indicator">*</span>
-                            <form:input path="objetivo" maxlength="50" required="true"  />
-                            <form:errors path="objetivo" cssClass="alert alert-error" />
+                                <form:input path="objetivo" maxlength="50" required="true"  />
+                                <form:errors path="objetivo" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    
-                    <s:bind path="temporadaColportor.observacion">
+
+                    <s:bind path="temporadaColportor.observaciones">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="observacion">
-                                <s:message code="observacion.label" />
+                            <label for="observaciones">
+                                <s:message code="observaciones.label" />
                                 <span class="required-indicator">*</span>
-                                <form:textarea path="observacion" maxlength="4000" required="true"  />
-                            <form:errors path="observacion" cssClass="alert alert-error" type="texttarea"/>
+                                <form:textarea path="observaciones" maxlength="4000" required="true"  />
+                                <form:errors path="observaciones" cssClass="alert alert-error" type="texttarea"/>
                         </div>
                     </s:bind>
-                   
+
                 </fieldset>
 
 

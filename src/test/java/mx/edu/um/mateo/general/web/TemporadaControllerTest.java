@@ -119,7 +119,7 @@ public class TemporadaControllerTest {
                 .param("fechaFinal", sdf.format(new Date())))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
-                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.actualizado.message"));
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.actualizada.message"));
     }
     @Test
     public void debieraEliminarTemporada() throws Exception {
@@ -132,6 +132,6 @@ public class TemporadaControllerTest {
                 .param("id", temporada.getId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
-                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.eliminado.message"));
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.eliminada.message"));
     }
 }

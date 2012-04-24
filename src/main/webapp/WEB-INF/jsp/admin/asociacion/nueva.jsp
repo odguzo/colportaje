@@ -31,6 +31,7 @@
                         </c:forEach>
                     </div>
                 </form:errors>
+                <form:hidden path="status" />
 
                 <fieldset>
                     <s:bind path="asociacion.nombre">
@@ -43,16 +44,7 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociacion.status">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="status">
-                                <s:message code="status.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="status" maxlength="2" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
+
 
                 </fieldset>
 

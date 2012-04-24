@@ -31,7 +31,9 @@
                 </div>
             </c:if>
 
-            <c:url var="eliminaUrl" value="/admin/asociacion/elimina" />
+
+            <c:url var="eliminaUrl" value="../elimina" />
+
             <form:form commandName="asociacion" action="${eliminaUrl}" >
                 <form:errors path="*" cssClass="alert alert-error" element="ul" />
 
@@ -39,15 +41,15 @@
                     <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${asociacion.nombre}</div>
                 </div>
-                <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="status.label" /></div>
-                    <div class="span11">${asociacion.status}</div>
-                </div>
 
                 <p class="well">
-                    <a href="<c:url value='/admin/asociacion/edita/${asociacion.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
+
+                    <a href="<c:url value='../edita/${asociacion.id}' />" class="btn btn-primary"><i class="icon-edit icon-white"></i> <s:message code="editar.button" /></a>
+
                 <form:hidden path="id" />
-                <input type="submit" name="elimina" value="<s:message code='eliminar.button'/>" class="btn btn-danger icon-remove" style="margin-bottom: 2px;" onclick="return confirm('<s:message code="confirma.elimina.message" />');" />
+                <c:if test='${asociacion.status == "A"}'>
+                    <input type="submit" name="elimina" value="<s:message code='eliminar.button'/>" class="btn btn-danger icon-remove" style="margin-bottom: 2px;" onclick="return confirm('<s:message code="confirma.elimina.message" />');" />
+                </c:if>
                 </p>
             </form:form>
         </div>

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import mx.edu.um.mateo.Constantes;
 
 /**
  *
@@ -29,7 +30,7 @@ public class Union implements Serializable {
     private String nombre;
     @NotNull
     @Column(nullable = false, length = 2, name = "status")
-    private String status;
+    private String status = Constantes.STATUS_ACTIVO;
     @OneToMany(mappedBy = "union", cascade = CascadeType.ALL)
     private List<Asociacion> asociaciones;
     @ManyToMany

@@ -175,14 +175,16 @@ public class DocumentoController {
             return Constantes.PATH_DOCUMENTO_NUEVO;
         }
         if (documentos.getTipoDeDocumento() == "0") {
-                documentos.setTipoDeDocumento(Constantes.DEPOSITO);
+                documentos.setTipoDeDocumento(Constantes.DEPOSITO_CAJA);
             } else if (documentos.getTipoDeDocumento() == "1"){
-                documentos.setTipoDeDocumento(Constantes.DIEZMO);
+                documentos.setTipoDeDocumento(Constantes.DEPOSITO_BANCO);
             }  else if (documentos.getTipoDeDocumento() == "2"){
-                documentos.setTipoDeDocumento(Constantes.FACTURA);
+                documentos.setTipoDeDocumento(Constantes.DIEZMO);
             }  else if (documentos.getTipoDeDocumento() == "3"){
-                documentos.setTipoDeDocumento(Constantes.BOLETIN);
+                documentos.setTipoDeDocumento(Constantes.FACTURA);
              }  else if (documentos.getTipoDeDocumento() == "4"){
+                documentos.setTipoDeDocumento(Constantes.BOLETIN);
+            } else if (documentos.getTipoDeDocumento() == "5"){
                 documentos.setTipoDeDocumento(Constantes.INFORME);
             }
         
@@ -226,16 +228,19 @@ public class DocumentoController {
             return Constantes.PATH_DOCUMENTO_EDITA;
         }
          if (documentos.getTipoDeDocumento() == "0") {
-                documentos.setTipoDeDocumento(Constantes.DEPOSITO);
+                documentos.setTipoDeDocumento(Constantes.DEPOSITO_CAJA);
             } else if (documentos.getTipoDeDocumento() == "1"){
-                documentos.setTipoDeDocumento(Constantes.DIEZMO);
+                documentos.setTipoDeDocumento(Constantes.DEPOSITO_BANCO);
             }  else if (documentos.getTipoDeDocumento() == "2"){
-                documentos.setTipoDeDocumento(Constantes.FACTURA);
+                documentos.setTipoDeDocumento(Constantes.DIEZMO);
             }  else if (documentos.getTipoDeDocumento() == "3"){
-                documentos.setTipoDeDocumento(Constantes.BOLETIN);
+                documentos.setTipoDeDocumento(Constantes.FACTURA);
              }  else if (documentos.getTipoDeDocumento() == "4"){
+                documentos.setTipoDeDocumento(Constantes.BOLETIN);
+            } else if (documentos.getTipoDeDocumento() == "5"){
                 documentos.setTipoDeDocumento(Constantes.INFORME);
             }
+         
         try {
                 SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             documentos.setFecha(sdf.parse(request.getParameter("fecha")));

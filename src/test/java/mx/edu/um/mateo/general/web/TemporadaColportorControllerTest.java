@@ -82,7 +82,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         for (int i = 0; i < 20; i++) {
             TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO+i,"TEST","TEST");
-            temporadaColportor.setColporto(test);
+            temporadaColportor.setColportor(test);
             temporadaColportor.setAsociacion(test2);
             temporadaColportor.setAsociado(test3);
             temporadaColportor.setTemporada(test4);
@@ -114,7 +114,7 @@ public class TemporadaColportorControllerTest {
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -149,7 +149,7 @@ public class TemporadaColportorControllerTest {
                 .param("fecha", sdf.format(new Date()))
                 .param("status", "tt")
                 .param("objetivo", "test")
-                .param("observacion", "test"))
+                .param("observaciones", "test"))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
                 .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.creada.message"));
@@ -169,7 +169,7 @@ public class TemporadaColportorControllerTest {
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -184,10 +184,10 @@ public class TemporadaColportorControllerTest {
                 .param("status", "t")
                 .param("fecha", sdf.format(new Date()))
                 .param("objetivo", "test")
-                .param("observacion","test"))
+                .param("observaciones","test"))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
-                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.actualizado.message"));
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.actualizada.message"));
     }
     @Test
     public void debieraEliminarTemporadaColportor() throws Exception {
@@ -205,7 +205,7 @@ public class TemporadaColportorControllerTest {
         currentSession().save(test4);
         
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColporto(test);
+        temporadaColportor.setColportor(test);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -220,7 +220,7 @@ public class TemporadaColportorControllerTest {
                 .andExpect(flash()
                 .attributeExists(Constantes.CONTAINSKEY_MESSAGE))
                 .andExpect(flash()
-                .attribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.eliminado.message"));
+                .attribute(Constantes.CONTAINSKEY_MESSAGE, "temporadaColportor.eliminada.message"));
     }
     
     }

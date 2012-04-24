@@ -29,7 +29,8 @@ public class Constantes {
     public static final String OBSERVACIONES = "test teste";
     
  
-     public static final String DEPOSITO ="Deposito_Banco";
+     public static final String DEPOSITO_CAJA ="Deposito_Caja";
+      public static final String DEPOSITO_BANCO ="Deposito_Banco";
      public static final String DIEZMO ="Diezmo";
      public static final String FACTURA ="Factura";
      public static final String BOLETIN ="Boletín" ;

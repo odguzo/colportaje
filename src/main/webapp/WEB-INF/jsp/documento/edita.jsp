@@ -44,12 +44,12 @@
                                 <span class="required-indicator">*</span>
                             </label>
                             <form:select path="tipoDeDocumento">
-                                    <form:option value="0" label="Deposito_Caja" />
-                                    <form:option value="1" label="Deposito_Banco" />
-                                     <form:option value="2" label="Diezmo" />
-                                    <form:option value="3" label="Factura" />
-                                     <form:option value="4" label="Boletín" />
-                                    <form:option value="5" label="Informe" />
+                                    <form:option value="Deposito_Caja" label="Deposito_Caja" />
+                                    <form:option value="Deposito_Banco" label="Deposito_Banco" />
+                                     <form:option value="Diezmo" label="Diezmo" />
+                                    <form:option value="Factura" label="Factura" />
+                                     <form:option value="Boletin" label="Boletín" />
+                                    <form:option value="Informe" label="Informe" />
                                 </form:select>
                         </div>
                     </s:bind>
