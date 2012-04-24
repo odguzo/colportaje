@@ -122,11 +122,6 @@ public class TemporadaColportorDao {
 
     public TemporadaColportor crea(TemporadaColportor temporadacolportor) {
         log.debug("Creando Temporada Colportor : {}", temporadacolportor);
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
         currentSession().save(temporadacolportor);
         currentSession().flush();
         return temporadacolportor;
@@ -137,11 +132,6 @@ public class TemporadaColportorDao {
         //trae el objeto de la DB 
         TemporadaColportor nueva = (TemporadaColportor) currentSession().get(TemporadaColportor.class, temporadacolportor.getId());
         //actualiza el objeto
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
         BeanUtils.copyProperties(temporadacolportor, nueva);
         //lo guarda en la BD
         currentSession().update(nueva);

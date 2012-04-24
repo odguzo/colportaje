@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import mx.edu.um.mateo.Constantes;
+import mx.edu.um.mateo.general.dao.AsociadoDao;
 import mx.edu.um.mateo.general.dao.ColportorDao;
 import mx.edu.um.mateo.general.dao.TemporadaColportorDao;
-import mx.edu.um.mateo.general.model.Colportor;
-import mx.edu.um.mateo.general.model.TemporadaColportor;
-import mx.edu.um.mateo.general.model.Usuario;
+import mx.edu.um.mateo.general.dao.TemporadaDao;
+import mx.edu.um.mateo.general.model.*;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -62,6 +62,10 @@ public class TemporadaColportorController {
     private JavaMailSender mailSender;
     @Autowired
     private ResourceBundleMessageSource messageSource;
+    @Autowired
+    private TemporadaDao temporadaDao;
+    @Autowired
+    private AsociadoDao asociadoDao;
     @Autowired
     private ColportorDao colportorDao;
     @Autowired
@@ -151,11 +155,12 @@ public class TemporadaColportorController {
     @RequestMapping("/nueva")
     public String nueva(Model modelo) {
         log.debug("Nueva Temporada Colportor");
-        Usuario usuario = ambiente.obtieneUsuario();
         TemporadaColportor temporadaColportor = new TemporadaColportor();
-        temporadaColportor.setAsociacion(usuario.getAsociacion());
-        temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
         
+        Map<String, Object> temporadas = temporadaDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_TEMPORADAS, temporadas.get(Constantes.CONTAINSKEY_TEMPORADAS));
+        Map<String, Object> asociados = asociadoDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIADOS, asociados.get(Constantes.CONTAINSKEY_ASOCIADOS));
         Map<String, Object> colportores = colportorDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_COLPORTORES, colportores.get(Constantes.CONTAINSKEY_COLPORTORES));
         
@@ -165,6 +170,7 @@ public class TemporadaColportorController {
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String crea(HttpServletRequest request, HttpServletResponse response, @Valid TemporadaColportor temporadaColportor, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
+        log.info("creando TC");
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
@@ -182,7 +188,24 @@ public class TemporadaColportorController {
         }
         
         try {
-            log.debug("fecha "+temporadaColportor.getFecha());
+            log.info("obtiene cuestions");
+            Usuario usuario = ambiente.obtieneUsuario();
+            temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
+            temporadaColportor.setAsociacion(usuario.getAsociacion());
+            
+            Temporada temporada = temporadaDao.obtiene(temporadaColportor.getTemporada().getId());
+            log.info("temporada >>>>>>>>>" + temporada);
+            temporadaColportor.setTemporada(temporada);
+            Asociado asociado = asociadoDao.obtiene(temporadaColportor.getAsociado().getId());
+            log.info("asociado>>>>>>>>>" + asociado);
+            temporadaColportor.setAsociado(asociado);
+            Colportor colportor = colportorDao.obtiene(temporadaColportor.getColportor().getId());
+            log.info("colportor>>>>>>>>>" + colportor);
+            temporadaColportor.setColportor(colportor);
+            
+            
+            
+            log.debug("temporadaColportor >>>>>>>>>>>><<"+temporadaColportor);
             temporadaColportor = temporadaColportorDao.crea(temporadaColportor);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la temporada Colportor", e);

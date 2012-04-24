@@ -20,7 +20,7 @@
         <div id="nueva-asociacion" class="content scaffold-list" role="main">
             <h1><s:message code="asociacion.nueva.label" /></h1>
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/web/asociacion'/>"><i class="icon-list icon-white"></i> <s:message code='asociacion.lista.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/admin/asociacion'/>"><i class="icon-list icon-white"></i> <s:message code='asociacion.lista.label' /></a>
             </p>
             <form:form commandName="asociacion" action="crea" method="post">
                 <form:errors path="*">
