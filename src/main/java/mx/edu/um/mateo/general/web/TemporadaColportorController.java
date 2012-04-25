@@ -79,7 +79,6 @@ public class TemporadaColportorController {
             Usuario usuario,
             Model modelo) {
         log.debug("Mostrando lista de Temporada Colportor");
-        
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
@@ -151,7 +150,7 @@ public class TemporadaColportorController {
     }
 
     @RequestMapping("/nueva")
-    public String nueva(Model modelo) {
+    public String nueva(Model modelo,HttpServletRequest request) {
         log.debug("Nueva Temporada Colportor");
         TemporadaColportor temporadaColportor = new TemporadaColportor();
         Map<String, Object> temporadas = temporadaDao.lista(null);
