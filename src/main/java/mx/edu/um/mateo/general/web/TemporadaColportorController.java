@@ -214,6 +214,14 @@ public class TemporadaColportorController {
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Temporada {}", id);
         TemporadaColportor temporadaColportor = temporadaColportorDao.obtiene(id);
+        
+        Map<String, Object> temporadas = temporadaDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_TEMPORADAS, temporadas.get(Constantes.CONTAINSKEY_TEMPORADAS));
+        Map<String, Object> asociados = asociadoDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIADOS, asociados.get(Constantes.CONTAINSKEY_ASOCIADOS));
+        Map<String, Object> colportores = colportorDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_COLPORTORES, colportores.get(Constantes.CONTAINSKEY_COLPORTORES));
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         return Constantes.PATH_TEMPORADACOLPORTOR_EDITA;
     }
@@ -234,11 +242,16 @@ public class TemporadaColportorController {
             return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
         }
         try {
-            temporadaColportor.setFecha(new Date());
-             Usuario usuario= ambiente.obtieneUsuario();
-            temporadaColportor.setAsociacion(usuario.getAsociacion());
+            Usuario usuario = ambiente.obtieneUsuario();
             temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
+            temporadaColportor.setAsociacion(usuario.getAsociacion());
             
+            Temporada temporada = temporadaDao.obtiene(temporadaColportor.getTemporada().getId());
+            temporadaColportor.setTemporada(temporada);
+            Asociado asociado = asociadoDao.obtiene(temporadaColportor.getAsociado().getId());
+            temporadaColportor.setAsociado(asociado);
+            Colportor colportor = colportorDao.obtiene(temporadaColportor.getColportor().getId());
+            temporadaColportor.setColportor(colportor);
             temporadaColportor = temporadaColportorDao.actualiza(temporadaColportor);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Asociacion", e);

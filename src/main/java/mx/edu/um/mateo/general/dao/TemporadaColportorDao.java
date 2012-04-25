@@ -69,10 +69,6 @@ public class TemporadaColportorDao {
 //            criteria.createCriteria("colporto").add(Restrictions.idEq(params.get("colportor")));
 //            countCriteria.createCriteria("colporto").add(Restrictions.idEq(params.get("colporto")));
 //        }
-//        if (params.containsKey("asociacion")) {
-//            criteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
-//            countCriteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
-//        }
 //        if (params.containsKey("asociado")) {
 //            criteria.createCriteria("asociado").add(Restrictions.idEq(params.get("asociado")));
 //            countCriteria.createCriteria("asociado").add(Restrictions.idEq(params.get("asociado")));
