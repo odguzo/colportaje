@@ -28,6 +28,9 @@ public class Colportor implements Serializable{
     @Column(nullable = false, length = 64)
     private String nombre;
     @NotNull
+    @Column(nullable = false, length = 15)
+    private String tipoDeColportor;
+    @NotNull
     @Column(nullable = false, length = 2, name = "status")
     private String status;
     @NotNull
@@ -56,14 +59,23 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
     public Colportor() {
     }
       
-      public Colportor(String nombre, String status, String clave,String direccion,String correo, String telefono){
+      public Colportor(String nombre,String tipoDeColportor, String status, String clave,String direccion,String correo, String telefono){
           this.nombre = nombre;
+          this.tipoDeColportor=tipoDeColportor;
           this.status = status;
           this.clave  = clave;
           this.direccion = direccion;
           this.correo = correo;
           this.telefono = telefono;
       }
+
+    public String getTipoDeColportor() {
+        return tipoDeColportor;
+    }
+
+    public void setTipoDeColportor(String tipoDeColportor) {
+        this.tipoDeColportor = tipoDeColportor;
+    }
 
     public String getClave() {
         return clave;
@@ -129,8 +141,6 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
         this.version = version;
     }
 
-   
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -143,22 +153,44 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
+         if (!Objects.equals(this.tipoDeColportor, other.tipoDeColportor)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+       
+        if (!Objects.equals(this.clave, other.clave)) {
+            return false;
+        }
+        if (!Objects.equals(this.direccion, other.direccion)) {
+            return false;
+        }
+        if (!Objects.equals(this.correo, other.correo)) {
+            return false;
+        }
+        if (!Objects.equals(this.telefono, other.telefono)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.nombre);
+        hash = 79 * hash + Objects.hashCode(this.nombre);
+        hash = 79 * hash + Objects.hashCode(this.tipoDeColportor);
+        hash = 79 * hash + Objects.hashCode(this.status);
+        hash = 79 * hash + Objects.hashCode(this.clave);
+        hash = 79 * hash + Objects.hashCode(this.direccion);
+        hash = 79 * hash + Objects.hashCode(this.correo);
+        hash = 79 * hash + Objects.hashCode(this.telefono);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Colportor{" + "nombre=" + nombre + ", status=" + status + ", clave=" + clave + ", direccion=" + direccion + ", correo=" + correo + ", telefono=" + telefono + '}';
+        return "Colportor{" + "nombre=" + nombre + ", tipoDeColportor=" + tipoDeColportor + ", status=" + status + ", clave=" + clave + ", direccion=" + direccion + ", correo=" + correo + ", telefono=" + telefono + '}';
     }
-
-
-
-      
+    
 }

@@ -49,7 +49,7 @@ public class ColportorDaoTest extends BaseTest{
         log.debug("Debiera mostrar lista de colportor");
 
         for (int i = 0; i < 20; i++) {
-            Colportor colportor = new Colportor(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO, Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+            Colportor colportor = new Colportor(Constantes.NOMBRE+i,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO, Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
             currentSession().save(colportor);
             assertNotNull(colportor);
         }
@@ -68,7 +68,7 @@ public class ColportorDaoTest extends BaseTest{
         log.debug("Debiera obtener colportor");
 
         String nombre = "test";
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         currentSession().save(colportor);
         assertNotNull(colportor.getId());
         Long id = colportor.getId();
@@ -84,7 +84,7 @@ public class ColportorDaoTest extends BaseTest{
     public void deberiaCrearColportor() {
         log.debug("Deberia crear Colportor");
 
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         assertNotNull(colportor);
 
         Colportor colportor2 = instance.crea(colportor);
@@ -98,7 +98,7 @@ public class ColportorDaoTest extends BaseTest{
     public void deberiaActualizarColportor() {
         log.debug("Deberia actualizar Colportor");
 
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         assertNotNull(colportor);
         currentSession().save(colportor);
 
@@ -117,7 +117,7 @@ public class ColportorDaoTest extends BaseTest{
         log.debug("Debiera eliminar Colportor");
 
         String nom = "test";
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         currentSession().save(colportor);
         assertNotNull(colportor);
 

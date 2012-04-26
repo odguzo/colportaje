@@ -48,6 +48,19 @@
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
+                      <s:bind path="colportor.tipoDeColportor">
+                          <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="tipoDeColportor">
+                                <s:message code="tipoDeColportor.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                     <form:select path="TipoDeColportor">
+                                    <form:option value="0" label="Tiempo_Completo" />
+                                    <form:option value="1" label="Tiempo_Parcial" />
+                                     <form:option value="2" label="Estudiante" />
+                                   </form:select>
+                          </div>
+                     </s:bind>
                     <s:bind path="colportor.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="status">

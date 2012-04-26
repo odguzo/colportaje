@@ -66,7 +66,7 @@ public class ColportorControllerTest extends BaseTest {
         log.debug("Debiera monstrar lista de colportores");
         
         for (int i = 0; i < 20; i++) {
-            Colportor colportor = new Colportor(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO,Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+            Colportor colportor = new Colportor(Constantes.NOMBRE+i,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
             colportorDao.crea(colportor);
             assertNotNull(colportor);
         }
@@ -83,7 +83,7 @@ public class ColportorControllerTest extends BaseTest {
    @Test
     public void debieraMostrarColportor() throws Exception {
         log.debug("Debiera mostrar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         colportor = colportorDao.crea(colportor);
         assertNotNull(colportor);
 
@@ -100,6 +100,7 @@ public class ColportorControllerTest extends BaseTest {
 
         this.mockMvc.perform(post(Constantes.PATH_COLPORTOR_CREA)
                 .param("nombre", Constantes.NOMBRE)
+                .param("tipoDeColportor", Constantes.TIPO_COLPORTOR)
                 .param("status", Constantes.STATUS_ACTIVO)
                 .param("clave",Constantes.CLAVE)
                 .param("direccion",Constantes.DIRECCION)
@@ -115,7 +116,7 @@ public class ColportorControllerTest extends BaseTest {
     @Test
     public void debieraActualizarColportor() throws Exception {
         log.debug("Debiera actualizar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         colportor = colportorDao.crea(colportor);
         assertNotNull(colportor);
 
@@ -123,6 +124,7 @@ public class ColportorControllerTest extends BaseTest {
                 .param("id",colportor.getId().toString())
                 .param("version", colportor.getVersion().toString())
                 .param("nombre", colportor.getNombre())
+                .param("tipoDeColportor", colportor.getTipoDeColportor())
                 .param("status", colportor.getStatus())
                 .param("clave", colportor.getClave())
                 .param("direccion", colportor.getDireccion())
@@ -138,7 +140,7 @@ public class ColportorControllerTest extends BaseTest {
     @Test
     public void debieraEliminarColportor() throws Exception {
         log.debug("Debiera eliminar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
         colportorDao.crea(colportor);
         assertNotNull(colportor);
 

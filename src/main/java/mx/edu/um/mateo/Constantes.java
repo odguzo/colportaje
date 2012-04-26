@@ -23,6 +23,7 @@ public class Constantes {
     public static final String CORREO = "test@tes.tst";
     public static final String TELEFONO = "0000000000000";
     public static final String TIPO_DOCUMENTO = "A";
+     public static final String TIPO_COLPORTOR = "test";
     public static final String FOLIO = "test";
     public static final String FECHA = "dd/MM/yyyy";
     public static final BigDecimal IMPORTE = new BigDecimal("0.0");
@@ -42,7 +43,11 @@ public class Constantes {
     
     public static final String ALCANZADO = "Alcanzado";
     public static final String OBJETIVO = "Objetivo";
-     public static final String FIDELIDAD = "Fidelidad";
+    public static final String FIDELIDAD = "Fidelidad";
+     
+    public static final String TIEMPO_COMPLETO = "Tiempo_Completo"; 
+    public static final String TIEMPO_PARCIAL = "Tiempo_Parcial";
+    public static final String ESTUDIANTE = "Estudiante";
     
     /**
      * Valores para el constructor de Locale

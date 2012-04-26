@@ -176,6 +176,19 @@ public class ColportorController {
             log.debug("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
+        switch (colportores.getTipoDeColportor()) {
+            case "0":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
+                break;
+                case "1":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
+                break;
+            case "2":
+                colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
+                break;
+          
+        }
+        
         
         try {
             colportores = ColportorDao.crea(colportores);
@@ -206,6 +219,18 @@ public class ColportorController {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_EDITA;
+        }
+            switch (colportores.getTipoDeColportor()) {
+            case "0":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
+                break;
+                case "1":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
+                break;
+            case "2":
+                colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
+                break;
+          
         }
         try {
             colportores = ColportorDao.actualiza(colportores);

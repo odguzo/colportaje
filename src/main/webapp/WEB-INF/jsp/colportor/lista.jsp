@@ -56,6 +56,9 @@
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="nombre" />
                         </jsp:include>
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="tipoDeColportor" />
+                        </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="status" />
                         </jsp:include> 
@@ -77,6 +80,7 @@
                     <c:forEach items="${colportores}" var="colportor" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
                             <td><a href="<c:url value='/colportor/ver/${colportor.id}' />">${colportor.nombre}</a></td>
+                            <td>${colportor.tipoDeColportor}</td>
                             <td>${colportor.status}</td>
                             <td>${colportor.clave}</td>
                             <td>${colportor.direccion}</td>

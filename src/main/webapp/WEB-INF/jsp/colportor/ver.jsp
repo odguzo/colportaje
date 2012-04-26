@@ -40,6 +40,11 @@
                     <div class="span1"><s:message code="nombre.label" /></div>
                     <div class="span11">${colportor.nombre}</div>
                 </div>
+                
+                  <div class="row-fluid" style="padding-bottom: 10px;">
+                    <div class="span1"><s:message code="tipoDeColportor.label" /></div>
+                    <div class="span11">${colportor.tipoDeColportor}</div>
+                </div>
 
                 <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="status.label" /></div>
