@@ -77,6 +77,8 @@ public class TemporadaController {
         log.debug("Mostrando lista de Temporada");
 
         Map<String, Object> params = new HashMap<>();
+        Long asociacionId = (Long) request.getSession().getAttribute("asociacionId");
+        params.put(Constantes.ADDATTRIBUTE_ASOCIACION, asociacionId);
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
         }

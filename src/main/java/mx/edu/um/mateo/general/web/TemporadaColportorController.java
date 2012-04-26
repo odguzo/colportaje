@@ -8,10 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -70,7 +67,7 @@ public class TemporadaColportorController {
     private ColportorDao colportorDao;
     @Autowired
     private Ambiente ambiente;
-
+    
     @RequestMapping
     public String lista(HttpServletRequest request, HttpServletResponse response,
             @RequestParam(required = false) String filtro,
@@ -79,6 +76,7 @@ public class TemporadaColportorController {
             @RequestParam(required = false) String correo,
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
+            Usuario usuario,
             Model modelo) {
         log.debug("Mostrando lista de Temporada Colportor");
         
@@ -156,14 +154,12 @@ public class TemporadaColportorController {
     public String nueva(Model modelo) {
         log.debug("Nueva Temporada Colportor");
         TemporadaColportor temporadaColportor = new TemporadaColportor();
-        
         Map<String, Object> temporadas = temporadaDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_TEMPORADAS, temporadas.get(Constantes.CONTAINSKEY_TEMPORADAS));
         Map<String, Object> asociados = asociadoDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIADOS, asociados.get(Constantes.CONTAINSKEY_ASOCIADOS));
         Map<String, Object> colportores = colportorDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_COLPORTORES, colportores.get(Constantes.CONTAINSKEY_COLPORTORES));
-        
         modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
     }
@@ -202,9 +198,6 @@ public class TemporadaColportorController {
             Colportor colportor = colportorDao.obtiene(temporadaColportor.getColportor().getId());
             log.info("colportor>>>>>>>>>" + colportor);
             temporadaColportor.setColportor(colportor);
-            
-            
-            
             log.debug("temporadaColportor >>>>>>>>>>>><<"+temporadaColportor);
             temporadaColportor = temporadaColportorDao.crea(temporadaColportor);
         } catch (ConstraintViolationException e) {
@@ -247,21 +240,16 @@ public class TemporadaColportorController {
             return Constantes.PATH_TEMPORADACOLPORTOR_NUEVA;
         }
         try {
-            log.info("obtiene cuestions");
             Usuario usuario = ambiente.obtieneUsuario();
             temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
             temporadaColportor.setAsociacion(usuario.getAsociacion());
             
             Temporada temporada = temporadaDao.obtiene(temporadaColportor.getTemporada().getId());
-            log.info("temporada >>>>>>>>>" + temporada);
             temporadaColportor.setTemporada(temporada);
             Asociado asociado = asociadoDao.obtiene(temporadaColportor.getAsociado().getId());
-            log.info("asociado>>>>>>>>>" + asociado);
             temporadaColportor.setAsociado(asociado);
             Colportor colportor = colportorDao.obtiene(temporadaColportor.getColportor().getId());
-            log.info("colportor>>>>>>>>>" + colportor);
             temporadaColportor.setColportor(colportor);
-            
             temporadaColportor = temporadaColportorDao.actualiza(temporadaColportor);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al Asociacion", e);
