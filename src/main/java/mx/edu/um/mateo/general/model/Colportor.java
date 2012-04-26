@@ -32,9 +32,6 @@ public class Colportor implements Serializable {
     @NotNull
     @Column(unique = true, nullable = false, length = 64)
     private String clave;
-    @Email
-    @Column(length = 128)
-    private String correo;
     @Column(length = 25)
     private String telefono;
     @NotNull
@@ -58,10 +55,9 @@ public class Colportor implements Serializable {
     public Colportor() {
     }
 
-    public Colportor(String status, String clave, String correo,String telefono, String calle, String colonia, String municipio) {
+    public Colportor(String status, String clave,String telefono, String calle, String colonia, String municipio) {
             this.status = status;
             this.clave = clave;
-            this.correo = correo;
             this.telefono = telefono;
             this.calle = calle;
             this.colonia = colonia;
@@ -76,13 +72,6 @@ public class Colportor implements Serializable {
         this.clave = clave;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
     public Long getId() {
         return id;
     }
@@ -162,8 +151,10 @@ public class Colportor implements Serializable {
 
     @Override
     public String toString() {
-        return "Colportor{" + "status=" + status + ", clave=" + clave + ", correo=" + correo + ", telefono=" + telefono + ", calle=" + calle + ", colonia=" + colonia + ", municipio=" + municipio + '}';
+        return "Colportor{" + "status=" + status + ", clave=" + clave + ", telefono=" + telefono + ", calle=" + calle + ", colonia=" + colonia + ", municipio=" + municipio + '}';
     }
+
+    
     
     
 }

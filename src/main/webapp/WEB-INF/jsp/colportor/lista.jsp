@@ -69,9 +69,6 @@
                             <jsp:param name="columna" value="municipio" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="correo" />
-                        </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="telefono" />
                         </jsp:include>
                     </tr>
@@ -84,7 +81,6 @@
                             <td>${colportor.calle}</td>
                             <td>${colportor.colonia}</td>
                             <td>${colportor.municipio}</td>
-                            <td>${colportor.correo}</td>
                             <td>${colportor.telefono}</td>
                         </tr>
                     </c:forEach>

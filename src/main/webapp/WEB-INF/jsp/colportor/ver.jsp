@@ -56,12 +56,6 @@
                     <div class="span1"><s:message code="municipio.label" /></div>
                     <div class="span11">${colportor.municipio}</div>
                 </div>
-                
-                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="correo.label" /></div>
-                    <div class="span11">${colportor.correo}</div>
-                </div>
-                
                  <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="telefono.label" /></div>
                     <div class="span11">${colportor.telefono}</div>

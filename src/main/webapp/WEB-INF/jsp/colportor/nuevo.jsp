@@ -84,18 +84,6 @@
                             <form:errors path="clave" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                      <s:bind path="colportor.correo">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="correo">
-                                <s:message code="correo.label" />
-                              
-                            </label>
-                            <form:input path="correo" maxlength="128" required="false" />
-                            <form:errors path="correo" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    
-                    
                       <s:bind path="colportor.telefono">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="telefono">
