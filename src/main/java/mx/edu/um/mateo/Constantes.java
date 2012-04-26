@@ -105,6 +105,7 @@ public class Constantes {
     public static final String CONTAINSKEY_ASOCIADOS = "asociados";
     public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
     public static final String CONTAINSKEY_TEMPORADACOLPORTORES = "temporadaColportores";
+    public static final String CONTAINSKEY_PAISES = "paises";
     /**
      * Valores para el los addAttribute para las clases
      */
@@ -116,6 +117,7 @@ public class Constantes {
     public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
     public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
     public static final String ADDATTRIBUTE_TEMPORADACOLPORTOR = "temporadaColportor";
+    public static final String ADDATTRIBUTE_PAIS = "pais";
     /**
      * Valores para el los path's para las clases
      */
@@ -183,4 +185,12 @@ public class Constantes {
     public static final String PATH_TEMPORADACOLPORTOR_CREA = "/temporadaColportor/crea";
     public static final String PATH_TEMPORADACOLPORTOR_ACTUALIZA = "/temporadaColportor/actualiza";
     public static final String PATH_TEMPORADACOLPORTOR_ELIMINA = "/temporadaColportor/elimina";
+    public static final String PATH_PAIS = "/pais";
+    public static final String PATH_PAIS_LISTA = "pais/lista";
+    public static final String PATH_PAIS_VER = "/pais/ver";
+    public static final String PATH_PAIS_NUEVA = "/pais/nueva";
+    public static final String PATH_PAIS_EDITA = "/pais/edita";
+    public static final String PATH_PAIS_CREA = "/pais/crea";
+    public static final String PATH_PAIS_ACTUALIZA = "/pais/actualiza";
+    public static final String PATH_PAIS_ELIMINA = "/pais/elimina";
 }
