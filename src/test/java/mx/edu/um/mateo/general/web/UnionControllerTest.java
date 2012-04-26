@@ -137,7 +137,8 @@ public class UnionControllerTest extends BaseTest {
 //    public void debieraActualizarUnion() throws Exception {
 //        log.debug("Debiera actualizar union");
 //        
-//        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+//        Union union = new Union("test");
+//        union.setStatus(Constantes.STATUS_ACTIVO);
 //        union = unionDao.crea(union);
 //        Rol rol = new Rol("ROLE_TEST");
 //        rol = rolDao.crea(rol);
@@ -153,12 +154,16 @@ public class UnionControllerTest extends BaseTest {
 //        assertNotNull(id);
 //        
 //        this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
+//        
+//        Union union2 = new Union("test1");
+//        union2.setStatus(Constantes.STATUS_ACTIVO);
+//        union2 = unionDao.crea(union2);
 //
 //        this.mockMvc.perform(post(Constantes.PATH_UNION_ACTUALIZA)
-//                .param("id",union.getId().toString())
-//                .param("version", union.getVersion().toString())
-//                .param("nombre", "test1")
-//                .param("status", union.getStatus()))
+//                .param("id",union2.getId().toString())
+//                .param("version", union2.getVersion().toString())
+//                .param("nombre", "test2")
+//                .param("status", "1"))
 //                .andExpect(status().isOk())
 //                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
 //                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "union.actualizada.message"));

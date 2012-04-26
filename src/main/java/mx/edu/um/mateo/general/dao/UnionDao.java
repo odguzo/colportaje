@@ -68,25 +68,21 @@ public class UnionDao {
         if (params == null) {
             params = new HashMap<>();
         }
-
         if (!params.containsKey(Constantes.CONTAINSKEY_MAX)) {
             params.put(Constantes.CONTAINSKEY_MAX, 10);
         } else {
             params.put(Constantes.CONTAINSKEY_MAX, Math.min((Integer) params.get(Constantes.CONTAINSKEY_MAX), 100));
         }
-
         if (params.containsKey(Constantes.CONTAINSKEY_PAGINA)) {
             Long pagina = (Long) params.get(Constantes.CONTAINSKEY_PAGINA);
             Long offset = (pagina - 1) * (Integer) params.get(Constantes.CONTAINSKEY_MAX);
             params.put(Constantes.CONTAINSKEY_OFFSET, offset.intValue());
         }
-
         if (!params.containsKey(Constantes.CONTAINSKEY_OFFSET)) {
             params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
         Criteria criteria = currentSession().createCriteria(Union.class);
         Criteria countCriteria = currentSession().createCriteria(Union.class);
-
 
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
@@ -95,7 +91,6 @@ public class UnionDao {
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
-
         if (params.containsKey(Constantes.CONTAINSKEY_ORDER)) {
             String campo = (String) params.get(Constantes.CONTAINSKEY_ORDER);
             if (params.get(Constantes.CONTAINSKEY_SORT).equals(Constantes.CONTAINSKEY_DESC)) {
@@ -104,7 +99,6 @@ public class UnionDao {
                 criteria.addOrder(Order.asc(campo));
             }
         }
-
         if (!params.containsKey(Constantes.CONTAINSKEY_REPORTE)) {
             criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
             criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));

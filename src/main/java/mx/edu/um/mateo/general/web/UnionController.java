@@ -55,7 +55,6 @@ public class UnionController extends BaseController {
             params.put(Constantes.CONTAINSKEY_ORDER, order);
             params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
-
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = unionDao.lista(params);
@@ -69,7 +68,6 @@ public class UnionController extends BaseController {
                 //errors.reject("error.generar.reporte");
             }
         }
-
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = unionDao.lista(params);
@@ -118,7 +116,6 @@ public class UnionController extends BaseController {
             log.debug("Hubo algun error en la forma, regresando");
             return Constantes.PATH_UNION_NUEVA;
         }
-
         try {
             Usuario usuario = null;
             if (ambiente.obtieneUsuario() != null) {
@@ -144,7 +141,6 @@ public class UnionController extends BaseController {
         log.debug("Edita union {}", id);
         Union union = unionDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
-
         return Constantes.PATH_UNION_EDITA;
     }
 
@@ -157,7 +153,6 @@ public class UnionController extends BaseController {
             }
             return Constantes.PATH_UNION_EDITA;
         }
-
         try {
             Usuario usuario = null;
             if (ambiente.obtieneUsuario() != null) {
@@ -169,7 +164,6 @@ public class UnionController extends BaseController {
                 union.setStatus(Constantes.STATUS_ACTIVO);
             }
             union = unionDao.actualiza(union, usuario);
-            
             ambiente.actualizaSesion(request, usuario);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al union", e);
@@ -187,9 +181,7 @@ public class UnionController extends BaseController {
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Union union, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina union");
         try {
-
             String nombre = unionDao.elimina(id);
-
             ambiente.actualizaSesion(request);
 
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "union.eliminada.message");

@@ -104,14 +104,14 @@ public abstract class BaseController {
         log.debug("Generando PDF");
         Map<String, Object> params = new HashMap<>();
         JasperReport jasperReport = null;
-        switch(tipo) {
-            case Constantes.ADMIN : 
+        switch (tipo) {
+            case Constantes.ADMIN:
                 jasperReport = reporteDao.obtieneReporteAdministrativo(nombre);
                 break;
-            case Constantes.UNI : 
+            case Constantes.UNI:
                 jasperReport = reporteDao.obtieneReportePorUnion(nombre, id);
                 break;
-            case Constantes.ASO : 
+            case Constantes.ASO:
                 jasperReport = reporteDao.obtieneReportePorAsociacion(nombre, id);
                 break;
         }
@@ -127,14 +127,14 @@ public abstract class BaseController {
         JRCsvExporter exporter = new JRCsvExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         JasperReport jasperReport = null;
-        switch(tipo) {
-            case Constantes.ADMIN : 
+        switch (tipo) {
+            case Constantes.ADMIN:
                 jasperReport = reporteDao.obtieneReporteAdministrativo(nombre);
                 break;
-            case Constantes.UNI : 
+            case Constantes.UNI:
                 jasperReport = reporteDao.obtieneReportePorUnion(nombre, id);
                 break;
-            case Constantes.ASO : 
+            case Constantes.ASO:
                 jasperReport = reporteDao.obtieneReportePorAsociacion(nombre, id);
                 break;
         }
@@ -153,14 +153,14 @@ public abstract class BaseController {
         JRXlsExporter exporter = new JRXlsExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         JasperReport jasperReport = null;
-        switch(tipo) {
-            case Constantes.ADMIN : 
+        switch (tipo) {
+            case Constantes.ADMIN:
                 jasperReport = reporteDao.obtieneReporteAdministrativo(nombre);
                 break;
-            case Constantes.UNI : 
+            case Constantes.UNI:
                 jasperReport = reporteDao.obtieneReportePorUnion(nombre, id);
                 break;
-            case Constantes.ASO : 
+            case Constantes.ASO:
                 jasperReport = reporteDao.obtieneReportePorAsociacion(nombre, id);
                 break;
         }
@@ -235,7 +235,7 @@ public abstract class BaseController {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(ambiente.obtieneUsuario().getUsername());
-            String titulo = messageSource.getMessage(nombre +".reporte.label", null, request.getLocale());
+            String titulo = messageSource.getMessage(nombre + ".reporte.label", null, request.getLocale());
             helper.setSubject(messageSource.getMessage("envia.correo.titulo.message", new String[]{titulo}, request.getLocale()));
             helper.setText(messageSource.getMessage("envia.correo.contenido.message", new String[]{titulo}, request.getLocale()), true);
             helper.addAttachment(titulo + "." + tipo, new ByteArrayDataSource(archivo, tipoContenido));

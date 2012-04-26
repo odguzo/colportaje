@@ -30,11 +30,19 @@ public class Constantes {
     
  
      public static final String DEPOSITO_CAJA ="Deposito_Caja";
-      public static final String DEPOSITO_BANCO ="Deposito_Banco";
+     public static final String DEPOSITO_BANCO ="Deposito_Banco";
      public static final String DIEZMO ="Diezmo";
-     public static final String FACTURA ="Factura";
+     public static final String NOTA_DE_COMPRA ="Nota_De_Compra";
      public static final String BOLETIN ="Boletín" ;
      public static final String INFORME ="Informe" ;
+     
+    public static final String TOTALBOLETIN = "Total_Boletin";
+    public static final String TOTALDIEZMOS = "Total_Diezmos";
+    public static final String TOTALDEPOSITOS = "Total_Depositos";
+    
+    public static final String ALCANZADO = "Alcanzado";
+    public static final String OBJETIVO = "Objetivo";
+     public static final String FIDELIDAD = "Fidelidad";
     
     /**
      * Valores para el constructor de Locale
@@ -98,6 +106,7 @@ public class Constantes {
     public static final String CONTAINSKEY_COLPORTORES = "colportores";
     public static final String CONTAINSKEY_DOCUMENTOS = "documentos";
     public static final String CONTAINSKEY_COLEGIOS = "colegios";
+    public static final String CONTAINSKEY_CLIENTES = "clientes";
     public static final String CONTAINSKEY_ASOCIACIONES = "asociaciones";
     public static final String CONTAINSKEY_ASOCIADOS = "asociados";
     public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
@@ -109,6 +118,7 @@ public class Constantes {
     public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
     public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
     public static final String ADDATTRIBUTE_COLEGIO = "colegio";
+    public static final String ADDATTRIBUTE_CLIENTE = "cliente";
     public static final String ADDATTRIBUTE_ASOCIACION = "asociacion";
     public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
     public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
@@ -156,6 +166,14 @@ public class Constantes {
     public static final String PATH_COLEGIO_CREA = "/colegio/crea";
     public static final String PATH_COLEGIO_ACTUALIZA = "/colegio/actualiza";
     public static final String PATH_COLEGIO_ELIMINA = "/colegio/elimina";
+    public static final String PATH_CLIENTE = "/cliente";
+    public static final String PATH_CLIENTE_LISTA = "cliente/lista";
+    public static final String PATH_CLIENTE_VER = "/cliente/ver";
+    public static final String PATH_CLIENTE_NUEVO = "cliente/nuevo";
+    public static final String PATH_CLIENTE_EDITA = "cliente/edita";
+    public static final String PATH_CLIENTE_CREA = "/cliente/crea";
+    public static final String PATH_CLIENTE_ACTUALIZA = "/cliente/actualiza";
+    public static final String PATH_CLIENTE_ELIMINA = "/cliente/elimina";
     public static final String PATH_ASOCIADO = "/asociado";
     public static final String PATH_ASOCIADO_LISTA = "/asociado/lista";
     public static final String PATH_ASOCIADO_VER = "/asociado/ver";

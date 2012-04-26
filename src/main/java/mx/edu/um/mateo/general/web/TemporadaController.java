@@ -9,7 +9,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -18,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.TemporadaDao;
-import mx.edu.um.mateo.general.dao.UsuarioDao;
 import mx.edu.um.mateo.general.model.Temporada;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import net.sf.jasperreports.engine.*;
@@ -61,8 +63,6 @@ public class TemporadaController {
     @Autowired
     private ResourceBundleMessageSource messageSource;
     @Autowired
-    private UsuarioDao usuarioDao;
-    @Autowired
     private Ambiente ambiente;
 
     @RequestMapping
@@ -75,7 +75,7 @@ public class TemporadaController {
             @RequestParam(required = false) String sort,
             Model modelo) {
         log.debug("Mostrando lista de Temporada");
-
+        //filtrar temporadas por asociacion
         Map<String, Object> params = new HashMap<>();
         Long asociacionId = (Long) request.getSession().getAttribute("asociacionId");
         params.put(Constantes.ADDATTRIBUTE_ASOCIACION, asociacionId);

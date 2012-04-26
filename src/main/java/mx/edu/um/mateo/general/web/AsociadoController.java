@@ -179,9 +179,7 @@ public class AsociadoController {
 
             return Constantes.PATH_ASOCIADO_NUEVA;
         }
-
         try {
-
             asociado = asociadoDao.crea(asociado);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al asociacion", e);

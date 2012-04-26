@@ -45,6 +45,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 /**
  *
  * @author wilbert
@@ -52,7 +53,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(Constantes.PATH_COLEGIO)
 public class ColegioController {
-    
+
     private static final Logger log = LoggerFactory.getLogger(ColegioController.class);
     @Autowired
     private ColegioDao ColegioDao;
@@ -62,7 +63,7 @@ public class ColegioController {
     private ResourceBundleMessageSource messageSource;
     @Autowired
     private Ambiente ambiente;
-    
+
     @RequestMapping
     public String lista(HttpServletRequest request, HttpServletResponse response,
             @RequestParam(required = false) String filtro,
@@ -78,7 +79,7 @@ public class ColegioController {
         Map<String, Object> params = new HashMap<>();
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
-}
+        }
         if (pagina != null) {
             params.put(Constantes.CONTAINSKEY_PAGINA, pagina);
             modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
@@ -90,7 +91,7 @@ public class ColegioController {
             params.put(Constantes.CONTAINSKEY_ORDER, order);
             params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
-        
+
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = ColegioDao.lista(params);
@@ -103,11 +104,11 @@ public class ColegioController {
                 //errors.reject("error.generar.reporte");
             }
         }
-        
+
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = ColegioDao.lista(params);
-            
+
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
                 enviaCorreo(correo, (List<Colegio>) params.get(Constantes.CONTAINSKEY_COLEGIOS), request);
@@ -139,17 +140,17 @@ public class ColegioController {
 
         return Constantes.PATH_COLEGIO_LISTA;
     }
-    
+
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
         log.debug("Mostrando colegio {}", id);
         Colegio colegios = ColegioDao.obtiene(id);
-        
+
         modelo.addAttribute(Constantes.ADDATTRIBUTE_COLEGIO, colegios);
-        
+
         return Constantes.PATH_COLEGIO_VER;
     }
-    
+
     @RequestMapping("/nuevo")
     public String nuevo(Model modelo) {
         log.debug("Nuevo colegio");
@@ -157,7 +158,7 @@ public class ColegioController {
         modelo.addAttribute(Constantes.ADDATTRIBUTE_COLEGIO, colegios);
         return Constantes.PATH_COLEGIO_NUEVO;
     }
-    
+
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Colegio colegios, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
@@ -168,20 +169,19 @@ public class ColegioController {
             log.debug("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLEGIO_NUEVO;
         }
-        
         try {
             colegios = ColegioDao.crea(colegios);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colegio", e);
             return Constantes.PATH_COLEGIO_NUEVO;
         }
-        
+
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colegio.creado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colegios.getNombre()});
-        
+
         return "redirect:" + Constantes.PATH_COLEGIO_VER + "/" + colegios.getId();
     }
-    
+
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Editar colegio {}", id);
@@ -189,7 +189,7 @@ public class ColegioController {
         modelo.addAttribute(Constantes.ADDATTRIBUTE_COLEGIO, colegios);
         return Constantes.PATH_COLEGIO_EDITA;
     }
-    
+
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
     public String actualiza(HttpServletRequest request, @Valid Colegio colegios, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
@@ -203,20 +203,19 @@ public class ColegioController {
             log.error("No se pudo crear la colegio", e);
             return Constantes.PATH_COLEGIO_NUEVO;
         }
-        
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colegio.actualizado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colegios.getNombre()});
-        
+
         return "redirect:" + Constantes.PATH_COLEGIO_VER + "/" + colegios.getId();
     }
-    
+
     @Transactional
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Colegio colegios, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina colegio");
         try {
             String nombre = ColegioDao.elimina(id);
-            
+
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colegio.eliminado.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
@@ -224,10 +223,10 @@ public class ColegioController {
             bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_COLEGIO, new String[]{"colegio.no.eliminado.message"}, null, null));
             return Constantes.PATH_COLEGIO_VER;
         }
-        
+
         return "redirect:" + Constantes.PATH_COLEGIO;
     }
-    
+
     private void generaReporte(String tipo, List<Colegio> colegios, HttpServletResponse response) throws JRException, IOException {
         log.debug("Generando reporte {}", tipo);
         byte[] archivo = null;
@@ -254,9 +253,9 @@ public class ColegioController {
                 bos.flush();
             }
         }
-        
+
     }
-    
+
     private void enviaCorreo(String tipo, List<Colegio> colegios, HttpServletRequest request) throws JRException, MessagingException {
         log.debug("Enviando correo {}", tipo);
         byte[] archivo = null;
@@ -274,7 +273,7 @@ public class ColegioController {
                 archivo = generaXls(colegios);
                 tipoContenido = "application/vnd.ms-excel";
         }
-        
+
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(ambiente.obtieneUsuario().getUsername());
@@ -284,17 +283,17 @@ public class ColegioController {
         helper.addAttachment(titulo + "." + tipo, new ByteArrayDataSource(archivo, tipoContenido));
         mailSender.send(message);
     }
-    
+
     private byte[] generaPdf(List colegios) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/colegios.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(colegios));
         byte[] archivo = JasperExportManager.exportReportToPdf(jasperPrint);
-        
+
         return archivo;
     }
-    
+
     private byte[] generaCsv(List colegios) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRCsvExporter exporter = new JRCsvExporter();
@@ -306,10 +305,10 @@ public class ColegioController {
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-        
+
         return archivo;
     }
-    
+
     private byte[] generaXls(List colegios) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRXlsExporter exporter = new JRXlsExporter();
@@ -327,7 +326,7 @@ public class ColegioController {
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-        
+
         return archivo;
     }
 }

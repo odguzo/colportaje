@@ -37,7 +37,6 @@ public class UnionDaoTest extends BaseTest {
     private UnionDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-
     private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -94,6 +93,7 @@ public class UnionDaoTest extends BaseTest {
         assertNotNull(id);
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
+        
         union = new Union("tst-01");
         union = instance.crea(union, usuario);
         assertNotNull(union.getId());
@@ -118,7 +118,6 @@ public class UnionDaoTest extends BaseTest {
         currentSession().flush();
         Long id = usuario.getId();
         assertNotNull(id);
-        id = union.getId();
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
@@ -154,12 +153,12 @@ public class UnionDaoTest extends BaseTest {
         id = union.getId();
         currentSession().refresh(asociacion);
         currentSession().refresh(union);
+        
+        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
         union = new Union("TEST02");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-
-        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
         String nombre = instance.elimina(id);
         assertEquals("TEST01", nombre);
