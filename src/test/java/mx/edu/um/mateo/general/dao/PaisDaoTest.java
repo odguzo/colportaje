@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:mateo.xml", "classpath:security.xml"})
 @Transactional
 public class PaisDaoTest {
-    private static final Logger log = LoggerFactory.getLogger(ColportorDaoTest.class);
+    private static final Logger log = LoggerFactory.getLogger(PaisDaoTest.class);
     @Autowired
     private PaisDao instance;
     @Autowired
