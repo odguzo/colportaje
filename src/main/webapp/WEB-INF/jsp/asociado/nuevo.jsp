@@ -35,16 +35,6 @@
                 </form:errors>
 
                 <fieldset>
-                    <s:bind path="asociado.nombre">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="nombre">
-                                <s:message code="nombre.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="nombre" maxlength="128" required="true" />
-                            <form:errors path="nombre" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
                     <s:bind path="asociado.clave">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="clave">
@@ -85,17 +75,6 @@
                             <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociado.correo">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="correo">
-                                <s:message code="correo.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="correo" maxlength="128" required="true" />
-                            <form:errors path="correo" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    
                 </fieldset>
 
 

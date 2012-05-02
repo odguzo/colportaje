@@ -26,7 +26,7 @@
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/asociado/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociado.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/asociado/nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='asociado.nuevo.label' /></a>
                 <input name="filtro" type="text" class="input-medium search-query" value="${param.filtro}">
                 <button type="submit" class="btn"><s:message code="buscar.label" /></button>
             </p>
@@ -53,16 +53,10 @@
                 <thead>
                     <tr>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="nombre" />
-                        </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="clave" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="direccion" />
-                        </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="nombre" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="telefono" />
@@ -70,20 +64,15 @@
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="status" />
                         </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="correo" />
-                        </jsp:include>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${asociados}" var="asociado" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
-                            <td><a href="<c:url value='/asociado/ver/${asociado.id}' />">${asociado.nombre}</a></td>
-                            <td>${asociado.clave}</td>
+                            <td><a href="<c:url value='/asociado/ver/${asociado.id}' />">${asociado.clave}</a></td>
                             <td>${asociado.direccion}</td>
                             <td>${asociado.telefono}</td>
                             <td>${asociado.status}</td>
-                            <td>${asociado.correo}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

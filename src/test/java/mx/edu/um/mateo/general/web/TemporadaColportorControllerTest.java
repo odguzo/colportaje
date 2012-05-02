@@ -88,7 +88,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test","test", Constantes.STATUS_ACTIVO);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test");
         currentSession().save(test4);
@@ -124,7 +124,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test", "test", "test", "test", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
@@ -155,16 +155,10 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test", "test", "test", "test", Constantes.STATUS_ACTIVO);
-        currentSession().save(test3);
-        Temporada test4 = new Temporada("test");
-        currentSession().save(test4);
-        Colegio colegio = new Colegio("test3", Constantes.STATUS_ACTIVO);
-        currentSession().save(colegio);
         union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         Long asociacionId = 0l;
         actualizaUsuario:
         for (Asociacion asociacion : union.getAsociaciones()) {
@@ -177,9 +171,11 @@ public class TemporadaColportorControllerTest extends BaseTest {
         
         this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
         
+        Colegio colegio = new Colegio("test3", Constantes.STATUS_ACTIVO);
+        currentSession().save(colegio);
         Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE, Constantes.DIRECCION, Constantes.CORREO, Constantes.TELEFONO);
         currentSession().save(colportor);
-        Asociado asociado = new Asociado("test", "test", "test", "test", Constantes.STATUS_ACTIVO);
+        Asociado asociado = new Asociado("test90", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociado);
         Temporada temporada = new Temporada("test");
         currentSession().save(temporada);
@@ -209,7 +205,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test", "test", "test", "test", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
@@ -218,7 +214,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         Long asociacionId = 0l;
         actualizaUsuario:
         for (Asociacion asociacion : union.getAsociaciones()) {
@@ -266,7 +262,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test", "test", "test", "test", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);

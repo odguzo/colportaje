@@ -11,10 +11,10 @@ import java.math.BigDecimal;
  * @author gibrandemetrioo
  */
 public class Constantes {
+
     public static final String ADMIN = "ADMIN";
     public static final String UNI = "UNI";
     public static final String ASO = "ASO";
-
     public static final String NOMBRE = "test";
     public static final String STATUS_ACTIVO = "A";
     public static final String CLAVE = "test90";
@@ -26,23 +26,18 @@ public class Constantes {
     public static final String FECHA = "dd/MM/yyyy";
     public static final BigDecimal IMPORTE = new BigDecimal("0.0");
     public static final String OBSERVACIONES = "test teste";
-    
- 
-     public static final String DEPOSITO_CAJA ="Deposito_Caja";
-     public static final String DEPOSITO_BANCO ="Deposito_Banco";
-     public static final String DIEZMO ="Diezmo";
-     public static final String NOTA_DE_COMPRA ="Nota_De_Compra";
-     public static final String BOLETIN ="Boletín" ;
-     public static final String INFORME ="Informe" ;
-     
+    public static final String DEPOSITO_CAJA = "Deposito_Caja";
+    public static final String DEPOSITO_BANCO = "Deposito_Banco";
+    public static final String DIEZMO = "Diezmo";
+    public static final String NOTA_DE_COMPRA = "Nota_De_Compra";
+    public static final String BOLETIN = "Boletín";
+    public static final String INFORME = "Informe";
     public static final String TOTALBOLETIN = "Total_Boletin";
     public static final String TOTALDIEZMOS = "Total_Diezmos";
     public static final String TOTALDEPOSITOS = "Total_Depositos";
-    
     public static final String ALCANZADO = "Alcanzado";
     public static final String OBJETIVO = "Objetivo";
-     public static final String FIDELIDAD = "Fidelidad";
-    
+    public static final String FIDELIDAD = "Fidelidad";
     /**
      * Valores para el constructor de Locale
      */
@@ -113,6 +108,7 @@ public class Constantes {
     /**
      * Valores para el los addAttribute para las clases
      */
+    public static final String ADDATTRIBUTE_USUARIO = "union";
     public static final String ADDATTRIBUTE_UNION = "union";
     public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
     public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
@@ -176,7 +172,7 @@ public class Constantes {
     public static final String PATH_ASOCIADO = "/asociado";
     public static final String PATH_ASOCIADO_LISTA = "/asociado/lista";
     public static final String PATH_ASOCIADO_VER = "/asociado/ver";
-    public static final String PATH_ASOCIADO_NUEVA = "/asociado/nueva";
+    public static final String PATH_ASOCIADO_NUEVO = "/asociado/nuevo";
     public static final String PATH_ASOCIADO_EDITA = "/asociado/edita";
     public static final String PATH_ASOCIADO_CREA = "/asociado/crea";
     public static final String PATH_ASOCIADO_ACTUALIZA = "/asociado/actualiza";

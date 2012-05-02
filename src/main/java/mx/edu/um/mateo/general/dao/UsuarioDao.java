@@ -169,7 +169,8 @@ public class UsuarioDao {
         nuevoUsuario.setVersion(usuario.getVersion());
         nuevoUsuario.setUsername(usuario.getUsername());
         nuevoUsuario.setNombre(usuario.getNombre());
-        nuevoUsuario.setApellido(usuario.getApellido());
+        nuevoUsuario.setApellidoP(usuario.getApellidoP());
+        nuevoUsuario.setApellidoM(usuario.getApellidoM());
 
         nuevoUsuario.getRoles().clear();
         Query query = currentSession().createQuery("select r from Rol r where r.authority = :nombre");
@@ -193,7 +194,7 @@ public class UsuarioDao {
         currentSession().update(usuario);
         currentSession().flush();
     }
-    
+
     public String elimina(Long id) throws UltimoException {
         Usuario usuario = obtiene(id);
         Criteria criteria = currentSession().createCriteria(Usuario.class);
@@ -253,5 +254,4 @@ public class UsuarioDao {
             currentSession().flush();
         }
     }
-
 }

@@ -128,7 +128,7 @@ public class AsociacionControllerTest extends BaseTest {
         currentSession().save(rol);
         Set<Rol> roles = new HashSet<>();
         roles.add(rol);
-        Usuario usuario = new Usuario("bugs@um.edu.mx", "TEST-01", "TEST-01", "TEST-01");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -176,7 +176,7 @@ public class AsociacionControllerTest extends BaseTest {
 //        currentSession().save(rol);
 //        Set<Rol> roles = new HashSet<>();
 //        roles.add(rol);
-//        Usuario usuario = new Usuario("bugs@um.edu.mx", "TEST-01", "TEST-01", "TEST-01");
+//        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
 //        usuario.setAsociacion(asociacion);
 //        usuario.setRoles(roles);
 //        currentSession().save(usuario);

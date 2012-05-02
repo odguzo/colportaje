@@ -97,7 +97,7 @@ public class AsociacionDaoTest extends BaseTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("tst-01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -129,7 +129,7 @@ public class AsociacionDaoTest extends BaseTest {
         Asociacion asociacion = new Asociacion("tst-01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
         assertNotNull(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -169,7 +169,7 @@ public class AsociacionDaoTest extends BaseTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("tst-01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);

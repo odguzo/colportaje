@@ -85,8 +85,9 @@ public class InicializaController {
             Usuario usuario = new Usuario(
                     username,
                     password,
-                    "Admin",
-                    "User");
+                    "Nombre",
+                    "ApellidoP",
+                    "ApellidoM");
             Long asosiacionId = 0l;
             actualizaUsuario:
             for (Asociacion asociacion : union.getAsociaciones()) {

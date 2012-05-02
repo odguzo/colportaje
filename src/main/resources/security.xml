@@ -19,6 +19,12 @@
         <intercept-url pattern="/inicializa/**" access="permitAll" />
         <intercept-url pattern="/prueba/**" access="permitAll" />
         <intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/asociado/**" access="hasAnyRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/colegio/**" access="hasAnyRole('ROLE_ASO')" />
+        <intercept-url pattern="/temporada/**" access="hasAnyRole('ROLE_ASO')" />
+        <intercept-url pattern="/colportor/**" access="hasAnyRole('ROLE_ASO')" />
+        <intercept-url pattern="/temporadaColportor/**" access="hasAnyRole('ROLE_ASO')" />
+        <intercept-url pattern="/documento/**" access="hasAnyRole('ROLE_COL')" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/login.jsp" 
                     login-processing-url="/entrar" 

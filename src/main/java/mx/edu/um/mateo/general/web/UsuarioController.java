@@ -224,8 +224,8 @@ public class UsuarioController {
             modelo.addAttribute("roles", roles);
             return "admin/usuario/nuevo";
         } catch (MessagingException e) {
-            log.error("No se pudo enviar la contrasena por correo",e);
-            
+            log.error("No se pudo enviar la contrasena por correo", e);
+
             redirectAttributes.addFlashAttribute("message", "usuario.creado.sin.correo.message");
             redirectAttributes.addFlashAttribute("messageAttrs", new String[]{usuario.getUsername(), password});
 

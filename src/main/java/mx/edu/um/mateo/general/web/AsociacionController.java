@@ -53,7 +53,7 @@ public class AsociacionController extends BaseController {
         log.debug("Mostrando lista de Asociaciones");
         Map<String, Object> params = new HashMap<>();
         Long unionId = (Long) request.getSession().getAttribute("unionId");
-        params.put("union", unionId);
+        params.put(Constantes.ADDATTRIBUTE_UNION, unionId);
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
         }

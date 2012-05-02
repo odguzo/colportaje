@@ -66,10 +66,10 @@ public class AsociacionDao {
         }
         Criteria criteria = currentSession().createCriteria(Asociacion.class);
         Criteria countCriteria = currentSession().createCriteria(Asociacion.class);
-        
-        if (params.containsKey("union")) {
-            criteria.createCriteria("union").add(Restrictions.idEq(params.get("union")));
-            countCriteria.createCriteria("union").add(Restrictions.idEq(params.get("union")));
+
+        if (params.containsKey(Constantes.ADDATTRIBUTE_UNION)) {
+            criteria.createCriteria(Constantes.ADDATTRIBUTE_UNION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_UNION)));
+            countCriteria.createCriteria(Constantes.ADDATTRIBUTE_UNION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_UNION)));
         }
 
         if (params.containsKey("filtro")) {

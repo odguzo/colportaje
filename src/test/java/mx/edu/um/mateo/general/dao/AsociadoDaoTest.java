@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
+
 import java.util.List;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
@@ -19,25 +20,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
  *
  * @author gibrandemetrioo
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mateo.xml", "classpath:security.xml"})
 @Transactional
 public class AsociadoDaoTest {
-   
+
     private static final Logger log = LoggerFactory.getLogger(AsociadoDao.class);
     @Autowired
     private AsociadoDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-   private Session currentSession() {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
+
     /**
      * Test of lista method, of class AsociadoDao.
      */
@@ -45,7 +47,7 @@ public class AsociadoDaoTest {
     public void debieraMostrarListaDeAsociado() {
         log.debug("Debiera mostrar lista de Asociado");
         for (int i = 0; i < 20; i++) {
-           Asociado asociado = new Asociado("test"+i,"test"+i,"test"+i,"test"+i, Constantes.STATUS_ACTIVO);
+            Asociado asociado = new Asociado("test" + i, "test", "test", Constantes.STATUS_ACTIVO);
             currentSession().save(asociado);
             assertNotNull(asociado);
         }
@@ -56,19 +58,20 @@ public class AsociadoDaoTest {
         assertEquals(10, ((List<Asociado>) result.get(Constantes.CONTAINSKEY_ASOCIADOS)).size());
         assertEquals(20, ((Long) result.get(Constantes.CONTAINSKEY_CANTIDAD)).intValue());
     }
+
     @Test
     public void debieraObtenerAsociado() {
         log.debug("Debiera obtener asociado");
 
         String nombre = "test";
-        Asociado asociado = new Asociado("test","test","test","test",Constantes.STATUS_ACTIVO);
+        Asociado asociado = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociado);
         assertNotNull(asociado.getId());
         Long id = asociado.getId();
 
         Asociado result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals(nombre, result.getNombre());
+        assertEquals(nombre, result.getClave());
 
         assertEquals(result, asociado);
     }
@@ -77,7 +80,7 @@ public class AsociadoDaoTest {
     public void deberiaCrearAsociado() {
         log.debug("Deberia crear asociado");
 
-        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        Asociado asociado = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociado);
 
         Asociado asociado2 = instance.crea(asociado);
@@ -91,16 +94,16 @@ public class AsociadoDaoTest {
     public void deberiaActualizarAsociado() {
         log.debug("Deberia actualizar asociado");
 
-        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        Asociado asociado = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         assertNotNull(asociado);
         currentSession().save(asociado);
 
         String nombre = "test1";
-        asociado.setNombre(nombre);
+        asociado.setClave(nombre);
 
         Asociado asociado2 = instance.actualiza(asociado);
         assertNotNull(asociado2);
-        assertEquals(nombre, asociado.getNombre());
+        assertEquals(nombre, asociado.getClave());
 
         assertEquals(asociado, asociado2);
     }
@@ -110,7 +113,7 @@ public class AsociadoDaoTest {
         log.debug("Debiera eliminar Asociado");
 
         String nom = "test";
-        Asociado asociado = new Asociado("test","test","test","test", Constantes.STATUS_ACTIVO);
+        Asociado asociado = new Asociado("test", "test", "test", Constantes.STATUS_ACTIVO);
         currentSession().save(asociado);
         assertNotNull(asociado);
 
@@ -121,4 +124,3 @@ public class AsociadoDaoTest {
         assertNull(prueba);
     }
 }
-

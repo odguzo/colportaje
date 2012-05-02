@@ -112,7 +112,7 @@ public class UnionControllerTest extends BaseTest {
         union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         Long asociacionId = 0l;
         actualizaUsuario:
         for (Asociacion asociacion : union.getAsociaciones()) {

@@ -27,26 +27,22 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author gibrandemetrioo
  */
-
 @Repository
 @Transactional
 public class AsociadoDao {
-   private static final Logger log = LoggerFactory.getLogger(AsociadoDao.class);
+
+    private static final Logger log = LoggerFactory.getLogger(AsociadoDao.class);
     @Autowired
     private SessionFactory sessionFactory;
-    
-    public AsociadoDao () {
+
+    public AsociadoDao() {
         log.info("Se ha creado una nueva AsociadoDao");
     }
-    
-    
-    
-    private Session currentSession () {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
-    
-    
+
     public Map<String, Object> lista(Map<String, Object> params) {
         log.debug("Buscando lista de asociado con params {}", params);
         if (params == null) {
@@ -68,20 +64,24 @@ public class AsociadoDao {
         if (!params.containsKey(Constantes.CONTAINSKEY_OFFSET)) {
             params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
-        
+
         Criteria criteria = currentSession().createCriteria(Asociado.class);
         Criteria countCriteria = currentSession().createCriteria(Asociado.class);
         
+        if (params.containsKey(Constantes.ADDATTRIBUTE_ASOCIACION)) {
+            criteria.createCriteria(Constantes.ADDATTRIBUTE_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_ASOCIACION)));
+            countCriteria.createCriteria(Constantes.ADDATTRIBUTE_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_ASOCIACION)));
+        }
+
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
-            propiedades.add(Restrictions.ilike("nombre", filtro));
             propiedades.add(Restrictions.ilike("clave", filtro));
             propiedades.add(Restrictions.ilike("direccion", filtro));
             propiedades.add(Restrictions.ilike("telefono", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
-           
+
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
@@ -119,15 +119,14 @@ public class AsociadoDao {
         return asociado;
     }
 
-     public Asociado actualiza(Asociado asociado) {
+    public Asociado actualiza(Asociado asociado) {
         log.debug("Actualizando cuenta de asociado {}", asociado);
-        
+
         //trae el objeto de la DB 
-        Asociado nueva = (Asociado)currentSession().get(Asociado.class, asociado.getId());
+        Asociado nueva = (Asociado) currentSession().get(Asociado.class, asociado.getId());
         //actualiza el objeto
         BeanUtils.copyProperties(asociado, nueva);
         //lo guarda en la BD
-        
         currentSession().update(nueva);
         currentSession().flush();
         return nueva;
@@ -138,10 +137,7 @@ public class AsociadoDao {
         Asociado asociado = obtiene(id);
         currentSession().delete(asociado);
         currentSession().flush();
-        String nombre = asociado.getNombre();
+        String nombre = asociado.getClave();
         return nombre;
     }
-    
-  }
-
-
+}

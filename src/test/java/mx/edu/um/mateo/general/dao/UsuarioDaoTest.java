@@ -82,7 +82,7 @@ public class UsuarioDaoTest {
         currentSession().save(asociacion);
 
         for (int i = 0; i < 20; i++) {
-            Usuario usuario = new Usuario("test-" + i + "@test.com", "test-" + i, "TEST " + i, "TEST");
+            Usuario usuario = new Usuario("test" + i + "@test.com", "test", "test", "test", "test");
             usuario.setAsociacion(asociacion);
             usuario.setRoles(roles);
             currentSession().save(usuario);
@@ -111,7 +111,7 @@ public class UsuarioDaoTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -121,7 +121,7 @@ public class UsuarioDaoTest {
         Usuario result = instance.obtiene(id);
         assertEquals(usuario, result);
         assertTrue(result.getRoles().contains(rol));
-        assertEquals("test-01@test.com",usuario.getUsername());
+        assertEquals("test@test.com", usuario.getUsername());
     }
 
     /**
@@ -138,7 +138,7 @@ public class UsuarioDaoTest {
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
 
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario = instance.crea(usuario, asociacion.getId(), new String[]{rol.getAuthority()});
         Long id = usuario.getId();
         assertNotNull(id);
@@ -159,7 +159,7 @@ public class UsuarioDaoTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -187,7 +187,7 @@ public class UsuarioDaoTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -221,7 +221,7 @@ public class UsuarioDaoTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -247,11 +247,11 @@ public class UsuarioDaoTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
-        usuario = new Usuario("test-02@test.com", "test-02", "TEST2", "TEST2");
+        usuario = new Usuario("test2@test.com", "test", "test", "test", "test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -281,14 +281,14 @@ public class UsuarioDaoTest {
         currentSession().save(asociacion2);
 
         for (int i = 0; i < 20; i++) {
-            Usuario usuario = new Usuario("test-a" + i + "@test.com", "test-" + i, "TEST " + i, "TEST");
+            Usuario usuario = new Usuario("test-a" + i + "@test.com", "test", "test", "test", "test");
             usuario.setAsociacion(asociacion);
             usuario.setRoles(roles);
             currentSession().save(usuario);
         }
 
         for (int i = 0; i < 30; i++) {
-            Usuario usuario = new Usuario("test-b" + i + "@test.com", "test-" + i, "TEST " + i, "TEST");
+            Usuario usuario = new Usuario("test-b" + i + "@test.com", "test", "test", "test", "test");
             usuario.setAsociacion(asociacion2);
             usuario.setRoles(roles);
             currentSession().save(usuario);
