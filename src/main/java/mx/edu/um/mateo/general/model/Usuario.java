@@ -78,6 +78,7 @@ public class Usuario implements Serializable, UserDetails {
     private Asociacion asociacion;
     @ManyToOne(optional = true)
     private Asociado asociado;
+    
 
     public Usuario() {
     }

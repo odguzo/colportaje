@@ -78,7 +78,6 @@ public class AsociadoDao {
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("clave", filtro));
-            propiedades.add(Restrictions.ilike("direccion", filtro));
             propiedades.add(Restrictions.ilike("telefono", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
 

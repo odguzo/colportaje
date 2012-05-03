@@ -11,6 +11,7 @@ import mx.edu.um.mateo.general.test.BaseTest;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import static org.junit.Assert.*;
 /**
  *
  * @author gibrandemetrioo
@@ -42,11 +42,11 @@ public class TemporadaColportorDaoTest extends BaseTest {
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor test = new Colportor( Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         currentSession().save(test);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test","test", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test");
         currentSession().save(test4);
@@ -77,11 +77,11 @@ public class TemporadaColportorDaoTest extends BaseTest {
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor test = new Colportor( Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         currentSession().save(test);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test1","test2","test4", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test5");
         currentSession().save(test4);
@@ -110,11 +110,11 @@ public class TemporadaColportorDaoTest extends BaseTest {
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor test = new Colportor( Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         currentSession().save(test);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test1","test2","test4", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test5");
         currentSession().save(test4);
@@ -142,11 +142,11 @@ public class TemporadaColportorDaoTest extends BaseTest {
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor test = new Colportor(Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         currentSession().save(test);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test1","test2","test4", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test5");
         currentSession().save(test4);
@@ -178,11 +178,11 @@ public class TemporadaColportorDaoTest extends BaseTest {
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-        Colportor test = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor test = new Colportor( Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         currentSession().save(test);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test1","test2","test4", Constantes.STATUS_ACTIVO);
+        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test5");
         currentSession().save(test4);

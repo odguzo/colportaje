@@ -183,8 +183,8 @@ public class ColportorController {
         }
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.creado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getNombre()});
-
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
+        
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }
 
@@ -211,8 +211,8 @@ public class ColportorController {
         }
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getNombre()});
-
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
+        
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }
 

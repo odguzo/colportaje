@@ -26,22 +26,39 @@ public class Asociado implements Serializable {
     @NotBlank
     @Column(unique = true, nullable = false, length = 65)
     private String clave;
-    @Column(length = 500)
-    private String direccion;
-    @Column(length = 25)
+    @Column(nullable = true, length = 25)
     private String telefono;
     @NotNull
     @Column(nullable = false, length = 23, name = "status")
     private String status;
+    @NotNull
+    @Column(nullable = true, length = 200)
+    private String calle;
+    @NotNull
+    @Column(nullable = true, length = 200)
+    private String colonia;
+    @NotNull
+    @Column(nullable = true, length = 200)
+    private String municipio;
 
     public Asociado() {
     }
 
-    public Asociado(String clave, String direccion, String telefono, String status) {
+    public Asociado(String clave, String telefono, String status, String calle, String colonia, String municipio) {
         this.clave = clave;
-        this.direccion = direccion;
         this.telefono = telefono;
         this.status = status;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.municipio = municipio;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
     public String getClave() {
@@ -52,12 +69,12 @@ public class Asociado implements Serializable {
         this.clave = clave;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getColonia() {
+        return colonia;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
     }
 
     public Long getId() {
@@ -66,6 +83,14 @@ public class Asociado implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
     }
 
     public String getStatus() {
@@ -101,6 +126,9 @@ public class Asociado implements Serializable {
             return false;
         }
         final Asociado other = (Asociado) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.clave, other.clave)) {
             return false;
         }
@@ -109,13 +137,14 @@ public class Asociado implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.clave);
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.clave);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Asociado{" + ", clave=" + clave + ", direccion=" + direccion + ", telefono=" + telefono + ", status=" + status + '}';
+        return "Asociado{" + "clave=" + clave + '}';
     }
 }

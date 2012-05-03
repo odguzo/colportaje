@@ -26,6 +26,9 @@ public class Constantes {
     public static final String FECHA = "dd/MM/yyyy";
     public static final BigDecimal IMPORTE = new BigDecimal("0.0");
     public static final String OBSERVACIONES = "test teste";
+    public static final String CALLE = "testc";
+    public static final String COLONIA = "testco";
+    public static final String MUNICIPIO = "testmu";
     public static final String DEPOSITO_CAJA = "Deposito_Caja";
     public static final String DEPOSITO_BANCO = "Deposito_Banco";
     public static final String DIEZMO = "Diezmo";

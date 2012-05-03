@@ -133,7 +133,7 @@ public class AsociadoController extends BaseController {
         }
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociado.getClave()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociado.getColonia()});
 
         return "redirect:" + Constantes.PATH_ASOCIADO_VER + "/" + asociado.getId();
     }
@@ -173,7 +173,7 @@ public class AsociadoController extends BaseController {
         }
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociados.getClave()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{asociados.getColonia()});
 
         return "redirect:" + Constantes.PATH_ASOCIADO_VER + "/" + asociados.getId();
     }

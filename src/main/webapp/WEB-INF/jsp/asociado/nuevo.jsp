@@ -45,14 +45,34 @@
                             <form:errors path="clave" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociado.direccion">
+                     <s:bind path="asociado.calle">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="direccion">
-                                <s:message code="direccion.label" />
+                            <label for="calle">
+                                <s:message code="calle.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="direccion" maxlength="128" required="true" />
-                            <form:errors path="direccion" cssClass="alert alert-error" />
+                            <form:input path="calle" maxlength="200" required="true" />
+                            <form:errors path="calle" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="asociado.colonia">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="colonia">
+                                <s:message code="colonia.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="colonia" maxlength="200" required="true" />
+                            <form:errors path="colonia" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="asociado.municipio">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="municipio">
+                                <s:message code="municipio.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="municipio" maxlength="200" required="true" />
+                            <form:errors path="municipio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="asociado.telefono">
@@ -76,9 +96,6 @@
                         </div>
                     </s:bind>
                 </fieldset>
-
-
-                <p class="well" style="margin-top: 10px;">
                     <input type="submit" name="_action_crea" class="btn btn-primary btn-large" value="<s:message code='crear.button'/>" id="crea" />
                 </p>
             </form:form>
