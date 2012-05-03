@@ -62,9 +62,8 @@
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="calle">
                                 <s:message code="calle.label" />
-                                <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="calle" maxlength="200" required="true" />
+                            <form:input path="calle" maxlength="200"  />
                             <form:errors path="calle" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -72,9 +71,8 @@
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="colonia">
                                 <s:message code="colonia.label" />
-                                <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="colonia" maxlength="200" required="true" />
+                            <form:input path="colonia" maxlength="200"  />
                             <form:errors path="colonia" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -82,9 +80,8 @@
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="municipio">
                                 <s:message code="municipio.label" />
-                                <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="municipio" maxlength="200" required="true" />
+                            <form:input path="municipio" maxlength="200"  />
                             <form:errors path="municipio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>

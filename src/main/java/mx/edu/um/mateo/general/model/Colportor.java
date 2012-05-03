@@ -39,13 +39,10 @@ public class Colportor implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false, name = "fecha")
     private Date fechaDeNacimiento;
-    @NotNull
     @Column(length = 200)
     private String calle;
-    @NotNull
     @Column(length = 200)
     private String colonia;
-    @NotNull
     @Column(length = 200)
     private String municipio;
     @Column(length = 15)

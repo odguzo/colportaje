@@ -94,7 +94,7 @@
                                 <s:message code="calle.label" />
                            
                             </label>
-                            <form:input path="calle" maxlength="200" required="false" />
+                            <form:input path="calle" maxlength="200"  />
                             <form:errors path="calle" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -104,7 +104,7 @@
                                 <s:message code="colonia.label" />
                            
                             </label>
-                            <form:input path="colonia" maxlength="200" required="false" />
+                            <form:input path="colonia" maxlength="200"  />
                             <form:errors path="colonia" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -114,7 +114,7 @@
                                 <s:message code="municipio.label" />
                            
                             </label>
-                            <form:input path="municipio" maxlength="200" required="false" />
+                            <form:input path="municipio" maxlength="200"  />
                             <form:errors path="municipio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -125,7 +125,7 @@
                                 <s:message code="telefono.label" />
                            
                             </label>
-                            <form:input path="telefono" maxlength="25" required="false" />
+                            <form:input path="telefono" maxlength="25"  />
                             <form:errors path="telefono" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
