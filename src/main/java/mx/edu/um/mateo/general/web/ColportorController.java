@@ -7,6 +7,8 @@ package mx.edu.um.mateo.general.web;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +170,7 @@ public class ColportorController {
     
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
@@ -188,9 +190,17 @@ public class ColportorController {
                 break;
           
         }
-        
+         
+        try {
+                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
+        }catch(ConstraintViolationException e) {
+            log.error("FechaDeNacimiento", e);
+            return Constantes.PATH_COLPORTOR_NUEVO;
+        }
         
         try {
+            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
 
@@ -200,7 +210,7 @@ public class ColportorController {
         }
         
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.creado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
         
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }
@@ -215,7 +225,7 @@ public class ColportorController {
     
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String actualiza(HttpServletRequest request, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_EDITA;
@@ -233,6 +243,15 @@ public class ColportorController {
           
         }
         try {
+                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
+        }catch(ConstraintViolationException e) {
+            log.error("FechaDeNacimiento", e);
+            return Constantes.PATH_COLPORTOR_NUEVO;
+        }
+        
+        try {
+            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
             colportores = ColportorDao.actualiza(colportores);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colportor", e);
@@ -240,7 +259,7 @@ public class ColportorController {
         }
         
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.actualizado.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getNombre()});
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
         
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }

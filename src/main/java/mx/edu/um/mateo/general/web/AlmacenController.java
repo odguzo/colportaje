@@ -7,9 +7,10 @@ package mx.edu.um.mateo.general.web;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -17,9 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.dao.TemporadaDao;
-import mx.edu.um.mateo.general.dao.UsuarioDao;
-import mx.edu.um.mateo.general.model.Temporada;
+import mx.edu.um.mateo.general.dao.AlmacenDao;
+import mx.edu.um.mateo.general.dao.AsociacionDao;
+import mx.edu.um.mateo.general.dao.AsociadoDao;
+import mx.edu.um.mateo.general.model.Almacen;
+import mx.edu.um.mateo.general.model.Asociacion;
+import mx.edu.um.mateo.general.model.Asociado;
+import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.Ambiente;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -44,27 +49,26 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 /**
  *
- * @author gibrandemetrioo
+ * @author wilbert
  */
 @Controller
-@RequestMapping(Constantes.PATH_TEMPORADA)
-public class TemporadaController {
-
-    private static final Logger log = LoggerFactory.getLogger(TemporadaController.class);
+@RequestMapping(Constantes.PATH_ALMACEN)
+public class AlmacenController {
+    
+    private static final Logger log = LoggerFactory.getLogger(AlmacenController.class);
     @Autowired
-    private TemporadaDao temporadaDao;
+    private AlmacenDao AlmacenDao;
+    @Autowired
+    private AsociacionDao asociacionDao;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
     private ResourceBundleMessageSource messageSource;
     @Autowired
-    private UsuarioDao usuarioDao;
-    @Autowired
     private Ambiente ambiente;
-
+    
     @RequestMapping
     public String lista(HttpServletRequest request, HttpServletResponse response,
             @RequestParam(required = false) String filtro,
@@ -73,15 +77,14 @@ public class TemporadaController {
             @RequestParam(required = false) String correo,
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
+            Usuario usuario,
+            Errors errors,
             Model modelo) {
-        log.debug("Mostrando lista de Temporada");
-        //filtrar temporadas por asociacion
+        log.debug("Mostrando lista de almacenes");
         Map<String, Object> params = new HashMap<>();
-//        Long asociacionId = (Long)request.getSession().getAttribute("asociacionId");
-//        params.put(Constantes.ADDATTRIBUTE_ASOCIACION, asociacionId);
         if (StringUtils.isNotBlank(filtro)) {
             params.put(Constantes.CONTAINSKEY_FILTRO, filtro);
-        }
+}
         if (pagina != null) {
             params.put(Constantes.CONTAINSKEY_PAGINA, pagina);
             modelo.addAttribute(Constantes.CONTAINSKEY_PAGINA, pagina);
@@ -93,33 +96,35 @@ public class TemporadaController {
             params.put(Constantes.CONTAINSKEY_ORDER, order);
             params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
-
+        
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = temporadaDao.lista(params);
+            params = AlmacenDao.lista(params);
             try {
-                generaReporte(tipo, (List<Temporada>) params.get(Constantes.CONTAINSKEY_TEMPORADAS), response);
+                generaReporte(tipo, (List<Almacen>) params.get(Constantes.CONTAINSKEY_ALMACENES), response);
                 return null;
             } catch (JRException | IOException e) {
                 log.error("No se pudo generar el reporte", e);
+                params.remove(Constantes.CONTAINSKEY_REPORTE);
+                //errors.reject("error.generar.reporte");
             }
         }
-
+        
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = temporadaDao.lista(params);
-
+            params = AlmacenDao.lista(params);
+            
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
-                enviaCorreo(correo, (List<Temporada>) params.get(Constantes.CONTAINSKEY_TEMPORADAS), request);
+                enviaCorreo(correo, (List<Almacen>) params.get(Constantes.CONTAINSKEY_ALMACENES), request);
                 modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE, "lista.enviada.message");
-                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{messageSource.getMessage("temporada.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
+                modelo.addAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{messageSource.getMessage("almacen.lista.label", null, request.getLocale()), ambiente.obtieneUsuario().getUsername()});
             } catch (JRException | MessagingException e) {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
-        params = temporadaDao.lista(params);
-        modelo.addAttribute(Constantes.CONTAINSKEY_TEMPORADAS, params.get(Constantes.CONTAINSKEY_TEMPORADAS));
+        params = AlmacenDao.lista(params);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ALMACENES, params.get(Constantes.CONTAINSKEY_ALMACENES));
 
         // inicia paginado
         Long cantidad = (Long) params.get(Constantes.CONTAINSKEY_CANTIDAD);
@@ -130,157 +135,136 @@ public class TemporadaController {
         do {
             paginas.add(i);
         } while (i++ < cantidadDePaginas);
-        List<Temporada> temporadas = (List<Temporada>) params.get(Constantes.CONTAINSKEY_TEMPORADAS);
+        List<Almacen> almacenes = (List<Almacen>) params.get(Constantes.CONTAINSKEY_ALMACENES);
         Long primero = ((pagina - 1) * max) + 1;
-        Long ultimo = primero + (temporadas.size() - 1);
+        Long ultimo = primero + (almacenes.size() - 1);
         String[] paginacion = new String[]{primero.toString(), ultimo.toString(), cantidad.toString()};
         modelo.addAttribute(Constantes.CONTAINSKEY_PAGINACION, paginacion);
         modelo.addAttribute(Constantes.CONTAINSKEY_PAGINAS, paginas);
         // termina paginado
 
-        return Constantes.PATH_TEMPORADA_LISTA;
+        return Constantes.PATH_ALMACEN_LISTA;
     }
-
+    
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
-        log.debug("Mostrando Temporada {}", id);
-        Temporada temporadas = temporadaDao.obtiene(id);
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADA, temporadas);
-        return Constantes.PATH_TEMPORADA_VER;
+        log.debug("Mostrando almacen {}", id);
+        Almacen almacenes = AlmacenDao.obtiene(id);
+        
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ALMACEN, almacenes);
+        
+        return Constantes.PATH_ALMACEN_VER;
     }
-
-    @RequestMapping("/nueva")
-    public String nueva(Model modelo) {
-        log.debug("Nueva Temporada");
-        Temporada temporadas = new Temporada();
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADA, temporadas);
-        return Constantes.PATH_TEMPORADA_NUEVA;
+    
+    @RequestMapping("/nuevo")
+    public String nuevo(Model modelo) {
+        log.debug("Nuevo almacen");
+        Almacen almacenes = new Almacen();
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ALMACEN, almacenes);
+        Map<String, Object> asociacion = asociacionDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIACIONES, asociacion.get(Constantes.CONTAINSKEY_ASOCIACIONES));
+        return Constantes.PATH_ALMACEN_NUEVO;
     }
-
+    
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Temporada temporada, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
+    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Almacen almacenes, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
         if (bindingResult.hasErrors()) {
             log.debug("Hubo algun error en la forma, regresando");
-            return Constantes.PATH_TEMPORADA_NUEVA;
+            return Constantes.PATH_ALMACEN_NUEVO;
         }
-        //try fechaInicio
+        
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
-            temporada.setFechaInicio(sdf.parse(request.getParameter("fechaInicio")));
+             Asociacion asociacion = asociacionDao.obtiene(almacenes.getAsociacion().getId());
+            log.info("asociacion>>>>>>>>>" + asociacion);
+           almacenes.setAsociacion(asociacion);
+            
+            almacenes = AlmacenDao.crea(almacenes);
         } catch (ConstraintViolationException e) {
-            log.error("Fecha de Inicio Incorrecta", e);
-            return Constantes.PATH_TEMPORADA_NUEVA;
+            log.error("No se pudo crear la almacen", e);
+            return Constantes.PATH_ALMACEN_NUEVO;
         }
-        //try fechaFinal
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
-            temporada.setFechaFinal(sdf.parse(request.getParameter("fechaFinal")));
-        } catch (ConstraintViolationException e) {
-            log.error("Fecha de Final Incorrecta", e);
-            return Constantes.PATH_TEMPORADA_NUEVA;
-        }
-
-        try {
-            log.debug("Temporada FEcha Inicio" + temporada.getFechaInicio());
-            log.debug("Temporada FEcha Inicio" + temporada.getFechaFinal());
-            temporada = temporadaDao.crea(temporada);
-        } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear la temporada", e);
-            return Constantes.PATH_TEMPORADA_NUEVA;
-        }
-
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.creada.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporada.getNombre()});
-
-        return "redirect:" + Constantes.PATH_TEMPORADA_VER + "/" + temporada.getId();
+        
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "almacen.creado.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{almacenes.getNombre()});
+        
+        return "redirect:" + Constantes.PATH_ALMACEN_VER + "/" + almacenes.getId();
     }
-
+    
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
-        log.debug("Edita Temporada {}", id);
-        Temporada temporadas = temporadaDao.obtiene(id);
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADA, temporadas);
-        return Constantes.PATH_TEMPORADA_EDITA;
+        log.debug("Editar almacen {}", id);
+        Almacen almacenes = AlmacenDao.obtiene(id);
+        modelo.addAttribute(Constantes.ADDATTRIBUTE_ALMACEN, almacenes);
+        
+        Map<String, Object> asociacion = asociacionDao.lista(null);
+        modelo.addAttribute(Constantes.CONTAINSKEY_ASOCIACIONES, asociacion.get(Constantes.CONTAINSKEY_ASOCIACIONES));
+        
+        
+        return Constantes.PATH_ALMACEN_EDITA;
     }
-
+    
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid Temporada temporada, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
+    public String actualiza(HttpServletRequest request, @Valid Almacen almacenes, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
-            return Constantes.PATH_TEMPORADA_EDITA;
-        }
-        //try fechaInicio
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
-            temporada.setFechaInicio(sdf.parse(request.getParameter("fechaInicio")));
-        } catch (ConstraintViolationException e) {
-            log.error("Fecha de Inicio Incorrecta", e);
-            return Constantes.PATH_TEMPORADA_EDITA;
-        }
-        //try fechaFinal
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
-            temporada.setFechaFinal(sdf.parse(request.getParameter("fechaFinal")));
-        } catch (ConstraintViolationException e) {
-            log.error("Fecha de Final Incorrecta", e);
-            return Constantes.PATH_TEMPORADA_EDITA;
+            return Constantes.PATH_ALMACEN_EDITA;
         }
         try {
-            log.debug("Temporada FEcha Inicio" + temporada.getFechaInicio());
-            log.debug("Temporada FEcha Inicio" + temporada.getFechaFinal());
-            temporada = temporadaDao.actualiza(temporada);
+               Asociacion asociacion = asociacionDao.obtiene(almacenes.getAsociacion().getId());
+            almacenes.setAsociacion(asociacion);
+            almacenes = AlmacenDao.actualiza(almacenes);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear al Temporada", e);
-            return Constantes.PATH_TEMPORADA_EDITA;
+            log.error("No se pudo actualizar el almacen", e);
+            return Constantes.PATH_ALMACEN_NUEVO;
         }
-
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.actualizada.message");
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{temporada.getNombre()});
-
-        return "redirect:" + Constantes.PATH_TEMPORADA_VER + "/" + temporada.getId();
+        
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "almacen.actualizado.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{almacenes.getNombre()});
+        
+        return "redirect:" + Constantes.PATH_ALMACEN_VER + "/" + almacenes.getId();
     }
-
+    
     @Transactional
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
-    public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Temporada temporadas, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        log.debug("Elimina Temporada");
+    public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Almacen almacenes, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        log.debug("Elimina almacen");
         try {
-            String nombre = temporadaDao.elimina(id);
-
-            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "temporada.eliminada.message");
+            String nombre = AlmacenDao.elimina(id);
+            
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "almacen.eliminado.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
         } catch (Exception e) {
-            log.error("No se pudo eliminar el temporada " + id, e);
-            bindingResult.addError(new ObjectError(Constantes.CONTAINSKEY_TEMPORADAS, new String[]{"temporada.no.eliminada.message"}, null, null));
-            return Constantes.PATH_TEMPORADA_VER;
+            log.error("No se pudo eliminar el almacen " + id, e);
+            bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_ALMACEN, new String[]{"almacen.no.eliminado.message"}, null, null));
+            return Constantes.PATH_ALMACEN_VER;
         }
-
-        return "redirect:" + Constantes.PATH_TEMPORADA;
+        
+        return "redirect:" + Constantes.PATH_ALMACEN;
     }
-
-    private void generaReporte(String tipo, List<Temporada> temporadas, HttpServletResponse response) throws JRException, IOException {
+    
+    private void generaReporte(String tipo, List<Almacen> almacenes, HttpServletResponse response) throws JRException, IOException {
         log.debug("Generando reporte {}", tipo);
         byte[] archivo = null;
         switch (tipo) {
             case "PDF":
-                archivo = generaPdf(temporadas);
+                archivo = generaPdf(almacenes);
                 response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment; filename=temporadas.pdf");
+                response.addHeader("Content-Disposition", "attachment; filename=Almacenes.pdf");
                 break;
             case "CSV":
-                archivo = generaCsv(temporadas);
+                archivo = generaCsv(almacenes);
                 response.setContentType("text/csv");
-                response.addHeader("Content-Disposition", "attachment; filename=temporadas.csv");
+                response.addHeader("Content-Disposition", "attachment; filename=Almacenes.csv");
                 break;
             case "XLS":
-                archivo = generaXls(temporadas);
+                archivo = generaXls(almacenes);
                 response.setContentType("application/vnd.ms-excel");
-                response.addHeader("Content-Disposition", "attachment; filename=temporadas.xls");
+                response.addHeader("Content-Disposition", "attachment; filename=Almacenes.xls");
         }
         if (archivo != null) {
             response.setContentLength(archivo.length);
@@ -289,69 +273,69 @@ public class TemporadaController {
                 bos.flush();
             }
         }
-
+        
     }
-
-    private void enviaCorreo(String tipo, List<Temporada> temporadas, HttpServletRequest request) throws JRException, MessagingException {
+    
+    private void enviaCorreo(String tipo, List<Almacen> almacenes, HttpServletRequest request) throws JRException, MessagingException {
         log.debug("Enviando correo {}", tipo);
         byte[] archivo = null;
         String tipoContenido = null;
         switch (tipo) {
             case "PDF":
-                archivo = generaPdf(temporadas);
+                archivo = generaPdf(almacenes);
                 tipoContenido = "application/pdf";
                 break;
             case "CSV":
-                archivo = generaCsv(temporadas);
+                archivo = generaCsv(almacenes);
                 tipoContenido = "text/csv";
                 break;
             case "XLS":
-                archivo = generaXls(temporadas);
+                archivo = generaXls(almacenes);
                 tipoContenido = "application/vnd.ms-excel";
         }
-
+        
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(ambiente.obtieneUsuario().getUsername());
-        String titulo = messageSource.getMessage("temporada.lista.label", null, request.getLocale());
+        String titulo = messageSource.getMessage("almacen.lista.label", null, request.getLocale());
         helper.setSubject(messageSource.getMessage("envia.correo.titulo.message", new String[]{titulo}, request.getLocale()));
         helper.setText(messageSource.getMessage("envia.correo.contenido.message", new String[]{titulo}, request.getLocale()), true);
         helper.addAttachment(titulo + "." + tipo, new ByteArrayDataSource(archivo, tipoContenido));
         mailSender.send(message);
     }
-
-    private byte[] generaPdf(List temporadas) throws JRException {
+    
+    private byte[] generaPdf(List almacenes) throws JRException {
         Map<String, Object> params = new HashMap<>();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/temporadas.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/almacenes.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(temporadas));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(almacenes));
         byte[] archivo = JasperExportManager.exportReportToPdf(jasperPrint);
-
+        
         return archivo;
     }
-
-    private byte[] generaCsv(List temporadas) throws JRException {
+    
+    private byte[] generaCsv(List almacenes) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRCsvExporter exporter = new JRCsvExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/temporadas.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/almacenes.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(temporadas));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(almacenes));
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-
+        
         return archivo;
     }
-
-    private byte[] generaXls(List temporadas) throws JRException {
+    
+    private byte[] generaXls(List almacenes) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRXlsExporter exporter = new JRXlsExporter();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/temporadas.jrxml"));
+        JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/almacenes.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(temporadas));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(almacenes));
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
@@ -362,7 +346,7 @@ public class TemporadaController {
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-
+        
         return archivo;
     }
 }

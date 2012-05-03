@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
     "classpath:dispatcher-servlet.xml"
 })
 @Transactional
-public class ColportorControllerTest extends BaseTest {
+public class ColportorControllerTest {
 
     private static final Logger log = LoggerFactory.getLogger(ColportorControllerTest.class);
     @Autowired
@@ -66,7 +66,7 @@ public class ColportorControllerTest extends BaseTest {
         log.debug("Debiera monstrar lista de colportores");
         
         for (int i = 0; i < 20; i++) {
-            Colportor colportor = new Colportor(Constantes.NOMBRE+i,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+            Colportor colportor = new Colportor(Constantes.TIPO_COLPORTOR,Constantes.MATRICULA, Constantes.STATUS_ACTIVO,Constantes.CLAVE+i,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
             colportorDao.crea(colportor);
             assertNotNull(colportor);
         }
@@ -83,7 +83,7 @@ public class ColportorControllerTest extends BaseTest {
    @Test
     public void debieraMostrarColportor() throws Exception {
         log.debug("Debiera mostrar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.TIPO_COLPORTOR,Constantes.MATRICULA, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         colportor = colportorDao.crea(colportor);
         assertNotNull(colportor);
 
@@ -99,12 +99,14 @@ public class ColportorControllerTest extends BaseTest {
         log.debug("Debiera crear colportor");
 
         this.mockMvc.perform(post(Constantes.PATH_COLPORTOR_CREA)
-                .param("nombre", Constantes.NOMBRE)
                 .param("tipoDeColportor", Constantes.TIPO_COLPORTOR)
+                .param("matricula",Constantes.MATRICULA)
                 .param("status", Constantes.STATUS_ACTIVO)
                 .param("clave",Constantes.CLAVE)
-                .param("direccion",Constantes.DIRECCION)
-                .param("correo",Constantes.CORREO)
+                .param("fechaDeNacimiento", "05/05/2010")
+                .param("calle",Constantes.CALLE)
+                .param("colonia",Constantes.COLONIA)
+                .param("municipio",Constantes.MUNICIPIO)
                 .param("telefono",Constantes.TELEFONO))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
@@ -116,19 +118,21 @@ public class ColportorControllerTest extends BaseTest {
     @Test
     public void debieraActualizarColportor() throws Exception {
         log.debug("Debiera actualizar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.TIPO_COLPORTOR,Constantes.MATRICULA,Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         colportor = colportorDao.crea(colportor);
         assertNotNull(colportor);
 
         this.mockMvc.perform(post(Constantes.PATH_COLPORTOR_ACTUALIZA)
                 .param("id",colportor.getId().toString())
                 .param("version", colportor.getVersion().toString())
-                .param("nombre", colportor.getNombre())
                 .param("tipoDeColportor", colportor.getTipoDeColportor())
+                .param("matricula",colportor.getMatricula())
                 .param("status", colportor.getStatus())
                 .param("clave", colportor.getClave())
-                .param("direccion", colportor.getDireccion())
-                .param("correo", colportor.getCorreo())
+                .param("fechaDeNacimiento", "05/05/2010")
+                .param("calle",colportor.getCalle())
+                .param("colonia",colportor.getColonia())
+                .param("municipio",colportor.getMunicipio())
                 .param("telefono", colportor.getTelefono()))
                 .andExpect(status().isOk())
                 .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
@@ -140,7 +144,7 @@ public class ColportorControllerTest extends BaseTest {
     @Test
     public void debieraEliminarColportor() throws Exception {
         log.debug("Debiera eliminar colportor");
-        Colportor colportor = new Colportor(Constantes.NOMBRE,Constantes.TIPO_COLPORTOR, Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor(Constantes.TIPO_COLPORTOR,Constantes.MATRICULA,Constantes.STATUS_ACTIVO,Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
         colportorDao.crea(colportor);
         assertNotNull(colportor);
 

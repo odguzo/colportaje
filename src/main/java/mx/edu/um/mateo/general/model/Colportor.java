@@ -3,78 +3,85 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.model;
+
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
+
 
 /**
  *
  * @author wilbert
  */
 @Entity
-@Table(name="colportores")
-public class Colportor implements Serializable{
+@Table(name = "colportores")
+public class Colportor implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Version
     private Integer version;
-    @NotNull
-    @Column(nullable = false, length = 64)
-    private String nombre;
+  
     @NotNull
     @Column(nullable = false, length = 15)
     private String tipoDeColportor;
+    @Column(length = 20)
+    private String matricula;
     @NotNull
     @Column(nullable = false, length = 2, name = "status")
     private String status;
     @NotNull
-    @Column(unique = true, nullable = false, length = 64)
+    @Column(unique = true, nullable = false, length = 65)
     private String clave;
-    @Column(length = 500)
-    private String direccion;
-    @Email
-    @Column(length = 128)
-    private String correo;
-    @Column(length = 25)
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false, name = "fecha")
+    private Date fechaDeNacimiento;
+    @NotNull
+    @Column(length = 200)
+    private String calle;
+    @NotNull
+    @Column(length = 200)
+    private String colonia;
+    @NotNull
+    @Column(length = 200)
+    private String municipio;
+    @Column(length = 15)
     private String telefono;
-  /*DE AQUI  
-    private Set<TipoColportor> tipoColportor = new HashSet<TipoColportor>();  
-  
-@ElementCollection 
-@Enumerated(EnumType.STRING)  
-public Set<TipoColportor> getTipoColportors() {  
-    return tipoColportor;  
-}      
-  
-public void setTipoColportors(Set<TipoColportor> tipoColportor) {  
-    this.tipoColportor = tipoColportor;  
-}  
- */      
+   
+    /*
+     * DE AQUI private Set<TipoColportor> tipoColportor = new
+     * HashSet<TipoColportor>();      *
+     * @ElementCollection @Enumerated(EnumType.STRING) public Set<TipoColportor>
+     * getTipoColportors() { return tipoColportor; }      *
+     * public void setTipoColportors(Set<TipoColportor> tipoColportor) {
+     * this.tipoColportor = tipoColportor; }
+     */
+
     public Colportor() {
     }
-      
-      public Colportor(String nombre,String tipoDeColportor, String status, String clave,String direccion,String correo, String telefono){
-          this.nombre = nombre;
-          this.tipoDeColportor=tipoDeColportor;
-          this.status = status;
-          this.clave  = clave;
-          this.direccion = direccion;
-          this.correo = correo;
-          this.telefono = telefono;
-      }
 
-    public String getTipoDeColportor() {
-        return tipoDeColportor;
+    public Colportor(String tipoDeColportor,String matricula,String status, String clave, String calle, String colonia, String municipio,String telefono) {
+        this.tipoDeColportor=tipoDeColportor;
+        this.matricula=matricula;
+        this.status = status;
+        this.clave = clave;
+        this.fechaDeNacimiento = new Date();
+        this.calle = calle;
+        this.colonia = colonia;
+        this.municipio = municipio;
+        this.telefono = telefono;
+    
     }
 
-    public void setTipoDeColportor(String tipoDeColportor) {
-        this.tipoDeColportor = tipoDeColportor;
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
     public String getClave() {
@@ -85,20 +92,20 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
         this.clave = clave;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getColonia() {
+        return colonia;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public Date getFechaDeNacimiento() {
+        return fechaDeNacimiento;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
     }
 
     public Long getId() {
@@ -109,12 +116,20 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getMatricula() {
+        return matricula;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
     }
 
     public String getStatus() {
@@ -131,6 +146,14 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getTipoDeColportor() {
+        return tipoDeColportor;
+    }
+
+    public void setTipoDeColportor(String tipoDeColportor) {
+        this.tipoDeColportor = tipoDeColportor;
     }
 
     public Integer getVersion() {
@@ -150,23 +173,25 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
             return false;
         }
         final Colportor other = (Colportor) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        if (!Objects.equals(this.tipoDeColportor, other.tipoDeColportor)) {
             return false;
         }
-         if (!Objects.equals(this.tipoDeColportor, other.tipoDeColportor)) {
+        if (!Objects.equals(this.matricula, other.matricula)) {
             return false;
         }
         if (!Objects.equals(this.status, other.status)) {
             return false;
         }
-       
         if (!Objects.equals(this.clave, other.clave)) {
             return false;
         }
-        if (!Objects.equals(this.direccion, other.direccion)) {
+        if (!Objects.equals(this.calle, other.calle)) {
             return false;
         }
-        if (!Objects.equals(this.correo, other.correo)) {
+        if (!Objects.equals(this.colonia, other.colonia)) {
+            return false;
+        }
+        if (!Objects.equals(this.municipio, other.municipio)) {
             return false;
         }
         if (!Objects.equals(this.telefono, other.telefono)) {
@@ -178,19 +203,25 @@ public void setTipoColportors(Set<TipoColportor> tipoColportor) {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.nombre);
-        hash = 79 * hash + Objects.hashCode(this.tipoDeColportor);
-        hash = 79 * hash + Objects.hashCode(this.status);
-        hash = 79 * hash + Objects.hashCode(this.clave);
-        hash = 79 * hash + Objects.hashCode(this.direccion);
-        hash = 79 * hash + Objects.hashCode(this.correo);
-        hash = 79 * hash + Objects.hashCode(this.telefono);
+        hash = 41 * hash + Objects.hashCode(this.tipoDeColportor);
+        hash = 41 * hash + Objects.hashCode(this.matricula);
+        hash = 41 * hash + Objects.hashCode(this.status);
+        hash = 41 * hash + Objects.hashCode(this.clave);
+        hash = 41 * hash + Objects.hashCode(this.calle);
+        hash = 41 * hash + Objects.hashCode(this.colonia);
+        hash = 41 * hash + Objects.hashCode(this.municipio);
+        hash = 41 * hash + Objects.hashCode(this.telefono);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Colportor{" + "nombre=" + nombre + ", tipoDeColportor=" + tipoDeColportor + ", status=" + status + ", clave=" + clave + ", direccion=" + direccion + ", correo=" + correo + ", telefono=" + telefono + '}';
+        return "Colportor{" + "tipoDeColportor=" + tipoDeColportor + ", matricula=" + matricula + ", status=" + status + ", clave=" + clave + ", calle=" + calle + ", colonia=" + colonia + ", municipio=" + municipio + ", telefono=" + telefono + '}';
     }
+
+    
+
+   
+    
     
 }

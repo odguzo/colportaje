@@ -35,14 +35,14 @@
                 </form:errors>
 
                 <fieldset>
-                    <s:bind path="asociado.nombre">
+                       <s:bind path="asociado.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="nombre">
-                                <s:message code="nombre.label" />
+                                <label for="status">
+                                <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="nombre" maxlength="128" required="true" />
-                            <form:errors path="nombre" cssClass="alert alert-error" />
+                            <form:input path="status" maxlength="128" required="true" />
+                            <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="asociado.clave">
@@ -55,47 +55,45 @@
                             <form:errors path="clave" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociado.direccion">
+                     <s:bind path="asociado.calle">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="direccion">
-                                <s:message code="direccion.label" />
+                            <label for="calle">
+                                <s:message code="calle.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="direccion" maxlength="128" required="true" />
-                            <form:errors path="direccion" cssClass="alert alert-error" />
+                            <form:input path="calle" maxlength="200" required="true" />
+                            <form:errors path="calle" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="asociado.colonia">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="colonia">
+                                <s:message code="colonia.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="colonia" maxlength="200" required="true" />
+                            <form:errors path="colonia" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="asociado.municipio">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="municipio">
+                                <s:message code="municipio.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="municipio" maxlength="200" required="true" />
+                            <form:errors path="municipio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="asociado.telefono">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="telefono">
-                                <s:message code="telefono.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="telefono" maxlength="128" required="true" />
+                                <s:message code="telefono.label" /></label>
+                            <form:input path="telefono" maxlength="15"  />
                             <form:errors path="telefono" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociado.status">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="status">
-                                <s:message code="status.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="status" maxlength="128" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    <s:bind path="asociado.correo">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="correo">
-                                <s:message code="correo.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="correo" maxlength="128" required="true" />
-                            <form:errors path="correo" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    
+                                     
                 </fieldset>
 
 

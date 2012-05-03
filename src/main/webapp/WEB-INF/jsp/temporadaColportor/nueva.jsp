@@ -33,7 +33,7 @@
                         </c:forEach>
                     </div>
                 </form:errors>
-
+                
                 <fieldset>
                     <s:bind path="temporadaColportor.temporada">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
@@ -49,7 +49,7 @@
                                 <label for="asociado">
                                 <s:message code="asociado.label" />
                                 <span class="required-indicator">*</span>
-                                <form:select id="asociadoId" path="asociado.id" items="${asociados}" itemLabel="nombre" itemValue="id" />
+                                <form:select id="asociadoId" path="asociado.id" items="${asociados}" itemLabel="calle" itemValue="id" />
                                 <form:errors path="asociado" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -58,8 +58,17 @@
                                 <label for="colportor">
                                 <s:message code="colportor.label" />
                                 <span class="required-indicator">*</span>
-                                <form:select id="colportorId" path="colportor.id" items="${colportores}" itemLabel="nombre" itemValue="id" />
+                                <form:select id="colportorId" path="colportor.id" items="${colportores}" itemLabel="calle" itemValue="id" />
                                 <form:errors path="colportor" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="temporadaColportor.colegio">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                                <label for="colegio">
+                                <s:message code="colegio.label" />
+                                <span class="required-indicator">*</span>
+                                <form:select id="colegioId" path="colegio.id" items="${colegios}" itemLabel="nombre" itemValue="id" />
+                                <form:errors path="colegio" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
 
@@ -79,9 +88,8 @@
                             <label for="status">
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
-
                                 <form:input path="status" maxlength="2" required="true" />
-                                <form:errors path="status" cssClass="alert alert-error" />
+                            <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="temporadaColportor.objetivo">
@@ -103,7 +111,6 @@
                                 <form:errors path="observaciones" cssClass="alert alert-error" type="texttarea"/>
                         </div>
                     </s:bind>
-
                 </fieldset>
 
 
