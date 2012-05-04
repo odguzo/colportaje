@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.web;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,7 +54,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(Constantes.PATH_DOCUMENTO)
 public class DocumentoController {
-    
+
     private static final Logger log = LoggerFactory.getLogger(DocumentoController.class);
     @Autowired
     private DocumentoDao DocumentoDao;
@@ -63,14 +64,13 @@ public class DocumentoController {
     private ResourceBundleMessageSource messageSource;
     @Autowired
     private Ambiente ambiente;
- /*DE AQUI   
-    @InitBinder
- public void initBinder(WebDataBinder binder) {
-   
-  binder.registerCustomEditor(TipoDocumento.class,
-    new EnumEditor(TipoDocumento.class));
- }
-    */
+    /*
+     * DE AQUI @InitBinder public void initBinder(WebDataBinder binder) {
+     *
+     * binder.registerCustomEditor(TipoDocumento.class, new
+     * EnumEditor(TipoDocumento.class)); }
+     */
+
     @RequestMapping
     public String lista(HttpServletRequest request, HttpServletResponse response,
             @RequestParam(required = false) String filtro,
@@ -98,7 +98,7 @@ public class DocumentoController {
             params.put(Constantes.CONTAINSKEY_ORDER, order);
             params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
-        
+
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = DocumentoDao.lista(params);
@@ -111,11 +111,11 @@ public class DocumentoController {
                 //errors.reject("error.generar.reporte");
             }
         }
-        
+
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = DocumentoDao.lista(params);
-            
+
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
                 enviaCorreo(correo, (List<Documento>) params.get(Constantes.CONTAINSKEY_DOCUMENTOS), request);
@@ -127,68 +127,68 @@ public class DocumentoController {
         }
         params = DocumentoDao.lista(params);
         modelo.addAttribute(Constantes.CONTAINSKEY_DOCUMENTOS, params.get(Constantes.CONTAINSKEY_DOCUMENTOS));
-	
-        List<Documento> lista = (List) params.get(Constantes.CONTAINSKEY_DOCUMENTOS); 
-        Iterator <Documento> iter = lista.iterator();
-        Documento doc=null;
-           BigDecimal totalBoletin=new BigDecimal("0");
-           BigDecimal totalDiezmos=new BigDecimal("0");
-           BigDecimal totalDepositos=new BigDecimal("0");
-           BigDecimal objetivo=new BigDecimal("11250");
-           BigDecimal fidelidad=new BigDecimal("0");
-           BigDecimal alcanzado=new BigDecimal("0");
-           
-            
-           
-        while (iter.hasNext()) {
-            doc=iter.next();
-            switch (doc.getTipoDeDocumento()){
-                case Constantes.BOLETIN:{
-                    totalBoletin=totalBoletin.add(doc.getImporte());
-                    break;
-                 
-                }
-                               
-                case Constantes.DIEZMO:{
-                    totalDiezmos=totalDiezmos.add(doc.getImporte());
-                    break;
-                }
-          
-                case Constantes.DEPOSITO_CAJA:{
-                    totalDepositos=totalDepositos.add(doc.getImporte());
-                    break;
-                }
-                    
-               case Constantes.DEPOSITO_BANCO:{
-                    totalDepositos=totalDepositos.add(doc.getImporte());
-                    break;
-                }
-              case Constantes.NOTA_DE_COMPRA:{
-                    totalDepositos=totalDepositos.add(doc.getImporte());
-                    break;
-                 
-                }        
-            
-            }
-            
-        }
-        
-  
- modelo.addAttribute(Constantes.TOTALBOLETIN,totalBoletin);
- modelo.addAttribute(Constantes.TOTALDIEZMOS,totalDiezmos);
- modelo.addAttribute(Constantes.TOTALDEPOSITOS,totalDepositos);
- modelo.addAttribute(Constantes.OBJETIVO,objetivo);
- if(objetivo.compareTo(new BigDecimal("0"))>0){
-     alcanzado=totalBoletin.divide(objetivo,6,RoundingMode.HALF_EVEN).multiply(new BigDecimal("100"));
-  }
- if(totalBoletin.compareTo(new BigDecimal("0"))>0){
-     fidelidad=totalDiezmos.divide(totalBoletin.movePointLeft(1),6,RoundingMode.HALF_EVEN).multiply(new BigDecimal("100"));
-  }
-modelo.addAttribute(Constantes.ALCANZADO,alcanzado);
-modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
 
-        
-        
+        List<Documento> lista = (List) params.get(Constantes.CONTAINSKEY_DOCUMENTOS);
+        Iterator<Documento> iter = lista.iterator();
+        Documento doc = null;
+        BigDecimal totalBoletin = new BigDecimal("0");
+        BigDecimal totalDiezmos = new BigDecimal("0");
+        BigDecimal totalDepositos = new BigDecimal("0");
+        BigDecimal objetivo = new BigDecimal("11250");
+        BigDecimal fidelidad = new BigDecimal("0");
+        BigDecimal alcanzado = new BigDecimal("0");
+
+
+
+        while (iter.hasNext()) {
+            doc = iter.next();
+            switch (doc.getTipoDeDocumento()) {
+                case Constantes.BOLETIN: {
+                    totalBoletin = totalBoletin.add(doc.getImporte());
+                    break;
+
+                }
+
+                case Constantes.DIEZMO: {
+                    totalDiezmos = totalDiezmos.add(doc.getImporte());
+                    break;
+                }
+
+                case Constantes.DEPOSITO_CAJA: {
+                    totalDepositos = totalDepositos.add(doc.getImporte());
+                    break;
+                }
+
+                case Constantes.DEPOSITO_BANCO: {
+                    totalDepositos = totalDepositos.add(doc.getImporte());
+                    break;
+                }
+                case Constantes.NOTA_DE_COMPRA: {
+                    totalDepositos = totalDepositos.add(doc.getImporte());
+                    break;
+
+                }
+
+            }
+
+        }
+
+
+        modelo.addAttribute(Constantes.TOTALBOLETIN, totalBoletin);
+        modelo.addAttribute(Constantes.TOTALDIEZMOS, totalDiezmos);
+        modelo.addAttribute(Constantes.TOTALDEPOSITOS, totalDepositos);
+        modelo.addAttribute(Constantes.OBJETIVO, objetivo);
+        if (objetivo.compareTo(new BigDecimal("0")) > 0) {
+            alcanzado = totalBoletin.divide(objetivo, 6, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100"));
+        }
+        if (totalBoletin.compareTo(new BigDecimal("0")) > 0) {
+            fidelidad = totalDiezmos.divide(totalBoletin.movePointLeft(1), 6, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100"));
+        }
+        modelo.addAttribute(Constantes.ALCANZADO, alcanzado);
+        modelo.addAttribute(Constantes.FIDELIDAD, fidelidad);
+
+
+
         // inicia paginado
         Long cantidad = (Long) params.get(Constantes.CONTAINSKEY_CANTIDAD);
         Integer max = (Integer) params.get(Constantes.CONTAINSKEY_MAX);
@@ -208,17 +208,17 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
 
         return Constantes.PATH_DOCUMENTO_LISTA;
     }
-         
+
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
         log.debug("Mostrando documento {}", id);
         Documento documentos = DocumentoDao.obtiene(id);
-        
+
         modelo.addAttribute(Constantes.ADDATTRIBUTE_DOCUMENTO, documentos);
-        
+
         return Constantes.PATH_DOCUMENTO_VER;
     }
-    
+
     @RequestMapping("/nuevo")
     public String nuevo(Model modelo) {
         log.debug("Nuevo documento");
@@ -226,7 +226,7 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_DOCUMENTO, documentos);
         return Constantes.PATH_DOCUMENTO_NUEVO;
     }
-    
+
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Documento documentos, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
@@ -241,7 +241,7 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
             case "0":
                 documentos.setTipoDeDocumento(Constantes.DEPOSITO_CAJA);
                 break;
-                case "1":
+            case "1":
                 documentos.setTipoDeDocumento(Constantes.DEPOSITO_BANCO);
                 break;
             case "2":
@@ -257,31 +257,31 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
                 documentos.setTipoDeDocumento(Constantes.INFORME);
                 break;
         }
-        
-        
+
+
         try {
-                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             documentos.setFecha(sdf.parse(request.getParameter("fecha")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("Fecha", e);
             return Constantes.PATH_DOCUMENTO_NUEVO;
         }
-        
+
         try {
-            log.debug("Documento Fecha"+documentos.getFecha());
-            
+            log.debug("Documento Fecha" + documentos.getFecha());
+
             documentos = DocumentoDao.crea(documentos);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear el documento", e);
             return Constantes.PATH_DOCUMENTO_NUEVO;
         }
-        
+
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "documento.creado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{documentos.getFolio()});
-        
+
         return "redirect:" + Constantes.PATH_DOCUMENTO_VER + "/" + documentos.getId();
     }
-    
+
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Editar documento {}", id);
@@ -289,7 +289,7 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_DOCUMENTO, documentos);
         return Constantes.PATH_DOCUMENTO_EDITA;
     }
-    
+
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
     public String actualiza(HttpServletRequest request, @Valid Documento documentos, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
@@ -317,36 +317,36 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
                 documentos.setTipoDeDocumento(Constantes.INFORME);
                 break;
         }
-         
+
         try {
-                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             documentos.setFecha(sdf.parse(request.getParameter("fecha")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("Fecha", e);
             return Constantes.PATH_DOCUMENTO_EDITA;
         }
-        
+
         try {
-            log.debug("Documento Fecha"+documentos.getFecha());
+            log.debug("Documento Fecha" + documentos.getFecha());
             documentos = DocumentoDao.actualiza(documentos);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo actualizar el documento", e);
             return Constantes.PATH_DOCUMENTO_EDITA;
         }
-        
+
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "documento.actualizado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{documentos.getFolio()});
-        
+
         return "redirect:" + Constantes.PATH_DOCUMENTO_VER + "/" + documentos.getId();
     }
-    
+
     @Transactional
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Documento documentos, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina documento");
         try {
             String folio = DocumentoDao.elimina(id);
-            
+
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "documento.eliminado.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{folio});
         } catch (Exception e) {
@@ -354,10 +354,10 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
             bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_DOCUMENTO, new String[]{"documento.no.eliminado.message"}, null, null));
             return Constantes.PATH_DOCUMENTO_VER;
         }
-        
+
         return "redirect:" + Constantes.PATH_DOCUMENTO;
     }
-    
+
     private void generaReporte(String tipo, List<Documento> documentos, HttpServletResponse response) throws JRException, IOException {
         log.debug("Generando reporte {}", tipo);
         byte[] archivo = null;
@@ -384,9 +384,9 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
                 bos.flush();
             }
         }
-        
+
     }
-    
+
     private void enviaCorreo(String tipo, List<Documento> documentos, HttpServletRequest request) throws JRException, MessagingException {
         log.debug("Enviando correo {}", tipo);
         byte[] archivo = null;
@@ -404,7 +404,7 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
                 archivo = generaXls(documentos);
                 tipoContenido = "application/vnd.ms-excel";
         }
-        
+
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(ambiente.obtieneUsuario().getUsername());
@@ -414,17 +414,17 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
         helper.addAttachment(titulo + "." + tipo, new ByteArrayDataSource(archivo, tipoContenido));
         mailSender.send(message);
     }
-    
+
     private byte[] generaPdf(List documentos) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JasperDesign jd = JRXmlLoader.load(this.getClass().getResourceAsStream("/mx/edu/um/mateo/general/reportes/documentos.jrxml"));
         JasperReport jasperReport = JasperCompileManager.compileReport(jd);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(documentos));
         byte[] archivo = JasperExportManager.exportReportToPdf(jasperPrint);
-        
+
         return archivo;
     }
-    
+
     private byte[] generaCsv(List documentos) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRCsvExporter exporter = new JRCsvExporter();
@@ -436,10 +436,10 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
         exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-        
+
         return archivo;
     }
-    
+
     private byte[] generaXls(List documentos) throws JRException {
         Map<String, Object> params = new HashMap<>();
         JRXlsExporter exporter = new JRXlsExporter();
@@ -457,7 +457,7 @@ modelo.addAttribute(Constantes.FIDELIDAD,fidelidad);
         exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
         exporter.exportReport();
         byte[] archivo = byteArrayOutputStream.toByteArray();
-        
+
         return archivo;
     }
 }

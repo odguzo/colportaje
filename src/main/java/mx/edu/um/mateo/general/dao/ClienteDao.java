@@ -3,11 +3,11 @@
  * and open the template in the editor.
  */
 package mx.edu.um.mateo.general.dao;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.Temporada;
+import mx.edu.um.mateo.general.model.Cliente;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -22,32 +22,27 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 /**
  *
- * @author gibrandemetrioo
+ * @author lobo4
  */
 @Repository
 @Transactional
-public class TemporadaDao {
-    private static final Logger log = LoggerFactory.getLogger(TemporadaDao.class);
+public class ClienteDao {
+private static final Logger log = LoggerFactory.getLogger(ClienteDao.class);
     @Autowired
     private SessionFactory sessionFactory;
-    
-    public TemporadaDao () {
-        log.info("Se ha creado una nueva TemporadaDao");
+
+    public ClienteDao() {
+        log.info("Nueva instancia de ClienteDao");
     }
-    
-    
-    
-    private Session currentSession () {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
-    
-    
+
     public Map<String, Object> lista(Map<String, Object> params) {
-        log.debug("Buscando lista de Temporada con params {}", params);
+        log.debug("Buscando lista de cliente con params {}", params);
         if (params == null) {
             params = new HashMap<>();
         }
@@ -67,87 +62,72 @@ public class TemporadaDao {
         if (!params.containsKey(Constantes.CONTAINSKEY_OFFSET)) {
             params.put(Constantes.CONTAINSKEY_OFFSET, 0);
         }
-        
-        Criteria criteria = currentSession().createCriteria(Temporada.class);
-        Criteria countCriteria = currentSession().createCriteria(Temporada.class);
-        
-        if (params.containsKey(Constantes.ADDATTRIBUTE_ASOCIACION)) {
-            criteria.createCriteria(Constantes.ADDATTRIBUTE_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_ASOCIACION)));
-            countCriteria.createCriteria(Constantes.ADDATTRIBUTE_ASOCIACION).add(Restrictions.idEq(params.get(Constantes.ADDATTRIBUTE_ASOCIACION)));
-        }
-        
+        Criteria criteria = currentSession().createCriteria(Cliente.class);
+        Criteria countCriteria = currentSession().createCriteria(Cliente.class);
+
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
             propiedades.add(Restrictions.ilike("nombre", filtro));
-           
+            propiedades.add(Restrictions.ilike("apellidoP", filtro));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
 
         if (params.containsKey(Constantes.CONTAINSKEY_ORDER)) {
             String campo = (String) params.get(Constantes.CONTAINSKEY_ORDER);
-            if (params.get(Constantes.CONTAINSKEY_SORT).equals(Constantes.CONTAINSKEY_SORT)) {
+            if (params.get(Constantes.CONTAINSKEY_SORT).equals(Constantes.CONTAINSKEY_DESC)) {
                 criteria.addOrder(Order.desc(campo));
             } else {
                 criteria.addOrder(Order.asc(campo));
             }
-            
         }
 
         if (!params.containsKey(Constantes.CONTAINSKEY_REPORTE)) {
             criteria.setFirstResult((Integer) params.get(Constantes.CONTAINSKEY_OFFSET));
             criteria.setMaxResults((Integer) params.get(Constantes.CONTAINSKEY_MAX));
         }
-        params.put(Constantes.CONTAINSKEY_TEMPORADAS, criteria.list());
+        params.put(Constantes.CONTAINSKEY_CLIENTES, criteria.list());
+
         countCriteria.setProjection(Projections.rowCount());
         params.put(Constantes.CONTAINSKEY_CANTIDAD, (Long) countCriteria.list().get(0));
 
         return params;
     }
 
-    public Temporada obtiene(Long id) {
-        log.debug("Obtiene Temporada con id = {}", id);
-        Temporada temporada = (Temporada) currentSession().get(Temporada.class, id);
-        return temporada;
+    public Cliente obtiene(Long id) {
+        log.debug("Obtiene cliente con id = {}", id);
+        Cliente cliente = (Cliente) currentSession().get(Cliente.class, id);
+        return cliente;
     }
 
-    public Temporada crea(Temporada temporada) {
-        log.debug("Creando Temporada : {}", temporada);
-        
-        currentSession().save(temporada);
+    public Cliente crea(Cliente cliente) {
+        log.debug("Creando cliente : {}", cliente);
+        currentSession().save(cliente);
         currentSession().flush();
-        return temporada;
+        return cliente;
     }
 
-     public Temporada actualiza(Temporada temporada) {
-        log.debug("Actualizando Temporada {}", temporada);
+    public Cliente actualiza(Cliente cliente) {
+        log.debug("Actualizando cliente {}", cliente);
         
         //trae el objeto de la DB 
-        Temporada nueva = (Temporada)currentSession().get(Temporada.class, temporada.getId());
-        
+        Cliente nuevo = (Cliente)currentSession().get(Cliente.class, cliente.getId());
         //actualiza el objeto
-        BeanUtils.copyProperties(temporada, nueva);
+        BeanUtils.copyProperties(cliente, nuevo);
         //lo guarda en la BD
-        
-        currentSession().update(nueva);
+        currentSession().update(nuevo);
         currentSession().flush();
-        return nueva;
+        return nuevo;
     }
 
-    public String elimina(Long id) throws UltimoException {
-        log.debug("Eliminando Temporada id {}", id);
-        Temporada temporada = obtiene(id);
-        Date fecha = new Date();
-        temporada.setFechaInicio(fecha);
-        temporada.setFechaFinal(fecha);
-        currentSession().delete(temporada);
+    public String elimina(Long id) {
+        log.debug("Eliminando cliente con id {}", id);
+        Cliente cliente = obtiene(id);
+        currentSession().delete(cliente);
         currentSession().flush();
-        String nombre = temporada.getNombre();
+        String nombre = cliente.getNombre();
         return nombre;
     }
-    
-  }
-
-
+}

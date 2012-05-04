@@ -8,7 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -184,24 +187,18 @@ public class TemporadaColportorController {
         }
         
         try {
-            log.info("obtiene cuestions");
             Usuario usuario = ambiente.obtieneUsuario();
             temporadaColportor.setUnion(usuario.getAsociacion().getUnion());
             temporadaColportor.setAsociacion(usuario.getAsociacion());
             
             Temporada temporada = temporadaDao.obtiene(temporadaColportor.getTemporada().getId());
-            log.info("temporada >>>>>>>>>" + temporada);
             temporadaColportor.setTemporada(temporada);
             Asociado asociado = asociadoDao.obtiene(temporadaColportor.getAsociado().getId());
-            log.info("asociado>>>>>>>>>" + asociado);
             temporadaColportor.setAsociado(asociado);
             Colportor colportor = colportorDao.obtiene(temporadaColportor.getColportor().getId());
-            log.info("colportor>>>>>>>>>" + colportor);
             temporadaColportor.setColportor(colportor);
             Colegio colegio = colegioDao.obtiene(temporadaColportor.getColegio().getId());
-            log.info("colportor>>>>>>>>>" + colegio);
             temporadaColportor.setColegio(colegio);
-            log.debug("temporadaColportor >>>>>>>>>>>><<"+temporadaColportor);
             temporadaColportor = temporadaColportorDao.crea(temporadaColportor);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la temporada Colportor", e);
@@ -217,7 +214,6 @@ public class TemporadaColportorController {
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Temporada {}", id);
         TemporadaColportor temporadaColportor = temporadaColportorDao.obtiene(id);
-        
         Map<String, Object> temporadas = temporadaDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_TEMPORADAS, temporadas.get(Constantes.CONTAINSKEY_TEMPORADAS));
         Map<String, Object> asociados = asociadoDao.lista(null);
@@ -227,7 +223,6 @@ public class TemporadaColportorController {
         Map<String, Object> colegios = colegioDao.lista(null);
         modelo.addAttribute(Constantes.CONTAINSKEY_COLEGIOS, colegios.get(Constantes.CONTAINSKEY_COLEGIOS));
         
-        modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_TEMPORADACOLPORTOR, temporadaColportor);
         return Constantes.PATH_TEMPORADACOLPORTOR_EDITA;
     }

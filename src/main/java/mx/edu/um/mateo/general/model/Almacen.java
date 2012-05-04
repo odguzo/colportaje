@@ -5,59 +5,56 @@
 package mx.edu.um.mateo.general.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author gibrandemetrioo
+ * @author wilbert
  */
 @Entity
-@Table(name="temporadas")
-public class Temporada implements Serializable{
+@Table(name = "almacenes")
+public class Almacen implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Version
     private Integer version;
-    @Column(length = 64)
+    @NotNull
+    @Column(unique=true,nullable = false, length = 65)
+    private String clave;
+    @Column(nullable = false,length = 20)
     private String nombre;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false, name = "fecha_inicio")
-    private Date fechaInicio;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false, name = "fecha_final")
-    private Date fechaFinal;
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Asociacion asociacion;
 
-    
-    public Temporada(){
-        
+    public Almacen() {
     }
-    public Temporada(String nombre){
+
+    public Almacen(String clave, String nombre) {
+        this.clave = clave;
         this.nombre = nombre;
-        Date fecha = new Date();
-        this.fechaInicio = fecha;
-        this.fechaFinal = fecha;
-                
     }
 
-    public Date getFechaFinal() {
-        return fechaFinal;
+    public Almacen(Asociacion asociacion) {
+        this.asociacion = asociacion;
     }
 
-    public void setFechaFinal(Date fechaFinal) {
-        this.fechaFinal = fechaFinal;
+    public Asociacion getAsociacion() {
+        return asociacion;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public void setAsociacion(Asociacion asociacion) {
+        this.asociacion = asociacion;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public Long getId() {
@@ -83,14 +80,6 @@ public class Temporada implements Serializable{
     public void setVersion(Integer version) {
         this.version = version;
     }
-    
-    public Asociacion getAsociacion() {
-        return asociacion;
-    }
-
-    public void setAsociacion(Asociacion asociacion) {
-        this.asociacion = asociacion;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -100,8 +89,14 @@ public class Temporada implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Temporada other = (Temporada) obj;
+        final Almacen other = (Almacen) obj;
+        if (!Objects.equals(this.clave, other.clave)) {
+            return false;
+        }
         if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.asociacion, other.asociacion)) {
             return false;
         }
         return true;
@@ -110,13 +105,21 @@ public class Temporada implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.clave);
+        hash = 97 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.asociacion);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Temporada{" + "nombre=" + nombre + '}';
+        return "Almacen{" + "clave=" + clave + ", nombre=" + nombre + ", asociacion=" + asociacion + '}';
     }
+    
+    
+    
+    
+    
+    
     
 }

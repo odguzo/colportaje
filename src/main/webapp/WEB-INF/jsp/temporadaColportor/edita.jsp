@@ -36,10 +36,10 @@
                 <form:hidden path="id" />
                 <form:hidden path="version" />
 
-               <fieldset>
+                <fieldset>
                     <s:bind path="temporadaColportor.temporada">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="temporada">
+                            <label for="temporada">
                                 <s:message code="temporada.label" />
                                 <span class="required-indicator">*</span>
                                 <form:select id="temporadaId" path="temporada.id" items="${temporadas}" itemLabel="nombre" itemValue="id" />
@@ -48,7 +48,7 @@
                     </s:bind>
                     <s:bind path="temporadaColportor.asociado">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="asociado">
+                            <label for="asociado">
                                 <s:message code="asociado.label" />
                                 <span class="required-indicator">*</span>
                                 <form:select id="asociadoId" path="asociado.id" items="${asociados}" itemLabel="nombre" itemValue="id" />
@@ -57,7 +57,7 @@
                     </s:bind>
                     <s:bind path="temporadaColportor.colportor">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="colportor">
+                            <label for="colportor">
                                 <s:message code="colportor.label" />
                                 <span class="required-indicator">*</span>
                                 <form:select id="colportorId" path="colportor.id" items="${colportores}" itemLabel="calle" itemValue="id" />
@@ -91,7 +91,7 @@
                                 <s:message code="status.label" />
                                 <span class="required-indicator">*</span>
                                 <form:input path="status" maxlength="2" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
+                                <form:errors path="status" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="temporadaColportor.objetivo">

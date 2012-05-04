@@ -37,7 +37,7 @@
                     <s:bind path="usuario.username">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="correo">
-                                <s:message code="usuario.correo.label" />
+                                <s:message code="correo.label" />
                                 <span class="required-indicator">*</span>
                             </label>
                             <form:input path="username" maxlength="128" required="true" />
@@ -47,27 +47,37 @@
                     <s:bind path="usuario.nombre">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="nombre">
-                                <s:message code="usuario.nombre.label" />
+                                <s:message code="nombre.label" />
                                 <span class="required-indicator">*</span>
                             </label>
                             <form:input path="nombre" maxlength="128" required="true" />
                             <form:errors path="nombre" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="usuario.apellido">
+                    <s:bind path="usuario.apellidoP">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="apellido">
-                                <s:message code="usuario.apellido.label" />
+                            <label for="apellidoP">
+                                <s:message code="apellidoP.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="apellido" maxlength="128" required="true" />
-                            <form:errors path="apellido" cssClass="alert alert-error" />
+                            <form:input path="apellidoP" maxlength="128" required="true" />
+                            <form:errors path="apellidoP" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="usuario.apellidoM">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="apellidoM">
+                                <s:message code="apellidoM.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="apellidoM" maxlength="128" required="true" />
+                            <form:errors path="apellidoM" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                     <s:bind path="usuario.roles">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="roles">
-                                <s:message code="usuario.authorities.label" />
+                                <s:message code="authorities.label" />
                                 <span class="required-indicator">*</span>
                             </label>
                             <c:forEach items="${roles}" var="rol">

@@ -1,6 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package mx.edu.um.mateo.general.web;
 import java.util.ArrayList;
@@ -112,7 +131,7 @@ public class UnionControllerTest extends BaseTest {
         union = unionDao.crea(union);
         Rol rol = new Rol("ROLE_TEST");
         rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         Long asociacionId = 0l;
         actualizaUsuario:
         for (Asociacion asociacion : union.getAsociaciones()) {
@@ -137,7 +156,8 @@ public class UnionControllerTest extends BaseTest {
 //    public void debieraActualizarUnion() throws Exception {
 //        log.debug("Debiera actualizar union");
 //        
-//        Union union = new Union("test", Constantes.STATUS_ACTIVO);
+//        Union union = new Union("test");
+//        union.setStatus(Constantes.STATUS_ACTIVO);
 //        union = unionDao.crea(union);
 //        Rol rol = new Rol("ROLE_TEST");
 //        rol = rolDao.crea(rol);
@@ -153,12 +173,16 @@ public class UnionControllerTest extends BaseTest {
 //        assertNotNull(id);
 //        
 //        this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
+//        
+//        Union union2 = new Union("test1");
+//        union2.setStatus(Constantes.STATUS_ACTIVO);
+//        union2 = unionDao.crea(union2);
 //
 //        this.mockMvc.perform(post(Constantes.PATH_UNION_ACTUALIZA)
-//                .param("id",union.getId().toString())
-//                .param("version", union.getVersion().toString())
-//                .param("nombre", "test1")
-//                .param("status", union.getStatus()))
+//                .param("id",union2.getId().toString())
+//                .param("version", union2.getVersion().toString())
+//                .param("nombre", "test2")
+//                .param("status", "1"))
 //                .andExpect(status().isOk())
 //                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
 //                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "union.actualizada.message"));

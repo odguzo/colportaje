@@ -19,14 +19,14 @@
         <h1><s:message code="asociado.lista.label" /></h1>
         <hr/>
 
-        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/web/asociado' />">
+        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/asociado' />">
             <input type="hidden" name="pagina" id="pagina" value="${pagina}" />
             <input type="hidden" name="tipo" id="tipo" value="" />
             <input type="hidden" name="correo" id="correo" value="" />
             <input type="hidden" name="order" id="order" value="${param.order}" />
             <input type="hidden" name="sort" id="sort" value="${param.sort}" />
             <p class="well">
-                <a class="btn btn-primary" href="<s:url value='/asociado/nueva'/>"><i class="icon-user icon-white"></i> <s:message code='asociado.nuevo.label' /></a>
+                <a class="btn btn-primary" href="<s:url value='/asociado/nuevo'/>"><i class="icon-user icon-white"></i> <s:message code='asociado.nuevo.label' /></a>
                 <input name="filtro" type="text" class="input-medium search-query" value="${param.filtro}">
                 <button type="submit" class="btn"><s:message code="buscar.label" /></button>
             </p>
@@ -52,15 +52,11 @@
             <table id="lista" class="table">
                 <thead>
                     <tr>
-                        
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="clave" />
                         </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="telefono" />
-                        </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="status" />
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                        <jsp:param name="columna" value="status" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="calle" />
@@ -71,17 +67,20 @@
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="municipio" />
                         </jsp:include>
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="telefono" />
+                        </jsp:include>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${asociados}" var="asociado" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
                             <td><a href="<c:url value='/asociado/ver/${asociado.id}' />">${asociado.clave}</a></td>
-                            <td>${asociado.telefono}</td>
                             <td>${asociado.status}</td>
                             <td>${asociado.calle}</td>
                             <td>${asociado.colonia}</td>
                             <td>${asociado.municipio}</td>
+                             <td>${asociado.telefono}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

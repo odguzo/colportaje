@@ -35,6 +35,16 @@
                 </form:errors>
 
                 <fieldset>
+                       <s:bind path="asociado.status">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                                <label for="status">
+                                <s:message code="status.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="status" maxlength="128" required="true" />
+                            <form:errors path="status" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
                     <s:bind path="asociado.clave">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="clave">
@@ -75,28 +85,12 @@
                     <s:bind path="asociado.telefono">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                                 <label for="telefono">
-                                <s:message code="telefono.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="telefono" maxlength="128" required="true" />
+                                <s:message code="telefono.label" /></label>
+                            <form:input path="telefono" maxlength="15"  />
                             <form:errors path="telefono" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    <s:bind path="asociado.status">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                                <label for="status">
-                                <s:message code="status.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="status" maxlength="128" required="true" />
-                            <form:errors path="status" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    
                 </fieldset>
-
-
-                <p class="well" style="margin-top: 10px;">
                     <input type="submit" name="_action_crea" class="btn btn-primary btn-large" value="<s:message code='crear.button'/>" id="crea" />
                 </p>
             </form:form>
