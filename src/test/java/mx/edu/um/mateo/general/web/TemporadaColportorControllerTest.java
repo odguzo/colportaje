@@ -81,14 +81,14 @@ public class TemporadaColportorControllerTest extends BaseTest {
     @Test
     public void debieraMostrarListaDeTemporadaColportor() throws Exception {
         log.debug("Debiera monstrar lista Temporada Colportor");
-        Colportor test = new Colportor( Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
-        currentSession().save(test);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
+        currentSession().save(colportor);
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado test3 = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada ("test");
         currentSession().save(test4);
@@ -96,7 +96,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(colegio);
         for (int i = 0; i < 20; i++) {
             TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO+i,"TEST","TEST");
-            temporadaColportor.setColportor(test);
+            temporadaColportor.setColportor(colportor);
             temporadaColportor.setAsociacion(test2);
             temporadaColportor.setAsociado(test3);
             temporadaColportor.setTemporada(test4);
@@ -117,21 +117,21 @@ public class TemporadaColportorControllerTest extends BaseTest {
     @Test
     public void debieraMostrarTemporadaColportor() throws Exception {
         log.debug("Debiera mostrar  temporada colpotor");
-        Colportor test = new Colportor(Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
-        currentSession().save(test);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
+        currentSession().save(colportor);
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado test3 = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         Colegio colegio = new Colegio("test3", Constantes.STATUS_ACTIVO);
         currentSession().save(colegio);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColportor(test);
+        temporadaColportor.setColportor(colportor);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -155,8 +155,6 @@ public class TemporadaColportorControllerTest extends BaseTest {
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
-        currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         Colegio colegio = new Colegio("test3", Constantes.STATUS_ACTIVO);
@@ -176,10 +174,9 @@ public class TemporadaColportorControllerTest extends BaseTest {
         assertNotNull(id);
         
         this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
-        
-        Colportor colportor = new Colportor(Constantes.STATUS_ACTIVO, "test", Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         currentSession().save(colportor);
-        Asociado asociado = new Asociado("test1","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado asociado = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(asociado);
         Temporada temporada = new Temporada("test");
         currentSession().save(temporada);
@@ -187,8 +184,8 @@ public class TemporadaColportorControllerTest extends BaseTest {
         SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
         this.mockMvc.perform(
                 post(Constantes.PATH_TEMPORADACOLPORTOR_CREA)
-                .param("fecha", sdf.format(new Date()))
                 .param("status", Constantes.STATUS_ACTIVO)
+                .param("fecha", sdf.format(new Date()))
                 .param("objetivo", "test")
                 .param("observaciones", "test")
                 .param("temporada", temporada.getId().toString())
@@ -202,14 +199,14 @@ public class TemporadaColportorControllerTest extends BaseTest {
     @Test
     public void debieraActualizarTemporadaColportor() throws Exception {
         log.debug("Debiera actualizar  temporada Colportor");
-        Colportor test = new Colportor(Constantes.STATUS_ACTIVO, Constantes.CLAVE, Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
-        currentSession().save(test);
+       Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
+        currentSession().save(colportor);
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado test3 = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
@@ -231,7 +228,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
         
         this.authenticate(usuario, usuario.getPassword(), new ArrayList(usuario.getAuthorities()));
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColportor(test);
+        temporadaColportor.setColportor(colportor);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);
@@ -250,7 +247,7 @@ public class TemporadaColportorControllerTest extends BaseTest {
                 .param("observaciones","test")
                 .param("temporada", test4.getId().toString())
                 .param("asociado", test3.getId().toString())
-                .param("colportor", test.getId().toString())
+                .param("colportor", colportor.getId().toString())
                 .param("colegio", colegio.getId().toString()))
                 .andExpect(status().isOk());
 //                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
@@ -259,21 +256,21 @@ public class TemporadaColportorControllerTest extends BaseTest {
     @Test
     public void debieraEliminarTemporadaColportor() throws Exception {
         log.debug("Debiera eliminar  temporada Colportor");
-        Colportor test = new Colportor(Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.TELEFONO,Constantes.CALLE,Constantes.COLONIA,Constantes.MUNICIPIO);
-        currentSession().save(test);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
+        currentSession().save(colportor);
         Union union = new Union("test");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
         Asociacion test2 = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(test2);
-        Asociado test3 = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado test3 = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(test3);
         Temporada test4 = new Temporada("test");
         currentSession().save(test4);
         Colegio colegio = new Colegio("test3", Constantes.STATUS_ACTIVO);
         currentSession().save(colegio);
         TemporadaColportor temporadaColportor = new TemporadaColportor(Constantes.STATUS_ACTIVO,"TEST","TEST");
-        temporadaColportor.setColportor(test);
+        temporadaColportor.setColportor(colportor);
         temporadaColportor.setAsociacion(test2);
         temporadaColportor.setAsociado(test3);
         temporadaColportor.setTemporada(test4);

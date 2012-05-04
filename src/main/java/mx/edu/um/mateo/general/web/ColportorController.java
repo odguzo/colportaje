@@ -7,6 +7,8 @@ package mx.edu.um.mateo.general.web;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,7 +169,7 @@ public class ColportorController {
 
     @Transactional
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
-    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String crea(HttpServletRequest request, HttpServletResponse response, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         for (String nombre : request.getParameterMap().keySet()) {
             log.debug("Param: {} : {}", nombre, request.getParameterMap().get(nombre));
         }
@@ -175,7 +177,29 @@ public class ColportorController {
             log.debug("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
+        switch (colportores.getTipoDeColportor()) {
+            case "0":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
+                break;
+                case "1":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
+                break;
+            case "2":
+                colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
+                break;
+          
+        }
+         
         try {
+                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
+        }catch(ConstraintViolationException e) {
+            log.error("FechaDeNacimiento", e);
+            return Constantes.PATH_COLPORTOR_NUEVO;
+        }
+        
+        try {
+            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colportor", e);
@@ -198,12 +222,33 @@ public class ColportorController {
 
     @Transactional
     @RequestMapping(value = "/actualiza", method = RequestMethod.POST)
-    public String actualiza(HttpServletRequest request, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) {
+    public String actualiza(HttpServletRequest request, @Valid Colportor colportores, BindingResult bindingResult, Errors errors, Model modelo, RedirectAttributes redirectAttributes) throws ParseException {
         if (bindingResult.hasErrors()) {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_EDITA;
         }
+            switch (colportores.getTipoDeColportor()) {
+            case "0":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
+                break;
+                case "1":
+                colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
+                break;
+            case "2":
+                colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
+                break;
+          
+        }
         try {
+                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
+        }catch(ConstraintViolationException e) {
+            log.error("FechaDeNacimiento", e);
+            return Constantes.PATH_COLPORTOR_NUEVO;
+        }
+        
+        try {
+            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
             colportores = ColportorDao.actualiza(colportores);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colportor", e);

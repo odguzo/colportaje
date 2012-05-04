@@ -17,18 +17,20 @@ public class Constantes {
     public static final String ASO = "ASO";
     public static final String NOMBRE = "test";
     public static final String STATUS_ACTIVO = "A";
-    public static final String CLAVE = "test90";
+    public static final String CLAVE = "000";
     public static final String DIRECCION = "testd";
     public static final String CORREO = "test@tes.tst";
-    public static final String TELEFONO = "0000000000000";
+    public static final String TELEFONO = "12345";
     public static final String TIPO_DOCUMENTO = "A";
+    public static final String TIPO_COLPORTOR = "test";
     public static final String FOLIO = "test";
     public static final String FECHA = "dd/MM/yyyy";
     public static final BigDecimal IMPORTE = new BigDecimal("0.0");
     public static final String OBSERVACIONES = "test teste";
-    public static final String CALLE = "testc";
-    public static final String COLONIA = "testco";
+    public static final String CALLE = "test";
+    public static final String COLONIA = "test";
     public static final String MUNICIPIO = "testmu";
+    public static final String MATRICULA = "1070";
     public static final String DEPOSITO_CAJA = "Deposito_Caja";
     public static final String DEPOSITO_BANCO = "Deposito_Banco";
     public static final String DIEZMO = "Diezmo";
@@ -41,6 +43,9 @@ public class Constantes {
     public static final String ALCANZADO = "Alcanzado";
     public static final String OBJETIVO = "Objetivo";
     public static final String FIDELIDAD = "Fidelidad";
+    public static final String TIEMPO_COMPLETO = "Tiempo_Completo";
+    public static final String TIEMPO_PARCIAL = "Tiempo_Parcial";
+    public static final String ESTUDIANTE = "Estudiante";
     /**
      * Valores para el constructor de Locale
      */
@@ -108,6 +113,10 @@ public class Constantes {
     public static final String CONTAINSKEY_ASOCIADOS = "asociados";
     public static final String CONTAINSKEY_TEMPORADAS = "temporadas";
     public static final String CONTAINSKEY_TEMPORADACOLPORTORES = "temporadaColportores";
+    public static final String CONTAINSKEY_ALMACENES = "almacenes";
+    public static final String CONTAINSKEY_PAISES = "paises";
+    public static final String CONTAINSKEY_ESTADOS = "estados";
+    public static final String CONTAINSKEY_CIUDADES = "ciudades";
     /**
      * Valores para el los addAttribute para las clases
      */
@@ -121,6 +130,10 @@ public class Constantes {
     public static final String ADDATTRIBUTE_ASOCIADO = "asociado";
     public static final String ADDATTRIBUTE_TEMPORADA = "temporada";
     public static final String ADDATTRIBUTE_TEMPORADACOLPORTOR = "temporadaColportor";
+    public static final String ADDATTRIBUTE_ALMACEN = "almacen";
+    public static final String ADDATTRIBUTE_PAIS = "pais";
+    public static final String ADDATTRIBUTE_ESTADO = "estado";
+    public static final String ADDATTRIBUTE_CIUDAD = "ciudad";
     /**
      * Valores para el los path's para las clases
      */
@@ -196,4 +209,36 @@ public class Constantes {
     public static final String PATH_TEMPORADACOLPORTOR_CREA = "/temporadaColportor/crea";
     public static final String PATH_TEMPORADACOLPORTOR_ACTUALIZA = "/temporadaColportor/actualiza";
     public static final String PATH_TEMPORADACOLPORTOR_ELIMINA = "/temporadaColportor/elimina";
+    public static final String PATH_ALMACEN = "/almacen";
+    public static final String PATH_ALMACEN_LISTA = "/almacen/lista";
+    public static final String PATH_ALMACEN_VER = "/almacen/ver";
+    public static final String PATH_ALMACEN_NUEVO = "/almacen/nuevo";
+    public static final String PATH_ALMACEN_EDITA = "/almacen/edita";
+    public static final String PATH_ALMACEN_CREA = "/almacen/crea";
+    public static final String PATH_ALMACEN_ACTUALIZA = "/almacen/actualiza";
+    public static final String PATH_ALMACEN_ELIMINA = "/almacen/elimina";
+    public static final String PATH_PAIS = "/pais";
+    public static final String PATH_PAIS_LISTA = "pais/lista";
+    public static final String PATH_PAIS_VER = "/pais/ver";
+    public static final String PATH_PAIS_NUEVA = "/pais/nueva";
+    public static final String PATH_PAIS_EDITA = "/pais/edita";
+    public static final String PATH_PAIS_CREA = "/pais/crea";
+    public static final String PATH_PAIS_ACTUALIZA = "/pais/actualiza";
+    public static final String PATH_PAIS_ELIMINA = "/pais/elimina";
+    public static final String PATH_ESTADO = "/estado";
+    public static final String PATH_ESTADO_LISTA = "estado/lista";
+    public static final String PATH_ESTADO_VER = "/estado/ver";
+    public static final String PATH_ESTADO_NUEVA = "/estado/nueva";
+    public static final String PATH_ESTADO_EDITA = "/estado/edita";
+    public static final String PATH_ESTADO_CREA = "/estado/crea";
+    public static final String PATH_ESTADO_ACTUALIZA = "/estado/actualiza";
+    public static final String PATH_ESTADO_ELIMINA = "/estado/elimina";
+    public static final String PATH_CIUDAD = "/ciudad";
+    public static final String PATH_CIUDAD_LISTA = "ciudad/lista";
+    public static final String PATH_CIUDAD_VER = "/ciudad/ver";
+    public static final String PATH_CIUDAD_NUEVA = "/ciudad/nueva";
+    public static final String PATH_CIUDAD_EDITA = "/ciudad/edita";
+    public static final String PATH_CIUDAD_CREA = "/ciudad/crea";
+    public static final String PATH_CIUDAD_ACTUALIZA = "/ciudad/actualiza";
+    public static final String PATH_CIUDAD_ELIMINA = "/ciudad/elimina";
 }

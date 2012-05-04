@@ -131,12 +131,12 @@ public class AsociadoDao {
         return nueva;
     }
 
-    public String elimina(Long id) throws UltimoException {
+    public String elimina(Long id) {
         log.debug("Eliminando cuenta de asociado con id {}", id);
         Asociado asociado = obtiene(id);
         currentSession().delete(asociado);
         currentSession().flush();
-        String nombre = asociado.getClave();
-        return nombre;
+        String clave = asociado.getClave();
+        return clave;
     }
 }

@@ -67,8 +67,7 @@ public class ColportorDaoTest {
         log.debug("Debiera mostrar lista de Colportores");
 
         for (int i = 0; i < 20; i++) {
-            Colportor colportor = new Colportor("test" + i, "8262652626");
-            colportor.setStatus(Constantes.STATUS_ACTIVO);
+            Colportor colportor = new Colportor("test"+i, Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
             currentSession().save(colportor);
             assertNotNull(colportor);
         }
@@ -86,14 +85,15 @@ public class ColportorDaoTest {
     public void debieraObtenerColportor() {
         log.debug("Debiera obtener un Colportor");
 
-        Colportor colportor = new Colportor("test", "8262652626");
-        colportor.setStatus(Constantes.STATUS_ACTIVO);
+        String colonia = Constantes.COLONIA;
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         currentSession().save(colportor);
         Long id = colportor.getId();
         assertNotNull(id);
 
         Colportor result = instance.obtiene(id);
         assertNotNull(result);
+        assertEquals(colonia, result.getColonia());
         assertEquals(result, colportor);
         assertEquals("test", result.getClave());
     }
@@ -102,10 +102,8 @@ public class ColportorDaoTest {
     public void deberiaCrearColportor() {
         log.debug("Deberia crear un Colportor");
 
-        Colportor colportor = new Colportor("test", "8262652626");
-        colportor.setStatus(Constantes.STATUS_ACTIVO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         assertNotNull(colportor);
-
         Colportor colportor2 = instance.crea(colportor);
         assertNotNull(colportor2);
         assertNotNull(colportor2.getId());
@@ -117,16 +115,16 @@ public class ColportorDaoTest {
     public void deberiaActualizarColportor() {
         log.debug("Deberia actualizar Colportor");
 
-        Colportor colportor = new Colportor("test", "8262652626");
-        colportor.setStatus(Constantes.STATUS_ACTIVO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         assertNotNull(colportor);
         currentSession().save(colportor);
-
-        colportor.setTelefono("8262652625");
+        
+        String colonia = Constantes.COLONIA;
+        colportor.setColonia(colonia);
 
         Colportor colportor2 = instance.actualiza(colportor);
         assertNotNull(colportor2);
-        assertEquals("8262652625", colportor.getTelefono());
+        assertEquals(colonia, colportor.getColonia());
 
         assertEquals(colportor, colportor2);
     }
@@ -134,9 +132,8 @@ public class ColportorDaoTest {
     @Test
     public void deberiaEliminarColportor() {
         log.debug("Debiera eliminar Colportor");
-
-        Colportor colportor = new Colportor("test", "8262652626");
-        colportor.setStatus(Constantes.STATUS_ACTIVO);
+        String nom = Constantes.STATUS_ACTIVO;
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         currentSession().save(colportor);
         assertNotNull(colportor);
 

@@ -24,27 +24,29 @@ public class Asociado implements Serializable {
     @Version
     private Integer version;
     @NotBlank
-    @Column(unique = true, nullable = false, length = 65)
+    @Column(nullable = false, length = 65 ,unique=true)
     private String clave;
-    @Column(nullable = true, length = 25)
+    @Column(length = 15)
     private String telefono;
     @NotNull
     @Column(nullable = false, length = 23, name = "status")
     private String status;
     @NotNull
-    @Column(nullable = true, length = 200)
+    @Column(length = 200)
     private String calle;
     @NotNull
-    @Column(nullable = true, length = 200)
+    @Column(length = 200)
     private String colonia;
     @NotNull
-    @Column(nullable = true, length = 200)
+    @Column(length = 200)
     private String municipio;
-
+    
+    
+    
     public Asociado() {
     }
 
-    public Asociado(String clave, String telefono, String status, String calle, String colonia, String municipio) {
+    public Asociado( String clave,  String telefono, String status,String calle,String colonia,String municipio) {
         this.clave = clave;
         this.telefono = telefono;
         this.status = status;
@@ -126,10 +128,7 @@ public class Asociado implements Serializable {
             return false;
         }
         final Asociado other = (Asociado) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.clave, other.clave)) {
+        if (!Objects.equals(this.status, other.status)) {
             return false;
         }
         return true;
@@ -137,14 +136,13 @@ public class Asociado implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.clave);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.status);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Asociado{" + "clave=" + clave + '}';
+        return "Asociado{" + "clave=" + clave + ", telefono=" + telefono + ", status=" + status + ", calle=" + calle + ", colonia=" + colonia + ", municipio=" + municipio + '}';
     }
 }

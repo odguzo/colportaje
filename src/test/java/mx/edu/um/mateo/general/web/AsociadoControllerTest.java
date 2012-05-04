@@ -64,7 +64,7 @@ public class AsociadoControllerTest extends BaseTest {
         log.debug("Debiera monstrar lista asociado");
         
         for (int i = 0; i < 20; i++) {
-            Asociado asociado = new Asociado("test"+i,"test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+           Asociado asociado = new Asociado(Constantes.CLAVE+i,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
             asociadoDao.crea(asociado);
             assertNotNull(asociado);
         }
@@ -80,7 +80,7 @@ public class AsociadoControllerTest extends BaseTest {
     @Test
     public void debieraMostrarAsociado() throws Exception {
         log.debug("Debiera mostrar  asociado");
-        Asociado asociado = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado asociado = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         asociado = asociadoDao.crea(asociado);
         assertNotNull(asociado);
 
@@ -98,18 +98,20 @@ public class AsociadoControllerTest extends BaseTest {
         this.mockMvc.perform(post(Constantes.PATH_ASOCIADO_CREA)
                 .param("clave", "test")
                 .param("telefono", "test")
-                .param("status", Constantes.STATUS_ACTIVO)
+                .param("correo", "test@tes.tes")
                 .param("calle", "test1")
                 .param("colonia", "test1")
-                .param("municipio", "test1"))
-                .andExpect(status().isOk());
-                //.andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
-                //.andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creado.message"));
+                .param("municipio", "test1")
+                .param("status", Constantes.STATUS_ACTIVO))
+                .andExpect(status().isOk())
+                .andExpect(flash().attributeExists(Constantes.CONTAINSKEY_MESSAGE))
+                .andExpect(flash().attribute(Constantes.CONTAINSKEY_MESSAGE, "asociado.creado.message"));
     }
+
     @Test
     public void debieraActualizarAsociado() throws Exception {
         log.debug("Debiera actualizar  asociado");
-        Asociado asociado = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado asociado = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         asociado = asociadoDao.crea(asociado);
         assertNotNull(asociado);
 
@@ -129,7 +131,7 @@ public class AsociadoControllerTest extends BaseTest {
     @Test
     public void debieraEliminarAsociacion() throws Exception {
         log.debug("Debiera eliminar  asociado");
-        Asociado asociado = new Asociado("test","test", Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
+        Asociado asociado = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         asociadoDao.crea(asociado);
         assertNotNull(asociado);
 

@@ -24,10 +24,12 @@
 package mx.edu.um.mateo.general.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.ws.rs.HEAD;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -49,7 +51,7 @@ public class Colportor implements Serializable {
     @NotNull
     @Column(nullable = false, length = 2)
     private String status;
-    @NotEmpty
+    @NotNull
     @Size(min = 10, max = 12)
     @Column(nullable = false, length = 12)
     private String telefono;
@@ -59,30 +61,45 @@ public class Colportor implements Serializable {
     private String colonia;
     @Column(nullable = true, length = 200)
     private String municipio;
+    @Column(nullable = false, length = 15)
+    private String tipoDeColportor;
+    @NotNull
+    @Size(min = 7, max = 7)
+    @Column(unique = true, nullable = false, length = 7)
+    private String matricula;
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = true, name = "fecha")
+    private Date fechaDeNacimiento;
     /*
      * DE AQUI private Set<TipoColportor> tipoColportor = new
-     * HashSet<TipoColportor>();      *
-     * @ElementCollection @Enumerated(EnumType.STRING) public Set<TipoColportor>
-     * getTipoColportors() { return tipoColportor; }      *
-     * public void setTipoColportors(Set<TipoColportor> tipoColportor) {
-     * this.tipoColportor = tipoColportor; }
+     * HashSet<TipoColportor>(); * @ElementCollection
+     * @Enumerated(EnumType.STRING) public Set<TipoColportor>
+     * getTipoColportors() { return tipoColportor; } * public void
+     * setTipoColportors(Set<TipoColportor> tipoColportor) { this.tipoColportor
+     * = tipoColportor; }
      */
 
     public Colportor() {
     }
 
-    public Colportor(String clave, String telefono) {
-            this.clave = clave;
-            this.telefono = telefono;
+    public Colportor(String clave, String status, String telefono, String tipoDeColportor, String matricula) {
+        this.clave = clave;
+        this.status = status;
+        this.telefono = telefono;
+        this.tipoDeColportor = tipoDeColportor;
+        this.matricula = matricula;
     }
 
-    public Colportor(String clave, String status, String telefono, String calle, String colonia, String municipio) {
+    public Colportor(String clave, String status, String telefono, String calle, String colonia, String municipio, String tipoDeColportor, String matricula, Date fechaDeNacimiento) {
         this.clave = clave;
         this.status = status;
         this.telefono = telefono;
         this.calle = calle;
         this.colonia = colonia;
         this.municipio = municipio;
+        this.tipoDeColportor = tipoDeColportor;
+        this.matricula = matricula;
+        this.fechaDeNacimiento = fechaDeNacimiento;
     }
 
     public String getCalle() {
@@ -109,12 +126,28 @@ public class Colportor implements Serializable {
         this.colonia = colonia;
     }
 
+    public Date getFechaDeNacimiento() {
+        return fechaDeNacimiento;
+    }
+
+    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public String getMunicipio() {
@@ -139,6 +172,14 @@ public class Colportor implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getTipoDeColportor() {
+        return tipoDeColportor;
+    }
+
+    public void setTipoDeColportor(String tipoDeColportor) {
+        this.tipoDeColportor = tipoDeColportor;
     }
 
     public Integer getVersion() {
@@ -169,14 +210,14 @@ public class Colportor implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.clave);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.clave);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Colportor{" + "clave=" + clave + ", status=" + status + ", telefono=" + telefono + '}';
+        return "Colportor{" + "clave=" + clave + ", status=" + status + ", tipoDeColportor=" + tipoDeColportor + ", matricula=" + matricula + '}';
     }
 }
