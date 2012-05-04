@@ -39,7 +39,7 @@
                                 <label for="estado">
                                 <s:message code="estado.label" />
                                 <span class="required-indicator">*</span>
-                                <form:select id="estadoId" path="estado.id" items="${paises}" itemLabel="nombre" itemValue="id" />
+                                <form:select id="estadoId" path="estado.id" items="${estados}" itemLabel="nombre" itemValue="id" />
                                 <form:errors path="estado" cssClass="alert alert-error" />
                         </div>
                     </s:bind>

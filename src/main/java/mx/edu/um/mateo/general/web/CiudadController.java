@@ -150,7 +150,7 @@ public class CiudadController {
         Ciudad ciudad = new Ciudad();
         
         Map<String, Object> estados = estadoDao.lista(null);
-        modelo.addAttribute(Constantes.CONTAINSKEY_PAISES, estados.get(Constantes.CONTAINSKEY_ESTADOS));
+        modelo.addAttribute(Constantes.CONTAINSKEY_ESTADOS, estados.get(Constantes.CONTAINSKEY_ESTADOS));
         modelo.addAttribute(Constantes.ADDATTRIBUTE_CIUDAD, ciudad);
         return Constantes.PATH_CIUDAD_NUEVA;
     }
@@ -180,7 +180,7 @@ public class CiudadController {
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Ciudad {}", id);
         Map<String, Object> estados = estadoDao.lista(null);
-        modelo.addAttribute(Constantes.CONTAINSKEY_PAISES, estados.get(Constantes.CONTAINSKEY_ESTADOS));
+        modelo.addAttribute(Constantes.CONTAINSKEY_ESTADOS, estados.get(Constantes.CONTAINSKEY_ESTADOS));
         Ciudad ciudad = ciudadDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_CIUDAD, ciudad);
         return Constantes.PATH_CIUDAD_EDITA;
