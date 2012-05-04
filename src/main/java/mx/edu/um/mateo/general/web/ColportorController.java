@@ -181,25 +181,25 @@ public class ColportorController {
             case "0":
                 colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
                 break;
-                case "1":
+            case "1":
                 colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
                 break;
             case "2":
                 colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
                 break;
-          
+
         }
-         
+
         try {
-                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("FechaDeNacimiento", e);
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
-        
+
         try {
-            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
+            log.debug("Colportor FechaDeNacimiento" + colportores.getFechaDeNacimiento());
             colportores = ColportorDao.crea(colportores);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colportor", e);
@@ -208,7 +208,7 @@ public class ColportorController {
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.creado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
-        
+
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }
 
@@ -227,28 +227,28 @@ public class ColportorController {
             log.error("Hubo algun error en la forma, regresando");
             return Constantes.PATH_COLPORTOR_EDITA;
         }
-            switch (colportores.getTipoDeColportor()) {
+        switch (colportores.getTipoDeColportor()) {
             case "0":
                 colportores.setTipoDeColportor(Constantes.TIEMPO_COMPLETO);
                 break;
-                case "1":
+            case "1":
                 colportores.setTipoDeColportor(Constantes.TIEMPO_PARCIAL);
                 break;
             case "2":
                 colportores.setTipoDeColportor(Constantes.ESTUDIANTE);
                 break;
-          
+
         }
         try {
-                SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_HUMAN_PATTERN);
             colportores.setFechaDeNacimiento(sdf.parse(request.getParameter("fechaDeNacimiento")));
-        }catch(ConstraintViolationException e) {
+        } catch (ConstraintViolationException e) {
             log.error("FechaDeNacimiento", e);
             return Constantes.PATH_COLPORTOR_NUEVO;
         }
-        
+
         try {
-            log.debug("Colportor FechaDeNacimiento"+colportores.getFechaDeNacimiento());
+            log.debug("Colportor FechaDeNacimiento" + colportores.getFechaDeNacimiento());
             colportores = ColportorDao.actualiza(colportores);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear la colportor", e);
@@ -257,7 +257,7 @@ public class ColportorController {
 
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "colportor.actualizado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{colportores.getColonia()});
-        
+
         return "redirect:" + Constantes.PATH_COLPORTOR_VER + "/" + colportores.getId();
     }
 

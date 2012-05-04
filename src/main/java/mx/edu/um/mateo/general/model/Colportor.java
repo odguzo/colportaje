@@ -64,7 +64,7 @@ public class Colportor implements Serializable {
     @Column(nullable = false, length = 15)
     private String tipoDeColportor;
     @NotNull
-    @Size(min = 7, max = 7)
+    @Size(min = 6, max = 7)
     @Column(unique = true, nullable = false, length = 7)
     private String matricula;
     @Temporal(TemporalType.DATE)

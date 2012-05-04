@@ -111,13 +111,13 @@ public class AsociadoDaoTest {
     public void deberiaEliminarAsociado() throws UltimoException {
         log.debug("Debiera eliminar Asociado");
 
-        String nom = Constantes.MUNICIPIO;
+        String nom = Constantes.CLAVE;
         Asociado asociado = new Asociado(Constantes.CLAVE,Constantes.TELEFONO, Constantes.STATUS_ACTIVO,Constantes.COLONIA,Constantes.MUNICIPIO,Constantes.CALLE);
         currentSession().save(asociado);
         assertNotNull(asociado);
 
-        String nombre = instance.elimina(asociado.getId());
-        assertEquals(nom, nombre);
+        String clave = instance.elimina(asociado.getId());
+        assertEquals(nom, clave);
 
         Asociado prueba = instance.obtiene(asociado.getId());
         assertNull(prueba);
