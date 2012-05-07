@@ -83,6 +83,7 @@ public class Constantes {
     /**
      * Valores para el los containsKey para las clases
      */
+    public static final String CONTAINSKEY_CLIENTES = "clientes";
     public static final String CONTAINSKEY_UNIONES = "uniones";
     public static final String CONTAINSKEY_COLPORTORES = "colportores";
     public static final String CONTAINSKEY_DOCUMENTOS = "documentos";
@@ -94,6 +95,7 @@ public class Constantes {
     /**
      * Valores para el los addAttribute para las clases
      */
+    public static final String ADDATTRIBUTE_CLIENTE = "cliente";
     public static final String ADDATTRIBUTE_UNION = "union";
     public static final String ADDATTRIBUTE_COLPORTOR = "colportor";
     public static final String ADDATTRIBUTE_DOCUMENTO = "documento";
@@ -105,6 +107,14 @@ public class Constantes {
     /**
      * Valores para el los path's para las clases
      */
+    public static final String PATH_CLIENTE = "/admin/cliente";
+    public static final String PATH_CLIENTE_LISTA = "admin/cliente/lista";
+    public static final String PATH_CLIENTE_VER = "/admin/cliente/ver";
+    public static final String PATH_CLIENTE_NUEVA = "admin/cliente/nueva";
+    public static final String PATH_CLIENTE_EDITA = "admin/cliente/edita";
+    public static final String PATH_CLIENTE_CREA = "/admin/cliente/crea";
+    public static final String PATH_CLIENTE_ACTUALIZA = "/admin/cliente/actualiza";
+    public static final String PATH_CLIENTE_ELIMINA = "/admin/cliente/elimina";
     public static final String PATH_UNION = "/admin/union";
     public static final String PATH_UNION_LISTA = "admin/union/lista";
     public static final String PATH_UNION_VER = "/admin/union/ver";

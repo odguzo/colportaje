@@ -285,4 +285,12 @@ public class Usuario implements Serializable, UserDetails {
     public String toString() {
         return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + ", asociacion=" + asociacion + '}';
     }
+
+    public void setCliente(Cliente asociacion) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public Object getCliente() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
