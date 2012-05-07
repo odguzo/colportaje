@@ -43,8 +43,24 @@
                                 <s:message code="tipoDeDocumento.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="tipoDeDocumento" maxlength="15" required="true" />
-                            <form:errors path="tipoDeDocumento" cssClass="alert alert-error" />
+                             <form:select path="TipoDeDocumento">
+                                    <form:option value="0" label="Deposito_Caja" />
+                                    <form:option value="1" label="Deposito_Banco" />
+                                     <form:option value="2" label="Diezmo" />
+                                    <form:option value="3" label="Nota_De_Compra" />
+                                     <form:option value="4" label="Boletín" />
+                                    <form:option value="5" label="Informe" />
+                                </form:select>
+                        </div>
+                    </s:bind>
+                      <s:bind path="documento.fecha">
+                        <div class="control-group <c:if test='${not empty folio.errorMessages}'>error</c:if>">
+                            <label for="fecha">
+                                <s:message code="fecha.label" />
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <form:input path="fecha" maxlength="10" required="true" />
+                            <form:errors path="fecha" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
                         <s:bind path="documento.folio">
@@ -58,24 +74,13 @@
                         </div>
                     </s:bind>
                     
-                       <s:bind path="documento.fecha">
-                        <div class="control-group <c:if test='${not empty folio.errorMessages}'>error</c:if>">
-                            <label for="fecha">
-                                <s:message code="fecha.label" />
-                                <span class="required-indicator">*</span>
-                            </label>
-                            <form:input path="fecha" maxlength="10" required="true" />
-                            <form:errors path="fecha" cssClass="alert alert-error" />
-                        </div>
-                    </s:bind>
-                    
                       <s:bind path="documento.importe">
                         <div class="control-group <c:if test='${not empty folio.errorMessages}'>error</c:if>">
                             <label for="importe">
                                 <s:message code="importe.label" />
-                                
+                                  <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="importe" maxlength="20" required="false" />
+                            <form:input path="importe" maxlength="20" required="true" />
                             <form:errors path="importe" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
@@ -87,7 +92,7 @@
                                 <s:message code="observaciones.label" />
                               
                             </label>
-                            <form:input path="observaciones" maxlength="100" required="false" />
+                            <form:textarea path="observaciones" maxlength="100" required="false" />
                             <form:errors path="observaciones" cssClass="alert alert-error" />
                         </div>
                     </s:bind>

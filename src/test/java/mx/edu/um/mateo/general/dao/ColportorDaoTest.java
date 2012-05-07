@@ -1,14 +1,32 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package mx.edu.um.mateo.general.dao;
+
 import java.util.List;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Colportor;
-import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;
@@ -23,33 +41,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * 
+ *
  * @author wilbert
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mateo.xml", "classpath:security.xml"})
 @Transactional
-public class ColportorDaoTest extends BaseTest{
+public class ColportorDaoTest {
 
     private static final Logger log = LoggerFactory.getLogger(ColportorDaoTest.class);
     @Autowired
     private ColportorDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-    
-   private Session currentSession() {
+
+    private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
+
     /**
      * Test of lista method, of class ColportorDao.
      */
-   @Test
+    @Test
     public void deberiaMostrarListaDeColportor() {
-        log.debug("Debiera mostrar lista de colportor");
+        log.debug("Debiera mostrar lista de Colportores");
 
         for (int i = 0; i < 20; i++) {
-            Colportor colportor = new Colportor(Constantes.NOMBRE+i, Constantes.STATUS_ACTIVO, Constantes.CLAVE+i,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+            Colportor colportor = new Colportor("test"+i, Constantes.STATUS_ACTIVO, "8262652626", "test", "10706"+i);
             currentSession().save(colportor);
             assertNotNull(colportor);
         }
@@ -65,28 +83,25 @@ public class ColportorDaoTest extends BaseTest{
 
     @Test
     public void debieraObtenerColportor() {
-        log.debug("Debiera obtener colportor");
+        log.debug("Debiera obtener un Colportor");
 
-        String nombre = "test";
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         currentSession().save(colportor);
-        assertNotNull(colportor.getId());
         Long id = colportor.getId();
+        assertNotNull(id);
 
         Colportor result = instance.obtiene(id);
         assertNotNull(result);
-        assertEquals(nombre, result.getNombre());
-
         assertEquals(result, colportor);
+        assertEquals("test", result.getClave());
     }
 
     @Test
     public void deberiaCrearColportor() {
-        log.debug("Deberia crear Colportor");
+        log.debug("Deberia crear un Colportor");
 
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         assertNotNull(colportor);
-
         Colportor colportor2 = instance.crea(colportor);
         assertNotNull(colportor2);
         assertNotNull(colportor2.getId());
@@ -98,34 +113,32 @@ public class ColportorDaoTest extends BaseTest{
     public void deberiaActualizarColportor() {
         log.debug("Deberia actualizar Colportor");
 
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         assertNotNull(colportor);
         currentSession().save(colportor);
-
-        String nombre = "test1";
-        colportor.setNombre(nombre);
+        
+        String colonia = Constantes.COLONIA;
+        colportor.setColonia(colonia);
 
         Colportor colportor2 = instance.actualiza(colportor);
         assertNotNull(colportor2);
-        assertEquals(nombre, colportor.getNombre());
+        assertEquals(colonia, colportor.getColonia());
 
         assertEquals(colportor, colportor2);
     }
 
     @Test
-    public void deberiaEliminarColportor() throws UltimoException {
+    public void deberiaEliminarColportor() {
         log.debug("Debiera eliminar Colportor");
-
-        String nom = "test";
-        Colportor colportor = new Colportor(Constantes.NOMBRE, Constantes.STATUS_ACTIVO, Constantes.CLAVE,Constantes.DIRECCION,Constantes.CORREO,Constantes.TELEFONO);
+        String nom = Constantes.STATUS_ACTIVO;
+        Colportor colportor = new Colportor("test", Constantes.STATUS_ACTIVO, "8262652626", "test", "1070666");
         currentSession().save(colportor);
         assertNotNull(colportor);
 
-        String nombre = instance.elimina(colportor.getId());
-        assertEquals(nom, nombre);
+        String clave = instance.elimina(colportor.getId());
+        assertEquals(colportor.getClave(), clave);
 
-        Colportor prueba = instance.obtiene(colportor.getId());
-        assertNull(prueba);
+        colportor = instance.obtiene(colportor.getId());
+        assertEquals(Constantes.STATUS_INACTIVO,colportor.getStatus());
     }
 }
-   

@@ -38,15 +38,26 @@
                 <form:hidden path="version" />
 
                 <fieldset>
-                    <s:bind path="colportor.nombre">
-                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="nombre">
-                                <s:message code="nombre.label" />
+                      <s:bind path="colportor.tipoDeColportor">
+                          <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="tipoDeColportor">
+                                <s:message code="tipoDeColportor.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="nombre" maxlength="128" required="true" />
-                            <form:errors path="nombre" cssClass="alert alert-error" />
-                        </div>
+                     <form:select path="TipoDeColportor">
+                                    <form:option value="0" label="Tiempo_Completo" />
+                                    <form:option value="1" label="Tiempo_Parcial" />
+                                     <form:option value="2" label="Estudiante" />
+                                   </form:select>
+                          </div>
+                     </s:bind>
+                     <s:bind path="colportor.matricula">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="matricula">
+                                <s:message code="matricula.label" />
+                              </label>
+                            <form:input path="matricula" maxlength="10" />
+                       </div>
                     </s:bind>
                     <s:bind path="colportor.status">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
@@ -65,36 +76,54 @@
                                 <s:message code="clave.label" />
                                 <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="clave" maxlength="64" required="true" />
+                            <form:input path="clave" maxlength="5" required="true" />
                             <form:errors path="clave" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    
-                      <s:bind path="colportor.direccion">
+                            <s:bind path="colportor.fechaDeNacimiento">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="direccion">
-                                <s:message code="direccion.label" />
-                                
+                            <label for="fechaDeNacimiento">
+                                <s:message code="fechaDeNacimiento.label" />
+                                <span class="required-indicator">*</span>
                             </label>
-                            <form:input path="direccion" maxlength="500" required="false" />
-                            <form:errors path="direccion" cssClass="alert alert-error" />
+                             <s:message code="fecha.formato.label" /><br>
+                            <form:input path="fechaDeNacimiento" maxlength="50" required="true" />
+
+                            <form:errors path="fechaDeNacimiento" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    
-                    
-                      <s:bind path="colportor.correo">
+                    <s:bind path="colportor.calle">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
-                            <label for="correo">
-                                <s:message code="correo.label" />
-                              
+                            <label for="calle">
+                                <s:message code="calle.label" />
+                           
                             </label>
-                            <form:input path="correo" maxlength="128" required="false" />
-                            <form:errors path="correo" cssClass="alert alert-error" />
+                            <form:input path="calle" maxlength="200" required="false" />
+                            <form:errors path="calle" cssClass="alert alert-error" />
                         </div>
                     </s:bind>
-                    
-                    
-                      <s:bind path="colportor.telefono">
+                    <s:bind path="colportor.colonia">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="colonia">
+                                <s:message code="colonia.label" />
+                           
+                            </label>
+                            <form:input path="colonia" maxlength="200" required="false" />
+                            <form:errors path="colonia" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                    <s:bind path="colportor.municipio">
+                        <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
+                            <label for="municipio">
+                                <s:message code="municipio.label" />
+                           
+                            </label>
+                            <form:input path="municipio" maxlength="200" required="false" />
+                            <form:errors path="municipio" cssClass="alert alert-error" />
+                        </div>
+                    </s:bind>
+                                                        
+                        <s:bind path="colportor.telefono">
                         <div class="control-group <c:if test='${not empty status.errorMessages}'>error</c:if>">
                             <label for="telefono">
                                 <s:message code="telefono.label" />

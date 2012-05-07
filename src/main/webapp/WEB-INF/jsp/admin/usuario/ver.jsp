@@ -45,12 +45,12 @@
                     <div class="span11">${usuario.nombre}</div>
                 </div>
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="apellido.label" /></div>
-                    <div class="span11">${usuario.apellido}</div>
+                    <div class="span1"><s:message code="apellidoP.label" /></div>
+                    <div class="span11">${usuario.apellidoP}</div>
                 </div>
                 <div class="row-fluid" style="padding-bottom: 10px;">
-                    <div class="span1"><s:message code="correo.label" /></div>
-                    <div class="span11">${usuario.correo}</div>
+                    <div class="span1"><s:message code="apellidoM.label" /></div>
+                    <div class="span11">${usuario.apellidoM}</div>
                 </div>
                 <div class="row-fluid" style="padding-bottom: 10px;">
                     <div class="span1"><s:message code="asociacion.label" /></div>

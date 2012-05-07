@@ -13,9 +13,7 @@ import javax.validation.Valid;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.dao.ClienteDao;
 import mx.edu.um.mateo.general.model.Cliente;
-import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.utils.ReporteException;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ClienteController extends BaseController {
 
     @Autowired
-    private ClienteDao ClienteDao;
+    private ClienteDao clienteDao;
 
     public ClienteController() {
         log.info("Se ha creado una nueva instancia de ClienteController");
@@ -51,7 +49,7 @@ public class ClienteController extends BaseController {
             @RequestParam(required = false) String order,
             @RequestParam(required = false) String sort,
             Model modelo) {
-        log.debug("Mostrando lista de Clientes");
+        log.debug("Mostrando lista de Clientees");
         Map<String, Object> params = new HashMap<>();
         Long unionId = (Long) request.getSession().getAttribute("unionId");
         params.put("union", unionId);
@@ -65,7 +63,7 @@ public class ClienteController extends BaseController {
 
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = ClienteDao.lista(params);
+            params = clienteDao.lista(params);
             try {
                 generaReporte(tipo, (List<Cliente>) params.get(Constantes.CONTAINSKEY_CLIENTES), response, Constantes.CONTAINSKEY_CLIENTES, Constantes.UNI, null);
                 return null;
@@ -79,7 +77,7 @@ public class ClienteController extends BaseController {
 
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
-            params = ClienteDao.lista(params);
+            params = clienteDao.lista(params);
 
             params.remove(Constantes.CONTAINSKEY_REPORTE);
             try {
@@ -90,7 +88,7 @@ public class ClienteController extends BaseController {
                 log.error("No se pudo enviar el reporte por correo", e);
             }
         }
-        params = ClienteDao.lista(params);
+        params = clienteDao.lista(params);
         modelo.addAttribute(Constantes.CONTAINSKEY_CLIENTES, params.get(Constantes.CONTAINSKEY_CLIENTES));
 
         this.pagina(params, modelo, Constantes.CONTAINSKEY_CLIENTES, pagina);
@@ -101,7 +99,7 @@ public class ClienteController extends BaseController {
     @RequestMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model modelo) {
         log.debug("Mostrando Cliente {}", id);
-        Cliente cliente = ClienteDao.obtiene(id);
+        Cliente cliente = clienteDao.obtiene(id);
 
         modelo.addAttribute(Constantes.ADDATTRIBUTE_CLIENTE, cliente);
 
@@ -113,7 +111,7 @@ public class ClienteController extends BaseController {
         log.debug("Nueva Cliente");
         Cliente cliente = new Cliente();
         modelo.addAttribute(Constantes.ADDATTRIBUTE_CLIENTE, cliente);
-        return Constantes.PATH_CLIENTE_NUEVA;
+        return Constantes.PATH_CLIENTE_NUEVO;
     }
 
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
@@ -126,31 +124,27 @@ public class ClienteController extends BaseController {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 log.debug("Error: {}", error);
             }
-            return Constantes.PATH_CLIENTE_NUEVA;
+            return Constantes.PATH_CLIENTE_NUEVO;
         }
-
         try {
-            Usuario usuario = ambiente.obtieneUsuario();
-            cliente = ClienteDao.crea(cliente);
-
-            ambiente.actualizaSesion(request, usuario);
+            cliente = clienteDao.crea(cliente);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear al Cliente", e);
-            errors.rejectValue("nombre", "campo.duplicado.message", new String[]{"nombre"}, null);
-            return Constantes.PATH_CLIENTE_NUEVA;
+            log.error("No se pudo crear el cliente", e);
+            return Constantes.PATH_CLIENTE_NUEVO;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.creada.message");
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.creado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{cliente.getNombre()});
 
-        return "redirect:" + Constantes.PATH_UNION_VER + "/" + cliente.getNombre();
+        return "redirect:" + Constantes.PATH_CLIENTE_VER + "/" + cliente.getId();
     }
 
     @RequestMapping("/edita/{id}")
     public String edita(@PathVariable Long id, Model modelo) {
         log.debug("Edita Cliente {}", id);
-        Cliente cliente = ClienteDao.obtiene(id);
+        Cliente cliente = clienteDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_CLIENTE, cliente);
+
         return Constantes.PATH_CLIENTE_EDITA;
     }
 
@@ -163,42 +157,32 @@ public class ClienteController extends BaseController {
             }
             return Constantes.PATH_CLIENTE_EDITA;
         }
-
         try {
-            Usuario usuario = ambiente.obtieneUsuario();
-            cliente = ClienteDao.actualiza(cliente);
-
-            ambiente.actualizaSesion(request, usuario);
+            cliente = clienteDao.actualiza(cliente);
         } catch (ConstraintViolationException e) {
-            log.error("No se pudo crear la Cliente", e);
-            errors.rejectValue("nombre", "campo.duplicado.message", new String[]{"nombre"}, null);
-            return Constantes.PATH_CLIENTE_EDITA;
+            log.error("No se pudo crear el cliente", e);
+            return Constantes.PATH_CLIENTE_NUEVO;
         }
 
-        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.actualizada.message");
+
+        redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.actualizado.message");
         redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{cliente.getNombre()});
 
-        return "redirect:" + Constantes.PATH_CLIENTE_VER + "/" + cliente.getcasa();
+        return "redirect:" + Constantes.PATH_CLIENTE_VER + "/" + cliente.getId();
     }
 
     @RequestMapping(value = "/elimina", method = RequestMethod.POST)
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Cliente Cliente, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina Cliente");
         try {
-            Long unionId = (Long) request.getSession().getAttribute("unionId");
-            String nombre = ClienteDao.elimina(id);
 
-            ambiente.actualizaSesion(request);
+            String nombre = clienteDao.elimina(id);
 
-            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.eliminada.message");
+            redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "cliente.eliminado.message");
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE_ATTRS, new String[]{nombre});
-        } catch (UltimoException e) {
-            log.error("No se pudo eliminar el Cliente " + id, e);
-            bindingResult.addError(new ObjectError("Cliente", new String[]{"ultimo.Cliente.no.eliminado.message"}, null, null));
-            return "inventario/Cliente/ver";
         } catch (Exception e) {
             log.error("No se pudo eliminar la Cliente " + id, e);
-            bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_CLIENTE, new String[]{"union.no.eliminada.message"}, null, null));
+            bindingResult.addError(new ObjectError(Constantes.ADDATTRIBUTE_CLIENTE, new String[]{"cliente.no.eliminado.message"}, null, null));
             return Constantes.PATH_CLIENTE_VER;
         }
 

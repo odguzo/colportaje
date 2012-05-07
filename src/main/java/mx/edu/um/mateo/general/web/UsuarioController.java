@@ -205,10 +205,10 @@ public class UsuarioController {
                 log.debug("Asignando ROLE_USER por defecto");
                 roles = new String[]{"ROLE_USER"};
             }
-            Long almacenId = (Long) request.getSession().getAttribute("almacenId");
+            Long asociacionId = (Long) request.getSession().getAttribute("asociacionId");
             password = KeyGenerators.string().generateKey();
             usuario.setPassword(password);
-            usuario = usuarioDao.crea(usuario, almacenId, roles);
+            usuario = usuarioDao.crea(usuario, asociacionId, roles);
 
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -224,8 +224,8 @@ public class UsuarioController {
             modelo.addAttribute("roles", roles);
             return "admin/usuario/nuevo";
         } catch (MessagingException e) {
-            log.error("No se pudo enviar la contrasena por correo",e);
-            
+            log.error("No se pudo enviar la contrasena por correo", e);
+
             redirectAttributes.addFlashAttribute("message", "usuario.creado.sin.correo.message");
             redirectAttributes.addFlashAttribute("messageAttrs", new String[]{usuario.getUsername(), password});
 

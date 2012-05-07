@@ -29,6 +29,9 @@ public class Temporada implements Serializable{
     @Temporal(TemporalType.DATE)
     @Column(nullable = false, name = "fecha_final")
     private Date fechaFinal;
+    @ManyToOne(optional = true)
+    private Asociacion asociacion;
+
     
     public Temporada(){
         
@@ -79,6 +82,14 @@ public class Temporada implements Serializable{
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+    
+    public Asociacion getAsociacion() {
+        return asociacion;
+    }
+
+    public void setAsociacion(Asociacion asociacion) {
+        this.asociacion = asociacion;
     }
 
     @Override

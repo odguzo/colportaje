@@ -159,6 +159,7 @@ public class ReporteDao {
         log.debug("Inicializando reportes de la asociacion {}", asociacion);
         List<String> nombres = new ArrayList<>();
         nombres.add("usuarios");
+        nombres.add("asociados");
 
         asociacion.getReportes().clear();
         asociacion.getReportes().addAll(inicializaReportes(nombres));

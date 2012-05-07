@@ -84,49 +84,41 @@ public class UsuarioControllerTest {
 
     @Test
     public void debieraMostrarListaDeUsuarios() throws Exception {
-        this.mockMvc.perform(get("/admin/usuario")).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/lista.jsp")).andExpect(model().attributeExists("usuarios")).andExpect(model().attributeExists("paginacion")).andExpect(model().attributeExists("paginas")).andExpect(model().attributeExists("pagina"));
-    }
-/*
-    @Test
-    public void debieraMostrarUsuario() throws Exception {
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
-        union = unionDao.crea(union);
-        Rol rol = new Rol("ROLE_TEST");
-        rol = rolDao.crea(rol);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
-        Long asociacionId = 0l;
-        actualizaUsuario:
-        for (Asociacion asociacion : union.getAsociaciones()) {
-            asociacionId = asociacion.getId();
-            break actualizaUsuario;
-        }
-        usuario = usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
-        Long id = usuario.getId();
-        this.mockMvc.perform(get("/admin/usuario/ver/" + id)).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/ver.jsp")).andExpect(model().attributeExists("usuario")).andExpect(model().attributeExists("roles"));
-    }
-
-    // TODO: Arreglar prueba
-    public void debieraCrearUsuario() throws Exception {
-        Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
-        union = unionDao.crea(union);
-        Rol rol = new Rol("ROLE_USER");
-        rolDao.crea(rol);
-        Long asociacionId = 0l;
-        actualizaUsuario:
-        for (Asociacion asociacion : union.getAsociaciones()) {
-            asociacionId = asociacion.getId();
-            break actualizaUsuario;
-        }
-        this.mockMvc.perform(post("/admin/usuario/crea")
-                .sessionAttr("almacenId", almacenId)
-                .param("username", "test--01@test.com")
-                .param("nombre", "TEST--01")
-                .param("apellido","TEST--01")
-                )
+        this.mockMvc.perform(get("/admin/usuario"))
                 .andExpect(status().isOk())
-                .andExpect(redirectedUrl("/admin/usuario/ver/1"))
-                .andExpect(flash().attributeExists("message"))
-                .andExpect(flash().attribute("message","usuario.creado.message"))
-                ;
-    }*/
+                .andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/lista.jsp"))
+                .andExpect(model().attributeExists("usuarios"))
+                .andExpect(model().attributeExists("paginacion"))
+                .andExpect(model().attributeExists("paginas"))
+                .andExpect(model().attributeExists("pagina"));
+    }
+    /*
+     * @Test public void debieraMostrarUsuario() throws Exception { Union union
+     * = new Union("TEST01", Constantes.STATUS_ACTIVO); union =
+     * unionDao.crea(union); Rol rol = new Rol("ROLE_TEST"); rol =
+     * rolDao.crea(rol); Usuario usuario = new Usuario("test-01@test.com",
+     * "test-01", "TEST1", "TEST"); Long asociacionId = 0l; actualizaUsuario:
+     * for (Asociacion asociacion : union.getAsociaciones()) { asociacionId =
+     * asociacion.getId(); break actualizaUsuario; } usuario =
+     * usuarioDao.crea(usuario, asociacionId, new String[]{rol.getAuthority()});
+     * Long id = usuario.getId(); this.mockMvc.perform(get("/admin/usuario/ver/"
+     * +
+     * id)).andExpect(status().isOk()).andExpect(forwardedUrl("/WEB-INF/jsp/admin/usuario/ver.jsp")).andExpect(model().attributeExists("usuario")).andExpect(model().attributeExists("roles"));
+     * }
+     *
+     * // TODO: Arreglar prueba public void debieraCrearUsuario() throws
+     * Exception { Union union = new Union("TEST01", Constantes.STATUS_ACTIVO);
+     * union = unionDao.crea(union); Rol rol = new Rol("ROLE_USER");
+     * rolDao.crea(rol); Long asociacionId = 0l; actualizaUsuario: for
+     * (Asociacion asociacion : union.getAsociaciones()) { asociacionId =
+     * asociacion.getId(); break actualizaUsuario; }
+     * this.mockMvc.perform(post("/admin/usuario/crea")
+     * .sessionAttr("almacenId", almacenId) .param("username",
+     * "test--01@test.com") .param("nombre", "TEST--01")
+     * .param("apellido","TEST--01") ) .andExpect(status().isOk())
+     * .andExpect(redirectedUrl("/admin/usuario/ver/1"))
+     * .andExpect(flash().attributeExists("message"))
+     * .andExpect(flash().attribute("message","usuario.creado.message")) ;
+    }
+     */
 }

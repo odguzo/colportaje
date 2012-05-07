@@ -8,9 +8,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
-import mx.edu.um.mateo.general.model.TemporadaColportor;
+import mx.edu.um.mateo.general.model.*;
 import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -64,27 +65,6 @@ public class TemporadaColportorDao {
         }
         Criteria criteria = currentSession().createCriteria(TemporadaColportor.class);
         Criteria countCriteria = currentSession().createCriteria(TemporadaColportor.class);
-//        if (params.containsKey("colportor")) {
-//            criteria.createCriteria("colporto").add(Restrictions.idEq(params.get("colportor")));
-//            countCriteria.createCriteria("colporto").add(Restrictions.idEq(params.get("colporto")));
-//        }
-//        if (params.containsKey("asociacion")) {
-//            criteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
-//            countCriteria.createCriteria("asociacion").add(Restrictions.idEq(params.get("asociacion")));
-//        }
-//        if (params.containsKey("asociado")) {
-//            criteria.createCriteria("asociado").add(Restrictions.idEq(params.get("asociado")));
-//            countCriteria.createCriteria("asociado").add(Restrictions.idEq(params.get("asociado")));
-//        }
-//        if (params.containsKey("temporada")) {
-//            criteria.createCriteria("temporada").add(Restrictions.idEq(params.get("temporada")));
-//            countCriteria.createCriteria("temporada").add(Restrictions.idEq(params.get("temporada")));
-//        }
-//        if (params.containsKey("union")) {
-//            criteria.createCriteria("union").add(Restrictions.idEq(params.get("union")));
-//            countCriteria.createCriteria("union").add(Restrictions.idEq(params.get("union")));
-//        }
-
         if (params.containsKey(Constantes.CONTAINSKEY_FILTRO)) {
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             filtro = "%" + filtro + "%";
@@ -119,29 +99,19 @@ public class TemporadaColportorDao {
         TemporadaColportor temporadacolportor = (TemporadaColportor) currentSession().get(TemporadaColportor.class, id);
         return temporadacolportor;
     }
-
+    
     public TemporadaColportor crea(TemporadaColportor temporadacolportor) {
         log.debug("Creando Temporada Colportor : {}", temporadacolportor);
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
         currentSession().save(temporadacolportor);
         currentSession().flush();
         return temporadacolportor;
     }
-
+    
     public TemporadaColportor actualiza(TemporadaColportor temporadacolportor) {
         log.debug("Actualizando Temporada Colportor {}", temporadacolportor);
         //trae el objeto de la DB 
         TemporadaColportor nueva = (TemporadaColportor) currentSession().get(TemporadaColportor.class, temporadacolportor.getId());
         //actualiza el objeto
-//        temporadacolportor.setAsociacion(temporadacolportor.getAsociacion());
-//        temporadacolportor.setAsociado(temporadacolportor.getAsociado());
-//        temporadacolportor.setColporto(temporadacolportor.getColporto());
-//        temporadacolportor.setTemporada(temporadacolportor.getTemporada());
-//        temporadacolportor.setUnion(temporadacolportor.getUnion());
         BeanUtils.copyProperties(temporadacolportor, nueva);
         //lo guarda en la BD
         currentSession().update(nueva);

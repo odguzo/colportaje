@@ -1,10 +1,32 @@
-
+/*
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package mx.edu.um.mateo.general.dao;
+
 import java.util.HashMap;
 import java.util.Map;
 import mx.edu.um.mateo.Constantes;
 import mx.edu.um.mateo.general.model.Colportor;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +48,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class ColportorDao {
-private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
+
+    private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -66,9 +89,8 @@ private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
             String filtro = (String) params.get(Constantes.CONTAINSKEY_FILTRO);
             filtro = "%" + filtro + "%";
             Disjunction propiedades = Restrictions.disjunction();
-            propiedades.add(Restrictions.ilike("nombre", filtro));
             propiedades.add(Restrictions.ilike("status", filtro));
-             propiedades.add(Restrictions.ilike("clave", filtro));
+            propiedades.add(Restrictions.ilike("clave", filtro));
             criteria.add(propiedades);
             countCriteria.add(propiedades);
         }
@@ -102,6 +124,7 @@ private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
 
     public Colportor crea(Colportor colportor) {
         log.debug("Creando colportor : {}", colportor);
+        colportor.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(colportor);
         currentSession().flush();
         return colportor;
@@ -109,24 +132,25 @@ private static final Logger log = LoggerFactory.getLogger(ColportorDao.class);
 
     public Colportor actualiza(Colportor colportor) {
         log.debug("Actualizando colportor {}", colportor);
-        
+
         //trae el objeto de la DB 
-        Colportor nuevo = (Colportor)currentSession().get(Colportor.class, colportor.getId());
+        Colportor nuevo = (Colportor) currentSession().get(Colportor.class, colportor.getId());
         //actualiza el objeto
         BeanUtils.copyProperties(colportor, nuevo);
         //lo guarda en la BD
-        
+
         currentSession().update(nuevo);
         currentSession().flush();
         return nuevo;
     }
 
-    public String elimina(Long id) throws UltimoException {
-        log.debug("Eliminando colportor con id {}", id);
+    public String elimina(Long id) {
+        log.debug("Eliminando colportor {}", id);
+
         Colportor colportor = obtiene(id);
-        currentSession().delete(colportor);
-        currentSession().flush();
-        String nombre = colportor.getNombre();
-        return nombre;
+        colportor.setStatus(Constantes.STATUS_INACTIVO);
+        actualiza(colportor);
+        String clave = colportor.getClave();
+        return clave;
     }
 }

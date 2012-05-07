@@ -85,8 +85,9 @@ public class InicializaController {
             Usuario usuario = new Usuario(
                     username,
                     password,
-                    "Admin",
-                    "User");
+                    "Nombre",
+                    "ApellidoP",
+                    "ApellidoM");
             Long asosiacionId = 0l;
             actualizaUsuario:
             for (Asociacion asociacion : union.getAsociaciones()) {
@@ -94,9 +95,9 @@ public class InicializaController {
                 break actualizaUsuario;
             }
             usuarioDao.crea(usuario, asosiacionId, new String[]{rol.getAuthority()});
-            rol = new Rol("ROLE_UNI");
-            rolDao.crea(rol);
             rol = new Rol("ROLE_ASO");
+            rolDao.crea(rol);
+            rol = new Rol("ROLE_COL");
             rolDao.crea(rol);
             rol = new Rol("ROLE_USER");
             rolDao.crea(rol);

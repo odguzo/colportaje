@@ -65,11 +65,10 @@ public class Usuario implements Serializable, UserDetails {
     private String nombre;
     @NotEmpty
     @Column(nullable = false, length = 128)
-    private String apellido;
-    @Email
+    private String apellidoP;
     @NotEmpty
-    @Column(nullable = false, name = "correo")
-    private String correo;
+    @Column(nullable = false, length = 128)
+    private String apellidoM;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_roles", joinColumns = {
         @JoinColumn(name = "usuario_id")}, inverseJoinColumns =
@@ -77,24 +76,19 @@ public class Usuario implements Serializable, UserDetails {
     private Set<Rol> roles = new HashSet<>();
     @ManyToOne(optional = false)
     private Asociacion asociacion;
+    @ManyToOne(optional = true)
+    private Asociado asociado;
+    
 
     public Usuario() {
     }
 
-    public Usuario(String username, String password, String nombre, String apellido) {
+    public Usuario(String username, String password, String nombre, String apellidoP, String apellidoM) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = "test@test.com";
-    }
-
-    public Usuario(String username, String password, String nombre, String apellido, String correo) {
-        this.username = username;
-        this.password = password;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
+        this.apellidoP = apellidoP;
+        this.apellidoM = apellidoM;
     }
 
     public Long getId() {
@@ -177,20 +171,20 @@ public class Usuario implements Serializable, UserDetails {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidoP() {
+        return apellidoP;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidoP(String apellidoP) {
+        this.apellidoP = apellidoP;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getApellidoM() {
+        return apellidoM;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setApellidoM(String apellidoM) {
+        this.apellidoM = apellidoM;
     }
 
     /**
@@ -222,6 +216,14 @@ public class Usuario implements Serializable, UserDetails {
 
     public void setAsociacion(Asociacion asociacion) {
         this.asociacion = asociacion;
+    }
+
+    public Asociado getAsociado() {
+        return asociado;
+    }
+
+    public void setAsociado(Asociado asociado) {
+        this.asociado = asociado;
     }
 
     @Override
@@ -283,7 +285,7 @@ public class Usuario implements Serializable, UserDetails {
 
     @Override
     public String toString() {
-        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellido=" + apellido + ", correo=" + correo + ", asociacion=" + asociacion + '}';
+        return "Usuario{" + "username=" + username + ", nombre=" + nombre + ", apellidoP=" + apellidoP + ",apellidoM=" + apellidoM + ", asociacion=" + asociacion + '}';
     }
 
     public void setCliente(Cliente asociacion) {

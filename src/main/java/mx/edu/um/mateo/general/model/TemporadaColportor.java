@@ -44,16 +44,19 @@ public class TemporadaColportor implements Serializable{
     private Temporada temporada;
     @ManyToOne
     private Union union;
+    @ManyToOne
+    private Colegio colegio;
 
     public TemporadaColportor() {
     }
     
-    public TemporadaColportor(Colportor colportor,Asociacion asociacion,Asociado asociado,Temporada temporada,Union union){
+    public TemporadaColportor(Colportor colportor,Asociacion asociacion,Asociado asociado,Temporada temporada,Union union, Colegio colegio){
         this.colportor = colportor;
         this.asociacion = asociacion;
         this.asociado = asociado;
         this.temporada = temporada;
         this.union = union;
+        this.colegio = colegio;
         
     }
     public TemporadaColportor(String status,String objetivo, String observaciones){
@@ -63,7 +66,7 @@ public class TemporadaColportor implements Serializable{
         Date f = new Date();
         this.fecha = f;
     }
-
+    
     public Asociacion getAsociacion() {
         return asociacion;
     }
@@ -80,11 +83,11 @@ public class TemporadaColportor implements Serializable{
         this.asociado = asociado;
     }
 
-    public Colportor getColporto() {
+    public Colportor getColportor() {
         return colportor;
     }
 
-    public void setColporto(Colportor colportor) {
+    public void setColportor(Colportor colportor) {
         this.colportor = colportor;
     }
 
@@ -152,6 +155,15 @@ public class TemporadaColportor implements Serializable{
         this.version = version;
     }
 
+    public Colegio getColegio() {
+        return colegio;
+    }
+
+    public void setColegio(Colegio colegio) {
+        this.colegio = colegio;
+    }
+    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -176,9 +188,7 @@ public class TemporadaColportor implements Serializable{
 
     @Override
     public String toString() {
-        return "TemporadaColportor{" + "status=" + status + '}';
+        return "TemporadaColportor{" + "fecha=" + fecha + ", status=" + status + ", objetivo=" + objetivo + ", observaciones=" + observaciones + ", colportor=" + colportor + ", asociacion=" + asociacion + ", asociado=" + asociado + ", temporada=" + temporada + ", union=" + union + '}';
     }
-    
-    
-    
+
 }

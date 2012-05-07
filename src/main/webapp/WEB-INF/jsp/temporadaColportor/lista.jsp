@@ -65,8 +65,24 @@
                             <jsp:param name="columna" value="observaciones" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="nombre" />
+                            <jsp:param name="columna" value="union" />
                         </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociacion" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="temporada" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="asociado" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="colportor" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="colegio" />
+                        </jsp:include>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +92,12 @@
                             <td>${temporadacolportor.status}</td>
                             <td>${temporadacolportor.objetivo}</td>
                             <td>${temporadacolportor.observaciones}</td>
+                            <td>${temporadacolportor.union.getNombre()}</td>
+                            <td>${temporadacolportor.asociacion.getNombre()}</td>
+                            <td>${temporadacolportor.temporada.getNombre()}</td>
+                            <td>${temporadacolportor.asociado.getNombre()}</td>
+                            <td>${temporadacolportor.colportor.getCalle()}</td>
+                            <td>${temporadacolportor.colegio.getNombre()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

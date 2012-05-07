@@ -23,7 +23,10 @@
  */
 package mx.edu.um.mateo.general.dao;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import mx.edu.um.mateo.general.model.Asociacion;
 import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Usuario;
@@ -137,13 +140,6 @@ public class UsuarioDao {
         return (Usuario) query.uniqueResult();
     }
 
-    public Usuario obtienePorCorreo(String correo) {
-        log.debug("Buscando usuario por correo {}", correo);
-        Query query = currentSession().createQuery("select u from Usuario u where u.correo = :correo");
-        query.setString("correo", correo);
-        return (Usuario) query.uniqueResult();
-    }
-
     public Usuario crea(Usuario usuario, Long asociacionId, String[] nombreDeRoles) {
         Asociacion asociacion = (Asociacion) currentSession().get(Asociacion.class, asociacionId);
         usuario.setAsociacion(asociacion);
@@ -173,7 +169,8 @@ public class UsuarioDao {
         nuevoUsuario.setVersion(usuario.getVersion());
         nuevoUsuario.setUsername(usuario.getUsername());
         nuevoUsuario.setNombre(usuario.getNombre());
-        nuevoUsuario.setApellido(usuario.getApellido());
+        nuevoUsuario.setApellidoP(usuario.getApellidoP());
+        nuevoUsuario.setApellidoM(usuario.getApellidoM());
 
         nuevoUsuario.getRoles().clear();
         Query query = currentSession().createQuery("select r from Rol r where r.authority = :nombre");
@@ -197,7 +194,7 @@ public class UsuarioDao {
         currentSession().update(usuario);
         currentSession().flush();
     }
-    
+
     public String elimina(Long id) throws UltimoException {
         Usuario usuario = obtiene(id);
         Criteria criteria = currentSession().createCriteria(Usuario.class);
@@ -257,5 +254,4 @@ public class UsuarioDao {
             currentSession().flush();
         }
     }
-
 }

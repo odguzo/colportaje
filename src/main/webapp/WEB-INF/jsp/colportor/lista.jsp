@@ -20,7 +20,7 @@
         <h1><s:message code="colportor.lista.label" /></h1>
         <hr/>
 
-        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/web/colportor' />">
+        <form name="filtraLista" class="form-search" method="post" action="<c:url value='/colportor' />">
             <input type="hidden" name="pagina" id="pagina" value="${pagina}" />
             <input type="hidden" name="tipo" id="tipo" value="" />
             <input type="hidden" name="correo" id="correo" value="" />
@@ -53,20 +53,30 @@
             <table id="lista" class="table">
                 <thead>
                     <tr>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="nombre" />
+                       
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="tipoDeColportor" />
                         </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="matricula" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >                            
                             <jsp:param name="columna" value="status" />
                         </jsp:include> 
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="clave" />
                         </jsp:include>
-                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="direccion" />
+                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="fechaDeNacimiento" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
-                            <jsp:param name="columna" value="correo" />
+                            <jsp:param name="columna" value="calle" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="colonia" />
+                        </jsp:include>
+                        <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
+                            <jsp:param name="columna" value="municipio" />
                         </jsp:include>
                         <jsp:include page="/WEB-INF/jsp/columnaOrdenada.jsp" >
                             <jsp:param name="columna" value="telefono" />
@@ -76,11 +86,14 @@
                 <tbody>
                     <c:forEach items="${colportores}" var="colportor" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
-                            <td><a href="<c:url value='/colportor/ver/${colportor.id}' />">${colportor.nombre}</a></td>
+                            <td><a href="<c:url value='/colportor/ver/${colportor.id}' />">${colportor.tipoDeColportor}</a></td>
+                             <td>${colportor.matricula}</td>
                             <td>${colportor.status}</td>
                             <td>${colportor.clave}</td>
-                            <td>${colportor.direccion}</td>
-                            <td>${colportor.correo}</td>
+                             <td>${colportor.fechaDeNacimiento}</td>
+                            <td>${colportor.calle}</td>
+                            <td>${colportor.colonia}</td>
+                            <td>${colportor.municipio}</td>
                             <td>${colportor.telefono}</td>
                         </tr>
                     </c:forEach>

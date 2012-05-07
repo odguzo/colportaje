@@ -18,6 +18,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Cliente implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Version
     private Integer version;
     @NotBlank
@@ -26,24 +28,21 @@ public class Cliente implements Serializable {
     @NotBlank
     @Column(nullable = false, length = 24)
     private String apellidoP;
-    @Column(nullable = false, length = 24)
+    @Column(nullable = true, length = 24)
     private String apellidoM;
-    @NotBlank
-    @Column(nullable = false, length = 128)
+    @Column(nullable = true, length = 128)
     private String calle;
-    @NotBlank
-    @Column(nullable = false, length = 64)
+    @Column(nullable = true, length = 64)
     private String colonia;
+    @Column(nullable = true, length = 6)
+    private String numero;
+    @Column(nullable = true, length = 6)
+    private String cp;
     @NotBlank
-    @Column(nullable = false, length = 6)
-    private Integer casanum;
-    @NotBlank
-    @Column(nullable = false, length = 6)
-    private Integer cp;
+    @Column(nullable = false, length = 12)
+    private String telefono;
     @Column(nullable = true, length = 12)
-    private Integer telefono;
-    @Column(nullable = true, length = 12)
-    private Integer celular;
+    private String celular;
     @Column(nullable = true, length = 24)
     private String email;
     @ManyToOne
@@ -52,16 +51,10 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(String nombre, String apellidoP, String calle, String colonia,Integer casa, Integer cp, Integer telefono, Integer celular, String email, Asociacion asociacion) {
+    public Cliente(String nombre, String apellidoP, String telefono, Asociacion asociacion) {
         this.nombre = nombre;
         this.apellidoP = apellidoP;
-        this.calle = calle;
-        this.colonia = colonia;
-        this.casanum = casa;
-        this.cp = cp;
         this.telefono = telefono;
-        this.celular = celular;
-        this.email = email;
         this.asociacion = asociacion;
     }
 
@@ -97,11 +90,11 @@ public class Cliente implements Serializable {
         this.calle = calle;
     }
 
-    public Integer getCelular() {
+    public String getCelular() {
         return celular;
     }
 
-    public void setCelular(Integer celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
     }
 
@@ -113,28 +106,28 @@ public class Cliente implements Serializable {
         this.colonia = colonia;
     }
 
-    public Integer getCp() {
+    public String getCp() {
         return cp;
     }
-    
-    public Integer getcasa() {
-        return casanum;
-    }
 
-    public void setCp(Integer cp) {
+    public void setCp(String cp) {
         this.cp = cp;
     }
-    
-    public Integer setcasa() {
-        return casanum;
-    }
-    
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -145,11 +138,19 @@ public class Cliente implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getTelefono() {
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -170,6 +171,9 @@ public class Cliente implements Serializable {
             return false;
         }
         final Cliente other = (Cliente) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
@@ -179,17 +183,15 @@ public class Cliente implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.nombre);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Cliente{" + "nombre=" + nombre + ", apellidoP=" + apellidoP + ", apellidoM=" + apellidoM + '}';
+        return "Cliente{" + "nombre=" + nombre + ", apellidoP=" + apellidoP + ", telefono=" + telefono + '}';
     }
 
-    public Long getid() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
+    
 }

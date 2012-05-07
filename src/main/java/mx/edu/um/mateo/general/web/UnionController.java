@@ -1,6 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package mx.edu.um.mateo.general.web;
 
@@ -55,7 +74,6 @@ public class UnionController extends BaseController {
             params.put(Constantes.CONTAINSKEY_ORDER, order);
             params.put(Constantes.CONTAINSKEY_SORT, sort);
         }
-
         if (StringUtils.isNotBlank(tipo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = unionDao.lista(params);
@@ -69,7 +87,6 @@ public class UnionController extends BaseController {
                 //errors.reject("error.generar.reporte");
             }
         }
-
         if (StringUtils.isNotBlank(correo)) {
             params.put(Constantes.CONTAINSKEY_REPORTE, true);
             params = unionDao.lista(params);
@@ -118,7 +135,6 @@ public class UnionController extends BaseController {
             log.debug("Hubo algun error en la forma, regresando");
             return Constantes.PATH_UNION_NUEVA;
         }
-
         try {
             Usuario usuario = null;
             if (ambiente.obtieneUsuario() != null) {
@@ -144,7 +160,6 @@ public class UnionController extends BaseController {
         log.debug("Edita union {}", id);
         Union union = unionDao.obtiene(id);
         modelo.addAttribute(Constantes.ADDATTRIBUTE_UNION, union);
-
         return Constantes.PATH_UNION_EDITA;
     }
 
@@ -157,7 +172,6 @@ public class UnionController extends BaseController {
             }
             return Constantes.PATH_UNION_EDITA;
         }
-
         try {
             Usuario usuario = null;
             if (ambiente.obtieneUsuario() != null) {
@@ -169,7 +183,6 @@ public class UnionController extends BaseController {
                 union.setStatus(Constantes.STATUS_ACTIVO);
             }
             union = unionDao.actualiza(union, usuario);
-            
             ambiente.actualizaSesion(request, usuario);
         } catch (ConstraintViolationException e) {
             log.error("No se pudo crear al union", e);
@@ -187,9 +200,7 @@ public class UnionController extends BaseController {
     public String elimina(HttpServletRequest request, @RequestParam Long id, Model modelo, @ModelAttribute Union union, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         log.debug("Elimina union");
         try {
-
             String nombre = unionDao.elimina(id);
-
             ambiente.actualizaSesion(request);
 
             redirectAttributes.addFlashAttribute(Constantes.CONTAINSKEY_MESSAGE, "union.eliminada.message");

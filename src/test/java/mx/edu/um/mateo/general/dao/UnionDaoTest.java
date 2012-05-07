@@ -1,6 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2012 jdmr.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package mx.edu.um.mateo.general.dao;
 import java.util.*;
@@ -10,7 +29,6 @@ import mx.edu.um.mateo.general.model.Rol;
 import mx.edu.um.mateo.general.model.Union;
 import mx.edu.um.mateo.general.model.Usuario;
 import mx.edu.um.mateo.general.test.BaseTest;
-import mx.edu.um.mateo.general.utils.UltimoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import static org.junit.Assert.*;
@@ -38,7 +56,6 @@ public class UnionDaoTest extends BaseTest {
     private UnionDao instance;
     @Autowired
     private SessionFactory sessionFactory;
-
     private Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -86,7 +103,7 @@ public class UnionDaoTest extends BaseTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("test", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -95,6 +112,7 @@ public class UnionDaoTest extends BaseTest {
         assertNotNull(id);
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
+        
         union = new Union("tst-01");
         union = instance.crea(union, usuario);
         assertNotNull(union.getId());
@@ -112,14 +130,13 @@ public class UnionDaoTest extends BaseTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
         currentSession().flush();
         Long id = usuario.getId();
         assertNotNull(id);
-        id = union.getId();
 
         authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
@@ -146,7 +163,7 @@ public class UnionDaoTest extends BaseTest {
         roles.add(rol);
         Asociacion asociacion = new Asociacion("TEST01", Constantes.STATUS_ACTIVO, union);
         currentSession().save(asociacion);
-        Usuario usuario = new Usuario("test-01@test.com", "test-01", "TEST1", "TEST");
+        Usuario usuario = new Usuario("test@test.com", "test", "test", "test","test");
         usuario.setAsociacion(asociacion);
         usuario.setRoles(roles);
         currentSession().save(usuario);
@@ -155,12 +172,12 @@ public class UnionDaoTest extends BaseTest {
         id = union.getId();
         currentSession().refresh(asociacion);
         currentSession().refresh(union);
+        
+        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
         union = new Union("TEST02");
         union.setStatus(Constantes.STATUS_ACTIVO);
         currentSession().save(union);
-
-        authenticate(usuario, usuario.getPassword(), new ArrayList<GrantedAuthority>(usuario.getRoles()));
 
         String nombre = instance.elimina(id);
         assertEquals("TEST01", nombre);
